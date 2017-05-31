@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    compile project(':stickyDecoration')
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
