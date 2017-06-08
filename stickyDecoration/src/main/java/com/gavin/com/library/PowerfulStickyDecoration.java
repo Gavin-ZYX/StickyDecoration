@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.gavin.com.library.listener.PowerGroupListener;
 
@@ -21,6 +22,7 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
     private PowerGroupListener mGroupListener;
 
     private int mGroupHeight = 80;  //悬浮栏高度
+    private boolean isAlignLeft = true; //是否靠右边
 
     private PowerfulStickyDecoration(PowerGroupListener groupListener) {
         this.mGroupListener = groupListener;
@@ -70,6 +72,8 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
             //根据View获取绘制Group
             View groupView = getGroupView(position);
             if (groupView == null) return;
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mGroupHeight);
+            groupView.setLayoutParams(layoutParams);
             groupView.setDrawingCacheEnabled(true);
             groupView.measure(
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
@@ -78,7 +82,8 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
             groupView.layout(0, 0, right, mGroupHeight);
             groupView.buildDrawingCache();
             Bitmap bitmap = groupView.getDrawingCache();
-            c.drawBitmap(bitmap, left, top - mGroupHeight, null);
+            int marginLeft = isAlignLeft ? 0 : right - groupView.getMeasuredWidth();
+            c.drawBitmap(bitmap, left + marginLeft, top - mGroupHeight, null);
         }
     }
 
@@ -142,6 +147,17 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
          */
         public Builder setGroupHeight(int groutHeight) {
             mDecoration.mGroupHeight = groutHeight;
+            return this;
+        }
+
+        /**
+         * 是否靠左边
+         * true 靠左边（默认）、false 靠右边
+         * @param b b
+         * @return  this
+         */
+        public Builder isAlignLeft(boolean b){
+            mDecoration.isAlignLeft = b;
             return this;
         }
 

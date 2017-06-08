@@ -13,6 +13,7 @@ import com.gavin.com.library.listener.PowerGroupListener;
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
 import com.gavin.com.stickydecoration.util.CityUtil;
+import com.gavin.com.stickydecoration.util.DensityUtil;
 import com.gavin.com.stickydecoration.view.adapter.SimpleAdapter;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * 自定义View悬浮
  */
-public class BeautifueRecyclerViewActivity extends AppCompatActivity {
+public class BeautifulRecyclerViewActivity extends AppCompatActivity {
 
     @BindView(R.id.rv)
     RecyclerView mRv;
@@ -71,7 +72,8 @@ public class BeautifueRecyclerViewActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setGroupHeight(152)   //设置高度
+                .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 30))   //设置高度
+                .isAlignLeft(false)
                 .build();
 
         mRv.addItemDecoration(decoration);
