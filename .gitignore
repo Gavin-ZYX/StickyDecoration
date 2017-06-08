@@ -1,9 +1,36 @@
-*.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
-/build
-/captures
-.externalNativeBuild
+
+
+# Gradle files
+.gradle/
+# IDEA
+*.iml
+.idea/scopes/scope_settings.xml
+# Built application files
+*.apk
+# Files for the Dalvik VM
+*.dex
+
+
+# Java class files
+*.class
+
+
+# Generated files
+antLauncher/bin
+antLauncher/gen
+
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+
+# Log Files
+*.log
+daZhuanJia/bugly/
+*.zip
+.idea/
+build/
+
+captures/
+projectFilesBackup/
