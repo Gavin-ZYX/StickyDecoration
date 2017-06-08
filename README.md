@@ -44,6 +44,7 @@ StickyDecoration decoration = StickyDecoration.Builder
 mRecyclerView.addItemDecoration(decoration);
 ```
 效果：
+
 ![效果](http://upload-images.jianshu.io/upload_images/1638147-f3c2cbe712aa65fb.gif?imageMogr2/auto-orient/strip)
 
 
@@ -100,9 +101,5 @@ PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
 mRecyclerView.addItemDecoration(decoration);
 ```
 效果：
+
 ![效果](http://upload-images.jianshu.io/upload_images/1638147-3fed255296a6c3db.gif?imageMogr2/auto-orient/strip)
-
-
-
-
-
