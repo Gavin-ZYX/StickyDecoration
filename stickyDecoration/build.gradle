@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
     }
     buildTypes {
@@ -22,6 +22,99 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.android.support:recyclerview-v7:23.0.0'
+    compile rootProject.ext.dependencies['recyclerview-v7']
+}
+
+version = "1.0.0"    //这个是版本号，必须填写
+def siteUrl = 'https://github.com/Gavin-ZYX/StickyDecoration' // 项目的主页
+def gitUrl = 'https://github.com/Gavin-ZYX/StickyDecoration' // Git仓库的
+group = "com.gavin.com.library" // 这里是groupId ,必须填写  一般填你唯一的包名
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'         // 项目描述，复制我的话，这里需要修改。
+                name 'A Sticky Decoration Libriary'   //项目描述
+                url siteUrl           // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                //填写开发者基本信息，复制我的，这里需要修改。
+                developers {
+                    developer {
+                        id 'Gavin_ZYX'            //你公司的id
+                        name 'Gavin_ZYX'      //你的用户名
+                        email 'zhouyouxi93@gmail.com' // 你的邮箱
+                    }
+                }
+                // SCM，复制我的，这里不需要修改。
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+// 生成jar包的task，不需要修改。
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+// 生成javaDoc的jar，不需要修改
+task javadoc(type: Javadoc) {
+    options.encoding = "UTF-8"
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+//下面设置编码格式，重点注意，如果不设置可能会在gradlew install的时候出现GBK编码映射错误
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title 'A CalendarView Support Lunar Calendar For Android'   // 文档标题
+    }
+}
+
+artifacts {//    archives javadocJar    archives sourcesJar
+}
+// 生成jar包
+task releaseJar(type: Copy) {
+    from('build/intermediates/bundles/release')
+    into('../jar')
+    include('classes.jar')
+    rename('classes.jar', 'okgo-' + version + '.jar')
+}
+// 这里是读取Bintray相关的信息，我们上传项目到github上的时候会把gradle文件传上去，
+// 所以不要把帐号密码的信息直接写在这里，写在local.properties中，这里动态读取。
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    //读取 local.properties 文件里面的 bintray.user
+    user = properties.getProperty("bintray.user")
+    //读取 local.properties 文件里面的 bintray.apikey
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        userOrg = "gavin-zyx"        //发布到JCenter的组织，注意新版本的bintray是需要手动创建的
+        repo = "maven"
+        //发布到JCenter上的仓库名称，注意新版本的bintray是需要手动创建的        // 发布到Bintray上的项目名字
+        name = "stickyDecoration"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true  // 是否是公开项目
+    }
 }

@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.gavin.com.library.listener.PowerGroupListener;
+
 /**
  * Created by gavin
  * Created date 17/5/24
@@ -45,23 +47,22 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
 
-        String preGroupId;
-        String groupId = "-1";
+        String preGroupName;
+        String currentGroupName = null;
         for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(view);
-            preGroupId = groupId;
-            groupId = getGroupName(position);
-            if (groupId == null || groupId.equals(preGroupId)) continue;
-            String groupName = getGroupName(position);
-            if (TextUtils.isEmpty(groupName)) continue;
+            preGroupName = currentGroupName;
+            currentGroupName = getGroupName(position);
+            if (currentGroupName == null || TextUtils.equals(currentGroupName, preGroupName))
+                continue;
             int viewBottom = view.getBottom();
             int top = Math.max(mGroupHeight, view.getTop());//top 决定当前顶部第一个悬浮Group的位置
             if (position + 1 < itemCount) {
                 //获取下个GroupName
                 String nextGroupName = getGroupName(position + 1);
                 //下一组的第一个View接近头部
-                if (!groupId.equals(nextGroupName) && viewBottom < top) {
+                if (!currentGroupName.equals(nextGroupName) && viewBottom < top) {
                     top = viewBottom;
                 }
             }

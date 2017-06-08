@@ -10,6 +10,8 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.gavin.com.library.listener.GroupListener;
+
 /**
  * Created by gavin
  * Created date 17/5/24
@@ -58,38 +60,35 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
-        int itemCount = state.getItemCount();
-        int childCount = parent.getChildCount();
-        int left = parent.getPaddingLeft();
-        int right = parent.getWidth() - parent.getPaddingRight();
-
-        String preGroupId;
-        String groupId = null;
+        final int itemCount = state.getItemCount();
+        final int childCount = parent.getChildCount();
+        final int left = parent.getLeft() + parent.getPaddingLeft();
+        final int right = parent.getRight() - parent.getPaddingRight();
+        String preGroupName;      //标记上一个item对应的Group
+        String currentGroupName = null;       //当前item对应的Group
         for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(view);
-            preGroupId = groupId;
-            groupId = getGroupName(position);
-            if (groupId == null || TextUtils.equals(groupId, preGroupId)) continue;
-            String groupName = getGroupName(position);
+            preGroupName = currentGroupName;
+            currentGroupName = getGroupName(position);
+            if (currentGroupName == null || TextUtils.equals(currentGroupName, preGroupName))
+                continue;
             int viewBottom = view.getBottom();
-            float top = Math.max(mGroupHeight, view.getTop());//top 决定当前顶部第一个悬浮Group的位置
+            float bottom = Math.max(mGroupHeight, view.getTop());//决定当前顶部第一个悬浮Group的bottom
             if (position + 1 < itemCount) {
                 //获取下个GroupName
                 String nextGroupName = getGroupName(position + 1);
                 //下一组的第一个View接近头部
-                if (!groupId.equals(nextGroupName) && viewBottom < top) {
-                    top = viewBottom;
+                if (!currentGroupName.equals(nextGroupName) && viewBottom < bottom) {
+                    bottom = viewBottom;
                 }
             }
             //根据top绘制group
-            c.drawRect(left, top - mGroupHeight, right, top, mGroutPaint);
+            c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
             Paint.FontMetrics fm = mTextPaint.getFontMetrics();
             //文字竖直居中显示
-            float baseLine = top - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
-            if (groupName!= null){
-                c.drawText(groupName, left + mLeftMargin, baseLine, mTextPaint);
-            }
+            float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
+            c.drawText(currentGroupName, left + mLeftMargin, baseLine, mTextPaint);
         }
     }
 

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.gavin.com.library.GroupListener;
+import com.gavin.com.library.listener.GroupListener;
 import com.gavin.com.library.StickyDecoration;
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;

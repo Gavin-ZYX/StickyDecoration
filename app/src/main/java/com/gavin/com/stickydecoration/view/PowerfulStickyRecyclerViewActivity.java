@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.gavin.com.library.PowerGroupListener;
+import com.gavin.com.library.listener.PowerGroupListener;
 import com.gavin.com.library.PowerfulStickyDecoration;
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
@@ -71,7 +71,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setGroupHeight(DensityUtil.dip2px(this, 50))   //设置高度
+                .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
                 .build();
 
         mRv.addItemDecoration(decoration);

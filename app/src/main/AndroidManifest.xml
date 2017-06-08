@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".view.PowerfulStickyRecyclerViewActivity">
         </activity>
+        <activity android:name=".view.BeautifueRecyclerViewActivity">
+        </activity>
     </application>
 
 </manifest>

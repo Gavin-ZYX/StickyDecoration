@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/temp"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bg"/>
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@id/temp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@mipmap/city1"/>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv"
+        android:text="福建"
+        android:textSize="16sp"/>
+</RelativeLayout>

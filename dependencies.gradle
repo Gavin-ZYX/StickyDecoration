@@ -1,0 +1,12 @@
+ext {
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.2'
+    minSdkVersion = 14
+    targetSdkVersion = 25
+    versionCode = 1
+    versionName = "1.0"
+
+    dependencies = ["appcompat-v7"       : "com.android.support:appcompat-v7:22.2.1",
+                    "recyclerview-v7"       : "com.android.support:recyclerview-v7:23.0.0",
+                    "support-v4"         : "com.android.support:support-v4:25.1.0"]
+}
