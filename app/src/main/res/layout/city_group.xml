@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#EEEE"
                 android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/temp"
-        android:layout_width="120dp"
-        android:scaleType="fitXY"
-        android:layout_height="30dp"
-        android:adjustViewBounds="true"
-        android:src="@mipmap/bg3"/>
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="35dp"
         android:src="@mipmap/city1"/>
@@ -28,5 +22,5 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/iv"
         android:text="福建省"
-        android:textSize="13sp"/>
+        android:textSize="15sp"/>
 </RelativeLayout>

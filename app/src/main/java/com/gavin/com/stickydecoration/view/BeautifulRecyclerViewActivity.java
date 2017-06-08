@@ -72,8 +72,7 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 30))   //设置高度
-                .isAlignLeft(false)
+                .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 40))   //设置高度
                 .build();
 
         mRv.addItemDecoration(decoration);

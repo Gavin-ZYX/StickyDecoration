@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class StickyRecyclerViewActivity extends AppCompatActivity {
 
     @BindView(R.id.rv)
-    RecyclerView mRv;
+    RecyclerView mRecyclerView;
 
     RecyclerView.Adapter mAdapter;
     List<City> dataList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRv.setLayoutManager(manager);
+        mRecyclerView.setLayoutManager(manager);
         //使用StickyDecoration
         StickyDecoration decoration = StickyDecoration.Builder
                 .init(new GroupListener() {
@@ -68,7 +68,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                 .setGroupTextSize(DensityUtil.sp2px(this, 15))      //字体大小
                 .setTextLeftMargin(DensityUtil.dip2px(this, 10))    //左边距
                 .build();
-        mRv.addItemDecoration(decoration);
+        mRecyclerView.addItemDecoration(decoration);
 
         mAdapter = new RecyclerView.Adapter() {
             @Override
@@ -88,7 +88,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                 return dataList.size();
             }
         };
-        mRv.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     static class Holder extends RecyclerView.ViewHolder {
