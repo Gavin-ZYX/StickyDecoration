@@ -1,7 +1,7 @@
 # StickyDecoration
 利用`RecyclerView.ItemDecoration`实现顶部悬浮效果
 
-![效果](http://upload-images.jianshu.io/upload_images/1638147-8a868dcce1544a17.gif?imageMogr2/auto-orient/strip)
+![效果](http://upload-images.jianshu.io/upload_images/1638147-89986d7141741cdf.gif?imageMogr2/auto-orient/strip)
 
 ## 添加依赖
 项目要求： `minSdkVersion` >= 14.
