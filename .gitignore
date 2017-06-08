@@ -27,7 +27,6 @@ local.properties
 
 # Log Files
 *.log
-daZhuanJia/bugly/
 *.zip
 .idea/
 build/
