@@ -1,6 +1,5 @@
 # StickyDecoration
-
-## 效果
+利用`RecyclerView.ItemDecoration`实现顶部悬浮效果
 
 ![效果](http://upload-images.jianshu.io/upload_images/1638147-89986d7141741cdf.gif?imageMogr2/auto-orient/strip)
 
