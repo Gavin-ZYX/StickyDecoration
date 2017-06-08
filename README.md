@@ -48,6 +48,7 @@ mRecyclerView.addItemDecoration(decoration);
 
 
 - `PowerfulStickyDecoration`——自定义`View`悬浮
+
 先创建布局`item_group`
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
