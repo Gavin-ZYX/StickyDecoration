@@ -12,7 +12,7 @@ repositories {
 }
 ...
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.0.0'
+    compile 'com.gavin.com.library:stickyDecoration:1.0.1'
 }
 ```
 
