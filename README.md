@@ -6,11 +6,10 @@
 ## 添加依赖
 项目要求： `minSdkVersion` >= 14.
 在你的`build.gradle`中 :
-```java
+```gradle
 repositories {
     jcenter()// If not already there
 }
-...
 dependencies {
     compile 'com.gavin.com.library:stickyDecoration:1.0.1'
 }
