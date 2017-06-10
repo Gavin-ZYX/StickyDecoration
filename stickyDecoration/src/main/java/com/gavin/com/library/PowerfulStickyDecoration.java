@@ -69,7 +69,7 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
                 }
             }
 
-            //根据View获取绘制Group
+            //根据position获取View
             View groupView = getGroupView(position);
             if (groupView == null) return;
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mGroupHeight);
