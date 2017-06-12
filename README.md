@@ -23,7 +23,7 @@ dependencies {
 GroupListener groupListener = new GroupListener() {
     @Override
     public String getGroupName(int position) {
-        //获取对应position的组名称
+        //根据position获取对应的组名称
         return dataList.get(position).getProvince();
     }
 };
