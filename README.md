@@ -11,7 +11,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.0.1'
+    compile 'com.gavin.com.library:stickyDecoration:1.0.2'
 }
 ```
 
