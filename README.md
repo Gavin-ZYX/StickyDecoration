@@ -74,7 +74,7 @@ mRecyclerView.addItemDecoration(decoration);
         android:textColor="@android:color/white"/>
 </LinearLayout>
 ```
-创建`PowerfulStickyDecoration`，实现自定悬浮View
+创建`PowerfulStickyDecoration`，实现自定`View`悬浮
 ```java
 PowerGroupListener listener = new PowerGroupListener() {
     @Override
