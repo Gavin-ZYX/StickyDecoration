@@ -19,13 +19,12 @@ dependencies {
 
 - `StickyDecoration`——文字悬浮
 ```java
-//dataList：城市集合，
 //回调
 GroupListener groupListener = new GroupListener() {
     @Override
     public String getGroupName(int position) {
-        //获取城市对应的省份
-        return dataList.get(position).getProvince();
+        //获取对应position的组名称
+        return dataList.get(position).getProvince();
     }
 };
 //创建StickyDecoration，实现悬浮栏
