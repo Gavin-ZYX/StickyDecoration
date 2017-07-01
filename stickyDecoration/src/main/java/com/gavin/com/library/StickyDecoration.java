@@ -25,8 +25,9 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
     @ColorInt
     private int mGroupTextColor = Color.WHITE;//字体颜色，默认白色
     private int mGroupHeight = 80;  //悬浮栏高度
-    private int mLeftMargin = 10;   //文字距离左边的距离
+    private int mSideMargin = 10;   //边距 靠左时为左边距  靠右时为右边距
     private int mTextSize = 40;     //字体大小
+    private boolean isAlignLeft = true; //是否靠右边
     private GroupListener mGroupListener;
 
     private TextPaint mTextPaint;
@@ -83,12 +84,17 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
                     bottom = viewBottom;
                 }
             }
-            //根据top绘制group
+            //根据top绘制group背景
             c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
             Paint.FontMetrics fm = mTextPaint.getFontMetrics();
             //文字竖直居中显示
             float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
-            c.drawText(currentGroupName, left + mLeftMargin, baseLine, mTextPaint);
+            //获取文字宽度
+            float textWidth = mTextPaint.measureText(currentGroupName);
+            float marginLeft = isAlignLeft ? 0 : right - textWidth;
+            mSideMargin = Math.abs(mSideMargin);
+            mSideMargin = isAlignLeft ? mSideMargin : - mSideMargin;
+            c.drawText(currentGroupName, left + mSideMargin + marginLeft, baseLine, mTextPaint);
         }
     }
 
@@ -177,13 +183,26 @@ public class StickyDecoration extends RecyclerView.ItemDecoration {
         }
 
         /**
-         * 设置左边距
+         * 设置边距
+         * 靠左时为左边距  靠右时为右边距
          *
-         * @param leftMargin 左边距
+         * @param leftMargin 左右距离
          * @return this
          */
-        public Builder setTextLeftMargin(int leftMargin) {
-            mStickyDecoration.mLeftMargin = leftMargin;
+        public Builder setTextSideMargin(int leftMargin) {
+            mStickyDecoration.mSideMargin = leftMargin;
+            return this;
+        }
+
+        /**
+         * 是否靠左边
+         * true 靠左边（默认）、false 靠右边
+         *
+         * @param b b
+         * @return this
+         */
+        public Builder isAlignLeft(boolean b) {
+            mStickyDecoration.isAlignLeft = b;
             return this;
         }
 
