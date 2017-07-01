@@ -11,7 +11,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.0.1'
+    compile 'com.gavin.com.library:stickyDecoration:1.0.2'
 }
 ```
 
@@ -19,13 +19,12 @@ dependencies {
 
 - `StickyDecoration`——文字悬浮
 ```java
-//dataList：城市集合，
 //回调
 GroupListener groupListener = new GroupListener() {
     @Override
     public String getGroupName(int position) {
-        //获取城市对应的省份
-        return dataList.get(position).getProvince();
+        //根据position获取对应的组名称
+        return dataList.get(position).getProvince();
     }
 };
 //创建StickyDecoration，实现悬浮栏
@@ -74,7 +73,7 @@ mRecyclerView.addItemDecoration(decoration);
         android:textColor="@android:color/white"/>
 </LinearLayout>
 ```
-创建`PowerfulStickyDecoration`，实现自定悬浮View
+创建`PowerfulStickyDecoration`，实现自定`View`悬浮
 ```java
 PowerGroupListener listener = new PowerGroupListener() {
     @Override
@@ -93,7 +92,9 @@ PowerGroupListener listener = new PowerGroupListener() {
 PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .init(listener)
         .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
-        .build();
+        .isAlignLeft(false)                             //是否靠左边  true：靠左边   false：靠右边   （默认为true）
+        .setGroupBackground(Color.parseColor("#48BDFF"))    //修改背景色  （默认透明）
+        .build();
 
   ...
 mRecyclerView.addItemDecoration(decoration);
