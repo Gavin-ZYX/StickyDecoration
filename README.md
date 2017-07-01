@@ -92,7 +92,9 @@ PowerGroupListener listener = new PowerGroupListener() {
 PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .init(listener)
         .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
-        .build();
+        .isAlignLeft(false)                             //是否靠左边  true：靠左边   false：靠右边   （默认为true）
+        .setGroupBackground(Color.parseColor("#48BDFF"))    //修改背景色  （默认透明）
+        .build();
 
   ...
 mRecyclerView.addItemDecoration(decoration);
