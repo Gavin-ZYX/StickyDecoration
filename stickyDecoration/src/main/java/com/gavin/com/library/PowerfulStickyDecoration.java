@@ -2,9 +2,13 @@ package com.gavin.com.library;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,14 +22,20 @@ import com.gavin.com.library.listener.PowerGroupListener;
  */
 
 public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
+    @ColorInt
+    private int mGroupBackground = Color.parseColor("#00000000");//group背景色，默认灰色
 
     private PowerGroupListener mGroupListener;
 
     private int mGroupHeight = 80;  //悬浮栏高度
     private boolean isAlignLeft = true; //是否靠右边
+    private Paint mGroutPaint;
 
     private PowerfulStickyDecoration(PowerGroupListener groupListener) {
         this.mGroupListener = groupListener;
+        //设置悬浮栏的画笔---mGroutPaint
+        mGroutPaint = new Paint();
+        mGroutPaint.setColor(mGroupBackground);
     }
 
 
@@ -68,11 +78,11 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
                     top = viewBottom;
                 }
             }
-
+            c.drawRect(left, top - mGroupHeight, right, top, mGroutPaint);
             //根据position获取View
             View groupView = getGroupView(position);
             if (groupView == null) return;
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, mGroupHeight);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(right, mGroupHeight);
             groupView.setLayoutParams(layoutParams);
             groupView.setDrawingCacheEnabled(true);
             groupView.measure(
@@ -81,6 +91,7 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
             //指定高度、宽度的groupView
             groupView.layout(0, 0, right, mGroupHeight);
             groupView.buildDrawingCache();
+            l("groupView.getWidth() after: " + groupView.getWidth());
             Bitmap bitmap = groupView.getDrawingCache();
             int marginLeft = isAlignLeft ? 0 : right - groupView.getMeasuredWidth();
             c.drawBitmap(bitmap, left + marginLeft, top - mGroupHeight, null);
@@ -150,6 +161,18 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
+
+        /**
+         * 设置Group背景
+         *
+         * @param background 背景色
+         */
+        public Builder setGroupBackground(@ColorInt int background) {
+            mDecoration.mGroupBackground = background;
+            mDecoration.mGroutPaint.setColor(mDecoration.mGroupBackground);
+            return this;
+        }
+
         /**
          * 是否靠左边
          * true 靠左边（默认）、false 靠右边
@@ -164,5 +187,9 @@ public class PowerfulStickyDecoration extends RecyclerView.ItemDecoration {
         public PowerfulStickyDecoration build() {
             return mDecoration;
         }
+    }
+
+    private void l(String message) {
+        Log.i("TAG", message);
     }
 }

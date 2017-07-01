@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/colorAccent"
-              android:gravity="center_vertical"
               android:id="@+id/ll"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
               android:orientation="horizontal">
-
     <ImageView
         android:id="@+id/iv"
         android:layout_width="30dp"
@@ -18,6 +16,7 @@
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="@android:color/white"/>
+        android:textColor="#77333333"
+        android:layout_marginRight="10dp"
+        android:textSize="15sp"/>
 </LinearLayout>

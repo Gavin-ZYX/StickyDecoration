@@ -1,9 +1,11 @@
 package com.gavin.com.stickydecoration.view;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +74,8 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
+                .isAlignLeft(true)
+                .setGroupBackground(Color.parseColor("#48BDFF"))
                 .build();
 
         mRv.addItemDecoration(decoration);
@@ -104,5 +108,9 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    private void l(String str) {
+        Log.i("TAG", str);
     }
 }
