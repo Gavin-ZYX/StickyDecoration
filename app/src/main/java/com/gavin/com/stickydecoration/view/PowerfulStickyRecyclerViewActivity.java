@@ -74,8 +74,8 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
-                .isAlignLeft(true)
-                .setGroupBackground(Color.parseColor("#48BDFF"))
+                .isAlignLeft(false)                                  //靠右边显示   默认左边
+                .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景   默认透明
                 .build();
 
         mRv.addItemDecoration(decoration);
