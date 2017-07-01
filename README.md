@@ -32,10 +32,12 @@ StickyDecoration decoration = StickyDecoration.Builder
         .init(groupListener)
         .setGroupBackground(Color.parseColor("#48BDFF"))    //背景色
         .setGroupHeight(DensityUtil.dip2px(this, 35))       //高度
+        .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色 【暂未上传到JCenter】
+        .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度 (默认没有分割线) 【暂未上传到JCenter】
         .setGroupTextColor(Color.WHITE)                     //字体颜色
         .setGroupTextSize(DensityUtil.sp2px(this, 15))      //字体大小
-        .setTextSideMargin(DensityUtil.dip2px(this, 10))    // 边距   靠左时为左边距  靠右时为右边距
-        .isAlignLeft(false)                                 //靠右显示  （默认靠左） 【还未上传到JCenter】
+        .setTextSideMargin(DensityUtil.dip2px(this, 10))    //边距   靠左时为左边距  靠右时为右边距
+        .isAlignLeft(false)                                 //靠右显示  （默认靠左）【暂未上传到JCenter】
         .build();
 ...
 mRecyclerView.addItemDecoration(decoration);
@@ -92,10 +94,12 @@ PowerGroupListener listener = new PowerGroupListener() {
 };
 PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .init(listener)
-        .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
-        .isAlignLeft(false)                             //是否靠左边  true：靠左边   false：靠右边   （默认为true）
-        .setGroupBackground(Color.parseColor("#48BDFF"))    //修改背景色  （默认透明） 【还未上传到JCenter】
-        .build();
+        .setGroupHeight(DensityUtil.dip2px(this, 40))       //设置高度
+        .isAlignLeft(false)                                 //靠右边显示   默认左边 【暂未上传到JCenter】
+        .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景   默认透明 【暂未上传到JCenter】
+        .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色 【暂未上传到JCenter】
+        .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度 【暂未上传到JCenter】
+        .build();
 
   ...
 mRecyclerView.addItemDecoration(decoration);

@@ -73,9 +73,11 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setGroupHeight(DensityUtil.dip2px(this, 40))   //设置高度
-                .isAlignLeft(false)                                  //靠右边显示   默认左边
+                .setGroupHeight(DensityUtil.dip2px(this, 40))       //设置高度
+                .isAlignLeft(false)                                 //靠右边显示   默认左边
                 .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景   默认透明
+                .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色
+                .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度
                 .build();
 
         mRv.addItemDecoration(decoration);
