@@ -163,6 +163,7 @@ public class StickyDecoration extends BaseDecoration {
          */
         public Builder setGroupTextColor(@ColorInt int color) {
             mDecoration.mGroupTextColor = color;
+            mDecoration.mTextPaint.setColor(mDecoration.mGroupTextColor);
             return this;
         }
 
