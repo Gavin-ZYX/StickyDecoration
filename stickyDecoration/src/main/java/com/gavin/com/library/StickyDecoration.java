@@ -47,8 +47,8 @@ public class StickyDecoration extends BaseDecoration {
         super.onDrawOver(c, parent, state);
         final int itemCount = state.getItemCount();
         final int childCount = parent.getChildCount();
-        final int left = parent.getLeft() + parent.getPaddingLeft();
-        final int right = parent.getRight() - parent.getPaddingRight();
+        final int left = parent.getPaddingLeft();
+        final int right = parent.getWidth() - parent.getPaddingRight();
 
         String preGroupName;      //标记上一个item对应的Group
         String currentGroupName = null;       //当前item对应的Group
