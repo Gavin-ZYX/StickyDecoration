@@ -10,7 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gavin.com.library.listener.OnGroupClickListener;
 import com.gavin.com.library.listener.PowerGroupListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by gavin
@@ -25,6 +29,11 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
     private Paint mGroutPaint;
 
+    /**
+     * 缓存View
+     */
+    private Map<Integer, View> headViewMap = new HashMap<>();
+
     private PowerfulStickyDecoration(PowerGroupListener groupListener) {
         super();
         this.mGroupListener = groupListener;
@@ -33,26 +42,26 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         mGroutPaint.setColor(mGroupBackground);
     }
 
-
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
+        //绘制
         int itemCount = state.getItemCount();
         int childCount = parent.getChildCount();
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
 
         String preGroupName;
-        String currentGroupName = null;
+        String curGroupName = null;
         for (int i = 0; i < childCount; i++) {
-            View view = parent.getChildAt(i);
-            int position = parent.getChildAdapterPosition(view);
-            preGroupName = currentGroupName;
-            currentGroupName = getGroupName(position);
-            if (currentGroupName == null || TextUtils.equals(currentGroupName, preGroupName)) {
+            View childView = parent.getChildAt(i);
+            int position = parent.getChildAdapterPosition(childView);
+            preGroupName = curGroupName;
+            curGroupName = getGroupName(position);
+            if (curGroupName == null || TextUtils.equals(curGroupName, preGroupName)) {
                 //绘制分割线
                 if (mDivideHeight != 0) {
-                    float bottom = view.getTop();
+                    float bottom = childView.getTop();
                     if (bottom < mGroupHeight) {
                         //高度小于顶部悬浮栏时，跳过绘制
                         continue;
@@ -60,37 +69,47 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                     c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
                 }
             } else {
-                int viewBottom = view.getBottom();
-                int top = Math.max(mGroupHeight, view.getTop());//top 决定当前顶部第一个悬浮Group的位置
+                int viewBottom = childView.getBottom();
+                //top 决定当前顶部第一个悬浮Group的位置
+                int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
                 if (position + 1 < itemCount) {
                     //获取下个GroupName
                     String nextGroupName = getGroupName(position + 1);
                     //下一组的第一个View接近头部
-                    if (!currentGroupName.equals(nextGroupName) && viewBottom < top) {
-                        top = viewBottom;
+                    if (!curGroupName.equals(nextGroupName) && viewBottom < bottom) {
+                        bottom = viewBottom;
                     }
                 }
-                c.drawRect(left, top - mGroupHeight, right, top, mGroutPaint);
+                c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
                 //根据position获取View
-                View groupView = getGroupView(position);
-                if (groupView == null) return;
-                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(right, mGroupHeight);
-                groupView.setLayoutParams(layoutParams);
-                groupView.setDrawingCacheEnabled(true);
-                groupView.measure(
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                //指定高度、宽度的groupView
-                groupView.layout(0, 0, right, mGroupHeight);
-                groupView.buildDrawingCache();
-                l("groupView.getWidth() after: " + groupView.getWidth());
+                View groupView;
+                if (headViewMap.get(position) == null) {
+                    groupView = getGroupView(position);
+                    if (groupView == null) {
+                        return;
+                    }
+                    ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(right, mGroupHeight);
+                    groupView.setLayoutParams(layoutParams);
+                    groupView.setDrawingCacheEnabled(true);
+                    groupView.measure(
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    //指定高度、宽度的groupView
+                    groupView.layout(0, 0, right, mGroupHeight);
+                    groupView.buildDrawingCache();
+                    l("groupView.getWidth() after: " + groupView.getWidth());
+                } else {
+                    groupView = headViewMap.get(position);
+                }
                 Bitmap bitmap = groupView.getDrawingCache();
                 int marginLeft = isAlignLeft ? 0 : right - groupView.getMeasuredWidth();
-                c.drawBitmap(bitmap, left + marginLeft, top - mGroupHeight, null);
+                c.drawBitmap(bitmap, left + marginLeft, bottom - mGroupHeight, null);
+                //将头部信息放进array，用于处理点击事件
+                stickyHeaderPosArray.put(position, bottom);
             }
         }
-    }
 
+    }
 
     /**
      * 获取组名
@@ -186,6 +205,17 @@ public class PowerfulStickyDecoration extends BaseDecoration {
          */
         public Builder setDivideColor(@ColorInt int color) {
             mDecoration.mDivideColor = color;
+            return this;
+        }
+
+        /**
+         * 设置点击事件
+         *
+         * @param listener 点击事件
+         * @return this
+         */
+        public Builder setOnClickListener(OnGroupClickListener listener) {
+            mDecoration.setOnGroupClickListener(listener);
             return this;
         }
 

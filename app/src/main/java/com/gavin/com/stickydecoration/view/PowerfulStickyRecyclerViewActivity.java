@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.gavin.com.library.listener.PowerGroupListener;
 import com.gavin.com.library.PowerfulStickyDecoration;
+import com.gavin.com.library.listener.OnGroupClickListener;
+import com.gavin.com.library.listener.PowerGroupListener;
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
 import com.gavin.com.stickydecoration.util.CityUtil;
@@ -73,11 +75,19 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setGroupHeight(DensityUtil.dip2px(this, 40))       //设置高度
-                .isAlignLeft(false)                                 //靠右边显示   默认左边
-                .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景   默认透明
-                .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色
-                .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度
+                .setGroupHeight(DensityUtil.dip2px(this, 40))     //设置高度
+                .isAlignLeft(false)                                                //靠右边显示   默认左边
+                .setGroupBackground(Color.parseColor("#48BDFF"))        //设置背景   默认透明
+                .setDivideColor(Color.parseColor("#CCCCCC"))            //分割线颜色
+                .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
+                .isAlignLeft(false)                                                //靠右显示  （默认靠左）
+                .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
+                    @Override
+                    public void onClick(int position) {
+                        String content = "onGroupClick --> " + dataList.get(position).getProvince();
+                        Toast.makeText(PowerfulStickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
+                    }
+                })
                 .build();
 
         mRv.addItemDecoration(decoration);

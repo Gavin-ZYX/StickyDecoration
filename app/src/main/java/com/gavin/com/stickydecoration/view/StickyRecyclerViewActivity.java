@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.gavin.com.library.listener.GroupListener;
 import com.gavin.com.library.StickyDecoration;
+import com.gavin.com.library.listener.GroupListener;
+import com.gavin.com.library.listener.OnGroupClickListener;
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
 import com.gavin.com.stickydecoration.util.CityUtil;
@@ -62,14 +64,21 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                         return null;
                     }
                 })
-                .setGroupBackground(Color.parseColor("#48BDFF"))    //背景色
-                .setGroupHeight(DensityUtil.dip2px(this, 35))       //高度
-                .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色
-                .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度 (默认没有分割线)
-                .setGroupTextColor(Color.BLACK)                     //字体颜色
-                .setGroupTextSize(DensityUtil.sp2px(this, 15))      //字体大小
-                .setTextSideMargin(DensityUtil.dip2px(this, 10))    // 边距   靠左时为左边距  靠右时为右边距
-                .isAlignLeft(false)                                 //靠右显示  （默认靠左）
+                .setGroupBackground(Color.parseColor("#48BDFF"))        //背景色
+                .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
+                .setDivideColor(Color.parseColor("#CCCCCC"))            //分割线颜色
+                .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度 (默认没有分割线)
+                .setGroupTextColor(Color.BLACK)                                    //字体颜色
+                .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小
+                .setTextSideMargin(DensityUtil.dip2px(this, 10))  // 边距   靠左时为左边距  靠右时为右边距
+                .isAlignLeft(false)                                                //靠右显示  （默认靠左）
+                .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
+                    @Override
+                    public void onClick(int position) {
+                        String content = "onGroupClick --> " + dataList.get(position).getProvince();
+                        Toast.makeText(StickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
+                    }
+                })
                 .build();
         mRecyclerView.addItemDecoration(decoration);
 

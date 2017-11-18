@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.gavin.com.library.listener.GroupListener;
+import com.gavin.com.library.listener.OnGroupClickListener;
 
 /**
  * Created by gavin
@@ -51,17 +52,17 @@ public class StickyDecoration extends BaseDecoration {
         final int right = parent.getWidth() - parent.getPaddingRight();
 
         String preGroupName;      //标记上一个item对应的Group
-        String currentGroupName = null;       //当前item对应的Group
+        String curGroupName = null;       //当前item对应的Group
         for (int i = 0; i < childCount; i++) {
-            View view = parent.getChildAt(i);
-            int position = parent.getChildAdapterPosition(view);
-            preGroupName = currentGroupName;
-            currentGroupName = getGroupName(position);
+            View childView = parent.getChildAt(i);
+            int position = parent.getChildAdapterPosition(childView);
+            preGroupName = curGroupName;
+            curGroupName = getGroupName(position);
 
-            if (currentGroupName == null || TextUtils.equals(currentGroupName, preGroupName)) {
+            if (curGroupName == null || TextUtils.equals(curGroupName, preGroupName)) {
                 //绘制分割线
                 if (mDivideHeight != 0) {
-                    float bottom = view.getTop();
+                    float bottom = childView.getTop();
                     if (bottom < mGroupHeight) {
                         //高度小于顶部悬浮栏时，跳过绘制
                         continue;
@@ -70,13 +71,13 @@ public class StickyDecoration extends BaseDecoration {
                 }
             } else {
                 //绘制悬浮
-                float bottom = Math.max(mGroupHeight, view.getTop());//决定当前顶部第一个悬浮Group的bottom
+                int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
                 if (position + 1 < itemCount) {
                     //获取下个GroupName
                     String nextGroupName = getGroupName(position + 1);
                     //下一组的第一个View接近头部
-                    int viewBottom = view.getBottom();
-                    if (!currentGroupName.equals(nextGroupName) && viewBottom < bottom) {
+                    int viewBottom = childView.getBottom();
+                    if (!curGroupName.equals(nextGroupName) && viewBottom < bottom) {
                         bottom = viewBottom;
                     }
                 }
@@ -86,11 +87,12 @@ public class StickyDecoration extends BaseDecoration {
                 //文字竖直居中显示
                 float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
                 //获取文字宽度
-                float textWidth = mTextPaint.measureText(currentGroupName);
+                float textWidth = mTextPaint.measureText(curGroupName);
                 float marginLeft = isAlignLeft ? 0 : right - textWidth;
                 mSideMargin = Math.abs(mSideMargin);
                 mSideMargin = isAlignLeft ? mSideMargin : -mSideMargin;
-                c.drawText(currentGroupName, left + mSideMargin + marginLeft, baseLine, mTextPaint);
+                c.drawText(curGroupName, left + mSideMargin + marginLeft, baseLine, mTextPaint);
+                stickyHeaderPosArray.put(position, bottom);
             }
         }
     }
@@ -211,6 +213,17 @@ public class StickyDecoration extends BaseDecoration {
         public Builder setDivideColor(@ColorInt int color) {
             mDecoration.mDivideColor = color;
             mDecoration.mDividePaint.setColor(color);
+            return this;
+        }
+
+        /**
+         * 设置点击事件
+         *
+         * @param listener 点击事件
+         * @return this
+         */
+        public Builder setOnClickListener(OnGroupClickListener listener) {
+            mDecoration.setOnGroupClickListener(listener);
             return this;
         }
 
