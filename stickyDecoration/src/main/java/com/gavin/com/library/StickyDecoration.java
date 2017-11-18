@@ -61,6 +61,7 @@ public class StickyDecoration extends BaseDecoration {
 
             if (curGroupName == null || TextUtils.equals(curGroupName, preGroupName)) {
                 //绘制分割线
+                log("position : " + position);
                 if (mDivideHeight != 0) {
                     // TODO: gavin 17/11/18 GridLayoutManager还需要考虑进来
                     float bottom = childView.getTop();
@@ -73,15 +74,23 @@ public class StickyDecoration extends BaseDecoration {
             } else {
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
+
+                log("bottom 1 : " + bottom);
+                log("mGroupHeight : " + mGroupHeight);
                 if (position + 1 < itemCount) {
                     //获取下个GroupName
                     String nextGroupName = getGroupName(position + 1);
                     //下一组的第一个View接近头部
                     int viewBottom = childView.getBottom();
+                    log("viewBottom : " + viewBottom);
+                    log("curGroupName : " + curGroupName + " position " + position + " nextGroupName : " + nextGroupName);
                     if (!curGroupName.equals(nextGroupName) && viewBottom < bottom) {
+                        log("change bottom ---- ");
                         bottom = viewBottom;
                     }
+                    log("bottom 2 : " + bottom);
                 }
+                log("------------------- ");
                 //根据top绘制group背景
                 c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
                 Paint.FontMetrics fm = mTextPaint.getFontMetrics();
