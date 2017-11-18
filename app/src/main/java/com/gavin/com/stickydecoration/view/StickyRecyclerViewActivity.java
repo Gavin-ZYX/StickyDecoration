@@ -3,7 +3,7 @@ package com.gavin.com.stickydecoration.view;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gavin.com.library.BaseDecoration;
 import com.gavin.com.library.StickyDecoration;
 import com.gavin.com.library.listener.GroupListener;
 import com.gavin.com.library.listener.OnGroupClickListener;
@@ -49,7 +50,8 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        //LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(this,3);
         mRecyclerView.setLayoutManager(manager);
         //使用StickyDecoration
         StickyDecoration decoration = StickyDecoration.Builder
@@ -58,7 +60,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                     public String getGroupName(int position) {
                         //组名回调
                         if (dataList.size() > position) {
-                            //获取城市对应的省份
+                            //获取组名，用于判断是否是同一组
                             return dataList.get(position).getProvince();
                         }
                         return null;
@@ -68,18 +70,19 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                 .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
                 .setDivideColor(Color.parseColor("#CCCCCC"))            //分割线颜色
                 .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度 (默认没有分割线)
-                .setGroupTextColor(Color.BLACK)                                    //字体颜色
+                .setGroupTextColor(Color.BLACK)                                    //字体颜色 （默认）
                 .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小
                 .setTextSideMargin(DensityUtil.dip2px(this, 10))  // 边距   靠左时为左边距  靠右时为右边距
                 .isAlignLeft(false)                                                //靠右显示  （默认靠左）
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
-                    public void onClick(int position) {
+                    public void onClick(int position) {                                 //Group点击事件
                         String content = "onGroupClick --> " + dataList.get(position).getProvince();
                         Toast.makeText(StickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
                     }
                 })
                 .build();
+        decoration.setLayoutManager(BaseDecoration.GRID);
         mRecyclerView.addItemDecoration(decoration);
 
         mAdapter = new RecyclerView.Adapter() {

@@ -3,7 +3,7 @@ package com.gavin.com.stickydecoration.view;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +50,8 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        //LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager manager = new GridLayoutManager(this,3);
         mRv.setLayoutManager(manager);
         PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
                 .init(new PowerGroupListener() {
@@ -83,7 +84,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 .isAlignLeft(false)                                                //靠右显示  （默认靠左）
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
-                    public void onClick(int position) {
+                    public void onClick(int position) {                                 //Group点击事件
                         String content = "onGroupClick --> " + dataList.get(position).getProvince();
                         Toast.makeText(PowerfulStickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
                     }

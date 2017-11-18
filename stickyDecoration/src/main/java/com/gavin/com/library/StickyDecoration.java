@@ -62,6 +62,7 @@ public class StickyDecoration extends BaseDecoration {
             if (curGroupName == null || TextUtils.equals(curGroupName, preGroupName)) {
                 //绘制分割线
                 if (mDivideHeight != 0) {
+                    // TODO: gavin 17/11/18 GridLayoutManager还需要考虑进来
                     float bottom = childView.getTop();
                     if (bottom < mGroupHeight) {
                         //高度小于顶部悬浮栏时，跳过绘制
