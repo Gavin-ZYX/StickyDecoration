@@ -73,10 +73,8 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                 //top 决定当前顶部第一个悬浮Group的位置
                 int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
                 if (position + 1 < itemCount) {
-                    //获取下个GroupName
-                    String nextGroupName = getGroupName(position + 1);
                     //下一组的第一个View接近头部
-                    if (!curGroupName.equals(nextGroupName) && viewBottom < bottom) {
+                    if (isLastLineInGroup(parent, position)  && viewBottom < bottom) {
                         bottom = viewBottom;
                     }
                 }

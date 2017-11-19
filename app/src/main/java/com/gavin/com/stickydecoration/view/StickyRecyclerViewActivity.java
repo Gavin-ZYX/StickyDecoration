@@ -4,14 +4,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gavin.com.library.BaseDecoration;
 import com.gavin.com.library.StickyDecoration;
 import com.gavin.com.library.listener.GroupListener;
 import com.gavin.com.library.listener.OnGroupClickListener;
@@ -50,8 +51,13 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        //LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        GridLayoutManager manager = new GridLayoutManager(this,3);
+        RecyclerView.LayoutManager manager;
+        String type = getIntent().getStringExtra("type");
+        if (TextUtils.equals(type, "grid")) {
+            manager = new GridLayoutManager(this, 3);
+        } else {
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
         mRecyclerView.setLayoutManager(manager);
         //使用StickyDecoration
         StickyDecoration decoration = StickyDecoration.Builder
@@ -82,7 +88,6 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-        decoration.setLayoutManager(BaseDecoration.GRID);
         mRecyclerView.addItemDecoration(decoration);
 
         mAdapter = new RecyclerView.Adapter() {

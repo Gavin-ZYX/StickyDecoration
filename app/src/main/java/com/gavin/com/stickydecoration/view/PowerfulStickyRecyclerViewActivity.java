@@ -4,7 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +52,13 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        //LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        GridLayoutManager manager = new GridLayoutManager(this,3);
+        RecyclerView.LayoutManager manager;
+        String type = getIntent().getStringExtra("type");
+        if (TextUtils.equals(type, "grid")) {
+            manager = new GridLayoutManager(this, 3);
+        } else {
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
         mRv.setLayoutManager(manager);
         PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
                 .init(new PowerGroupListener() {

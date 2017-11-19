@@ -14,10 +14,24 @@
 
     <Button
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:onClick="toStickyGrid"
+        android:text="to Sticky Grid"/>
+
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:onClick="toPowerfulSticky"
         android:text="to Powerful Sticky"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="toPowerfulStickyGrid"
+        android:text="to Powerful Sticky Grid"/>
 
     <Button
         android:layout_width="wrap_content"

@@ -19,8 +19,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, StickyRecyclerViewActivity.class));
     }
 
+    public void toStickyGrid(View view) {
+        Intent intent = new Intent(this, StickyRecyclerViewActivity.class);
+        intent.putExtra("type", "grid");
+        startActivity(intent);
+    }
+
     public void toPowerfulSticky(View view) {
         startActivity(new Intent(this, PowerfulStickyRecyclerViewActivity.class));
+    }
+
+    public void toPowerfulStickyGrid(View view) {
+        Intent intent = new Intent(this, PowerfulStickyRecyclerViewActivity.class);
+        intent.putExtra("type", "grid");
+        startActivity(intent);
     }
 
     public void toPowerfulSticky2(View view) {

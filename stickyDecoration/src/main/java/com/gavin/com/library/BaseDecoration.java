@@ -24,8 +24,6 @@ import com.gavin.com.library.listener.OnGroupClickListener;
  */
 
 public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
-    public static final int LINEAR = 0x01;
-    public static final int GRID = 0x02;
 
     @ColorInt
     int mGroupBackground = Color.parseColor("#00000000");//group背景色，默认透明
@@ -33,8 +31,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     boolean isAlignLeft = true; //是否靠左边
     @ColorInt
     int mDivideColor = Color.parseColor("#CCCCCC");//分割线颜色，默认灰色
-    int mDivideHeight = 0;      //分割线高度
-    private int mLayoutManager = LINEAR; //排列方式 默认线性布局
+    int mDivideHeight = 0;      //分割线宽度
 
     Paint mDividePaint;
     /**
@@ -58,50 +55,32 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         this.mOnGroupClickListener = listener;
     }
 
-    /**
-     * 设置布局类型
-     *
-     * @param layoutManager
-     */
-    public void setLayoutManager(int layoutManager) {
-        this.mLayoutManager = layoutManager;
-    }
-
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int pos = parent.getChildAdapterPosition(view);
         String groupId = getGroupName(pos);
-        switch (mLayoutManager) {
-            case LINEAR:
-                //线性布局
-                if (groupId == null) {
-                    return;
-                }
-                //只有是同一组的第一个才显示悬浮栏
-                if (isFirstInGroup(pos)) {
-                    outRect.top = mGroupHeight; //为悬浮view预留空间
-                } else {
-                    outRect.top = mDivideHeight; //为分割线预留空间
-                }
-                break;
-            case GRID:
-                //网格布局
-                RecyclerView.LayoutManager manager = parent.getLayoutManager();
-                if (manager instanceof GridLayoutManager) {
-                    int spanCount = ((GridLayoutManager) manager).getSpanCount();
-                    if (isFirstLineInGroup(pos, spanCount)) {
-                        //新group的第一行都需要留出空间
-                        outRect.top = mGroupHeight; //为悬浮view预留空间
-                    }
-                    setSpan(parent, spanCount);
-                } else {
-                    //报错
-                    Log.e("StickyDecoration", "布局类型错误");
-                }
-                break;
-
-            default:
+        RecyclerView.LayoutManager manager = parent.getLayoutManager();
+        if (manager instanceof GridLayoutManager) {
+            //网格布局
+            int spanCount = ((GridLayoutManager) manager).getSpanCount();
+            if (isFirstLineInGroup(pos, spanCount)) {
+                //新group的第一行都需要留出空间
+                outRect.top = mGroupHeight; //为悬浮view预留空间
+            }
+            setSpan(parent, spanCount);
+        } else {
+            //非网格布局都默认的线性布局
+            //线性布局
+            if (groupId == null) {
+                return;
+            }
+            //只有是同一组的第一个才显示悬浮栏
+            if (isFirstInGroup(pos)) {
+                outRect.top = mGroupHeight; //为悬浮view预留空间
+            } else {
+                outRect.top = mDivideHeight; //为分割线预留空间
+            }
         }
     }
 
@@ -172,7 +151,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      *
      * @param position position
      */
-    private int getFirstInGroupWithCash(int position) {
+    protected int getFirstInGroupWithCash(int position) {
         if (firstInGroupCash.get(position) == 0) {
             int firstPosition = getFirstInGroup(position);
             firstInGroupCash.put(position, firstPosition);
@@ -197,6 +176,32 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
                 return getFirstInGroup(position - 1);
             }
         }
+    }
+
+
+    /**
+     * 判断自己是否为group的最后一行
+     * @param recyclerView recyclerView
+     * @param position  position
+     * @return
+     */
+    protected boolean isLastLineInGroup(RecyclerView recyclerView, int position) {
+        String curGroupName = getGroupName(position);
+        String nextGroupName;
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        //默认往下查找的数量
+        int findCount = 1;
+        if (manager instanceof GridLayoutManager) {
+            int spanCount = ((GridLayoutManager) manager).getSpanCount();
+            int firstPositioninGroup = getFirstInGroupWithCash(position);
+            findCount = spanCount - (position - firstPositioninGroup) % spanCount;
+        }
+        try {
+            nextGroupName = getGroupName(position + findCount);
+        } catch (Exception e) {
+            nextGroupName = curGroupName;
+        }
+        return !TextUtils.equals(curGroupName, nextGroupName);
     }
 
     @Override
@@ -279,6 +284,14 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     };
 
     void log(String msg) {
-        Log.i("TAG", msg);
+        if (BuildConfig.DEBUG){
+            Log.i("TAG", msg);
+        }
+    }
+
+    void loge(String msg) {
+        if (BuildConfig.DEBUG){
+            Log.e("TAG", msg);
+        }
     }
 }

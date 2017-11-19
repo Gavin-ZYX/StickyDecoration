@@ -15,6 +15,12 @@ dependencies {
 }
 ```
 
+## 支持
+- **LinearLayoutManager**
+- **GridLayoutManager**
+- **点击事件**
+- **分割线**
+
 ## 使用
 
 - `StickyDecoration`——文字悬浮
@@ -30,14 +36,20 @@ GroupListener groupListener = new GroupListener() {
 //创建StickyDecoration，实现悬浮栏
 StickyDecoration decoration = StickyDecoration.Builder
         .init(groupListener)
-        .setGroupBackground(Color.parseColor("#48BDFF"))    //背景色
-        .setGroupHeight(DensityUtil.dip2px(this, 35))       //高度
-        .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色 
-        .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度 (默认没有分割线) 
-        .setGroupTextColor(Color.WHITE)                     //字体颜色
-        .setGroupTextSize(DensityUtil.sp2px(this, 15))      //字体大小
-        .setTextSideMargin(DensityUtil.dip2px(this, 10))    //边距   靠左时为左边距  靠右时为右边距
-        .isAlignLeft(false)                                 //靠右显示  （默认靠左）
+        .setGroupBackground(Color.parseColor("#48BDFF"))  //背景色（默认 透明）
+        .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
+        .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色（默认 #CCCCCC）
+        .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高宽度 (默认 0)
+        .setGroupTextColor(Color.BLACK)                   //字体颜色 （默认 Color.WHITE）
+        .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小 （默认 40）
+        .setTextSideMargin(DensityUtil.dip2px(this, 10))  //边距   靠左时为左边距  靠右时为右边距（默认 10）
+        .isAlignLeft(false)                               //靠右显示  （默认 靠左）
+        .setOnClickListener(new OnGroupClickListener() {  //点击事件，返回当前分组下第一个item的position
+            @Override
+            public void onClick(int position) {
+                //处理点击事件
+            }
+        })
         .build();
 ...
 mRecyclerView.addItemDecoration(decoration);
@@ -95,10 +107,16 @@ PowerGroupListener listener = new PowerGroupListener() {
 PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .init(listener)
         .setGroupHeight(DensityUtil.dip2px(this, 40))       //设置高度
-        .isAlignLeft(false)                                 //靠右边显示   默认左边 
-        .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景   默认透明 
-        .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色 
-        .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高度 
+        .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景  （默认 透明）
+        .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色（默认 #CCCCCC）
+        .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高宽度 (默认 0)
+        .isAlignLeft(false)                                 //靠右显示  （默认 靠左）
+        .setOnClickListener(new OnGroupClickListener() {    //点击事件，返回当前分组下第一个item的position
+            @Override
+            public void onClick(int position) {
+                //处理点击事件
+            }
+        })
         .build();
 
   ...
