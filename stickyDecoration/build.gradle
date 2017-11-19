@@ -28,7 +28,7 @@ dependencies {
 //gradle install
 //gradle bintrayUpload
 
-version = "1.1.2"    //这个是版本号，必须填写
+version = "1.2.0"    //这个是版本号，必须填写
 def siteUrl = 'https://github.com/Gavin-ZYX/StickyDecoration' // 项目的主页
 def gitUrl = 'https://github.com/Gavin-ZYX/StickyDecoration' // Git仓库的
 group = "com.gavin.com.library" // 这里是groupId ,必须填写  一般填你唯一的包名

@@ -11,7 +11,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.1.2'
+    compile 'com.gavin.com.library:stickyDecoration:1.2.0'
 }
 ```
 
@@ -23,7 +23,7 @@ dependencies {
 
 ## 使用
 
-- `StickyDecoration`——文字悬浮
+#### 文字悬浮——StickyDecoration
 ```java
 //回调
 GroupListener groupListener = new GroupListener() {
@@ -60,7 +60,7 @@ mRecyclerView.addItemDecoration(decoration);
 
 
 
-- `PowerfulStickyDecoration`——自定义`View`悬浮
+### 自定义View悬浮——PowerfulStickyDecoration
 
 先创建布局`item_group`
 ```xml
