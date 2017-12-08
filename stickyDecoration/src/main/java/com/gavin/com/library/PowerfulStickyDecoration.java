@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.ColorInt;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -219,6 +220,17 @@ public class PowerfulStickyDecoration extends BaseDecoration {
          */
         public Builder setOnClickListener(OnGroupClickListener listener) {
             mDecoration.setOnGroupClickListener(listener);
+            return this;
+        }
+
+        /**
+         * 重置span
+         * @param recyclerView recyclerView
+         * @param gridLayoutManager gridLayoutManager
+         * @return  this
+         */
+        public Builder resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
+            mDecoration.resetSpan(recyclerView, gridLayoutManager);
             return this;
         }
 

@@ -52,14 +52,6 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        RecyclerView.LayoutManager manager;
-        String type = getIntent().getStringExtra("type");
-        if (TextUtils.equals(type, "grid")) {
-            manager = new GridLayoutManager(this, 3);
-        } else {
-            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        }
-        mRv.setLayoutManager(manager);
         PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
                 .init(new PowerGroupListener() {
                     @Override
@@ -98,6 +90,15 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 })
                 .build();
 
+        RecyclerView.LayoutManager manager;
+        String type = getIntent().getStringExtra("type");
+        if (TextUtils.equals(type, "grid")) {
+            manager = new GridLayoutManager(this, 3);
+            decoration.resetSpan(mRv, (GridLayoutManager) manager);
+        } else {
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
+        mRv.setLayoutManager(manager);
         mRv.addItemDecoration(decoration);
         mAdapter = new RecyclerView.Adapter() {
             @Override

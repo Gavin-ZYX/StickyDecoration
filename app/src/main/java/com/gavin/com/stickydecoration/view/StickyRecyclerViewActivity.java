@@ -37,6 +37,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
 
     RecyclerView.Adapter mAdapter;
     List<City> dataList = new ArrayList<>();
+    private String TAG = "StickyRecyclerViewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,6 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         } else {
             manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         }
-        mRecyclerView.setLayoutManager(manager);
         //使用StickyDecoration
         StickyDecoration decoration = StickyDecoration.Builder
                 .init(new GroupListener() {
@@ -88,6 +88,12 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .build();
+
+        if (TextUtils.equals(type, "grid")) {
+            //重置span（使用GridLayoutManager时必须调用）
+            decoration.resetSpan(mRecyclerView, (GridLayoutManager) manager);
+        }
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(decoration);
 
         mAdapter = new RecyclerView.Adapter() {

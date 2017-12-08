@@ -8,7 +8,6 @@ import android.support.annotation.ColorInt;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.GestureDetector;
@@ -20,14 +19,14 @@ import com.gavin.com.library.listener.OnGroupClickListener;
 /**
  * Created by gavin
  * Created date 17/7/1
- * Created log
+ * Created log  BaseDecoration
  */
 
 public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     @ColorInt
-    int mGroupBackground = Color.parseColor("#00000000");//group背景色，默认透明
-    int mGroupHeight = 80;  //悬浮栏高度
+    int mGroupBackground = Color.parseColor("#48BDFF");//group背景色，默认透明
+    int mGroupHeight = 120;  //悬浮栏高度
     boolean isAlignLeft = true; //是否靠左边
     @ColorInt
     int mDivideColor = Color.parseColor("#CCCCCC");//分割线颜色，默认灰色
@@ -55,6 +54,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         this.mOnGroupClickListener = listener;
     }
 
+
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
@@ -68,7 +68,6 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
                 //新group的第一行都需要留出空间
                 outRect.top = mGroupHeight; //为悬浮view预留空间
             }
-            setSpan(parent, spanCount);
         } else {
             //非网格布局都默认的线性布局
             //线性布局
@@ -115,35 +114,42 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    private GridLayoutManager.SpanSizeLookup lookup;
-
-    private void setSpan(RecyclerView parent, final int spanCount) {
-        if (lookup == null) {
-            lookup = new GridLayoutManager.SpanSizeLookup() {//相当于weight
-                @Override
-                public int getSpanSize(int position) {
-                    int span;
-                    String curGroupId = getGroupName(position);
-                    String nextGroupId;
-                    try {
-                        //防止外面没判断，导致越界
-                        nextGroupId = getGroupName(position + 1);
-                    } catch (Exception e) {
-                        nextGroupId = curGroupId;
-                    }
-                    if (!TextUtils.equals(curGroupId, nextGroupId)) {
-                        //为本行的最后一个
-                        int posFirstInGroup = getFirstInGroupWithCash(position);
-                        span = spanCount - (position - posFirstInGroup) % spanCount;
-                    } else {
-                        span = 1;
-                    }
-                    return span;
-                }
-            };
-            final GridLayoutManager gridLayoutManager = (GridLayoutManager) parent.getLayoutManager();
-            gridLayoutManager.setSpanSizeLookup(lookup);
+    /**
+     * 网格布局需要调用
+     * @param recyclerView
+     * @param gridLayoutManager
+     */
+    public void resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
+        if (recyclerView == null) {
+            throw new NullPointerException("recyclerView not allow null");
         }
+        if (gridLayoutManager == null) {
+            throw new NullPointerException("gridLayoutManager not allow null");
+        }
+        final int spanCount = gridLayoutManager.getSpanCount();
+        GridLayoutManager.SpanSizeLookup lookup = new GridLayoutManager.SpanSizeLookup() {//相当于weight
+            @Override
+            public int getSpanSize(int position) {
+                int span;
+                String curGroupId = getGroupName(position);
+                String nextGroupId;
+                try {
+                    //防止外面没判断，导致越界
+                    nextGroupId = getGroupName(position + 1);
+                } catch (Exception e) {
+                    nextGroupId = curGroupId;
+                }
+                if (!TextUtils.equals(curGroupId, nextGroupId)) {
+                    //为本行的最后一个
+                    int posFirstInGroup = getFirstInGroupWithCash(position);
+                    span = spanCount - (position - posFirstInGroup) % spanCount;
+                } else {
+                    span = 1;
+                }
+                return span;
+            }
+        };
+        gridLayoutManager.setSpanSizeLookup(lookup);
     }
 
     /**
@@ -181,8 +187,9 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * 判断自己是否为group的最后一行
+     *
      * @param recyclerView recyclerView
-     * @param position  position
+     * @param position     position
      * @return
      */
     protected boolean isLastLineInGroup(RecyclerView recyclerView, int position) {
@@ -284,15 +291,4 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         }
     };
 
-    void log(String msg) {
-        if (BuildConfig.DEBUG){
-            Log.i("TAG", msg);
-        }
-    }
-
-    void loge(String msg) {
-        if (BuildConfig.DEBUG){
-            Log.e("TAG", msg);
-        }
-    }
 }

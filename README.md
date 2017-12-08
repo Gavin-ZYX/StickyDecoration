@@ -11,7 +11,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.2.0'
+    compile 'com.gavin.com.library:stickyDecoration:1.2.1'
 }
 ```
 
@@ -24,6 +24,10 @@ dependencies {
 ## 使用
 
 #### 文字悬浮——StickyDecoration
+> 注意1：使用GridLayoutManager时，需要调用resetSpan
+注意2：使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()
+
+代码：
 ```java
 //回调
 GroupListener groupListener = new GroupListener() {
@@ -36,12 +40,40 @@ GroupListener groupListener = new GroupListener() {
 //创建StickyDecoration，实现悬浮栏
 StickyDecoration decoration = StickyDecoration.Builder
         .init(groupListener)
-        .setGroupBackground(Color.parseColor("#48BDFF"))  //背景色（默认 透明）
-        .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
+        //重置span（使用GridLayoutManager时必须调用）
+        //.resetSpan(mRecyclerView, (GridLayoutManager) manager)
+        .build();
+...
+mRecyclerView.setLayoutManager(manager);
+//需要在recyclerView.setLayoutManager(manager);之后调用
+mRecyclerView.addItemDecoration(decoration);
+```
+效果：
+
+![LinearLayoutManager](http://upload-images.jianshu.io/upload_images/1638147-f3c2cbe712aa65fb.gif?imageMogr2/auto-orient/strip)
+![GridLayoutManager](http://upload-images.jianshu.io/upload_images/1638147-e5e0374c896110d0.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+**支持的方法：**
+- **背景色（默认 #48BDFF）**
+- **高度 (默认120px)**
+- **字体颜色 （默认 Color.WHITE）**
+- **字体大小 （默认 50px）**
+- **分割线颜色（默认 #CCCCCC）**
+- **分割线高宽度 (默认 0)**
+- **边距   靠左时为左边距  靠右时为右边距（默认 10）**
+- **靠左/右显示  （默认 靠左）**
+- **点击事件（返回当前分组下第一个item的position）**
+- **重置（span注意：使用GridLayoutManager时必须调用）**
+
+```java
+StickyDecoration decoration = StickyDecoration.Builder
+        .init(groupListener)
+        .setGroupBackground(Color.parseColor("#48BDFF"))  //背景色（默认 #48BDFF）
+        .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度 (默认120px)
+        .setGroupTextColor(Color.BLACK)                   //字体颜色 （默认 Color.WHITE）
+        .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小 （默认 50px）
         .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色（默认 #CCCCCC）
         .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高宽度 (默认 0)
-        .setGroupTextColor(Color.BLACK)                   //字体颜色 （默认 Color.WHITE）
-        .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小 （默认 40）
         .setTextSideMargin(DensityUtil.dip2px(this, 10))  //边距   靠左时为左边距  靠右时为右边距（默认 10）
         .isAlignLeft(false)                               //靠右显示  （默认 靠左）
         .setOnClickListener(new OnGroupClickListener() {  //点击事件，返回当前分组下第一个item的position
@@ -50,42 +82,28 @@ StickyDecoration decoration = StickyDecoration.Builder
                 //处理点击事件
             }
         })
+        .resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span（注意：使用GridLayoutManager时必须调用）
         .build();
-...
-mRecyclerView.addItemDecoration(decoration);
 ```
-效果：
-
-![效果](http://upload-images.jianshu.io/upload_images/1638147-f3c2cbe712aa65fb.gif?imageMogr2/auto-orient/strip)
-
-
 
 ### 自定义View悬浮——PowerfulStickyDecoration
 
 先创建布局`item_group`
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/colorAccent"
-              android:gravity="center_vertical"
-              android:id="@+id/ll"
-              android:orientation="horizontal">
+<LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/ll"
+      android:orientation="horizontal"
+      ...>
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:src="@mipmap/ic_launcher"/>
+        .../>
 
     <TextView
         android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="@android:color/white"/>
+        .../>
 </LinearLayout>
 ```
 创建`PowerfulStickyDecoration`，实现自定`View`悬浮
@@ -106,8 +124,8 @@ PowerGroupListener listener = new PowerGroupListener() {
 };
 PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .init(listener)
-        .setGroupHeight(DensityUtil.dip2px(this, 40))       //设置高度
-        .setGroupBackground(Color.parseColor("#48BDFF"))    //设置背景  （默认 透明）
+        .setGroupHeight(DensityUtil.dip2px(this, 40))       //高度 (默认120px)
+        .setGroupBackground(Color.parseColor("#48BDFF"))    //背景色（默认 #48BDFF）
         .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色（默认 #CCCCCC）
         .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高宽度 (默认 0)
         .isAlignLeft(false)                                 //靠右显示  （默认 靠左）
@@ -117,6 +135,7 @@ PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
                 //处理点击事件
             }
         })
+        .resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span（注意：使用GridLayoutManager时必须调用）
         .build();
 
   ...
@@ -125,3 +144,12 @@ mRecyclerView.addItemDecoration(decoration);
 效果：
 
 ![效果](http://upload-images.jianshu.io/upload_images/1638147-3fed255296a6c3db.gif?imageMogr2/auto-orient/strip)
+
+**支持的方法：**
+-  **高度 (默认120px)**
+- **背景色（默认 #48BDFF）**
+- **分割线颜色（默认 #CCCCCC）**
+- **分割线高宽度 (默认 0)**
+- **靠左/右显示  （默认 靠左）**
+- **点击事件（返回当前分组下第一个item的position）**
+- **重置span（注意：使用GridLayoutManager时必须调用）**

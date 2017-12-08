@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.ColorInt;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -21,9 +22,9 @@ import com.gavin.com.library.listener.OnGroupClickListener;
 
 public class StickyDecoration extends BaseDecoration {
     @ColorInt
-    private int mGroupTextColor = Color.WHITE;//字体颜色，默认白色
+    private int mGroupTextColor = Color.WHITE;//字体颜色，默认黑色
     private int mSideMargin = 10;   //边距 靠左时为左边距  靠右时为右边距
-    private int mTextSize = 40;     //字体大小
+    private int mTextSize = 50;     //字体大小
     private GroupListener mGroupListener;
 
     private TextPaint mTextPaint;
@@ -228,6 +229,17 @@ public class StickyDecoration extends BaseDecoration {
          */
         public Builder setOnClickListener(OnGroupClickListener listener) {
             mDecoration.setOnGroupClickListener(listener);
+            return this;
+        }
+
+        /**
+         * 重置span
+         * @param recyclerView recyclerView
+         * @param gridLayoutManager gridLayoutManager
+         * @return  this
+         */
+        public Builder resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
+            mDecoration.resetSpan(recyclerView, gridLayoutManager);
             return this;
         }
 
