@@ -53,7 +53,6 @@ public class StickyDecoration extends BaseDecoration {
 
         String preGroupName;      //标记上一个item对应的Group
         String curGroupName;       //当前item对应的Group
-        loge("=============================");
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
@@ -63,11 +62,8 @@ public class StickyDecoration extends BaseDecoration {
             } else {
                 preGroupName = getGroupName(position - 1);
             }
-
-            log("preGroupName : " + preGroupName + "  curGroupName : " + curGroupName);
-            if (i != 0 && TextUtils.equals(curGroupName, preGroupName)) {
-                loge("---------------------");
-                log("if ---> " + position);
+            boolean isFirstInGroup = i != 0 && TextUtils.equals(curGroupName, preGroupName);
+            if (isFirstInGroup || curGroupName == null) {
                 //绘制分割线
                 if (mDivideHeight != 0) {
                     // TODO: gavin 17/11/18 GridLayoutManager还需要考虑进来
@@ -79,8 +75,6 @@ public class StickyDecoration extends BaseDecoration {
                     c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
                 }
             } else {
-                loge("---------------------");
-                log("else ---> " + position);
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
 

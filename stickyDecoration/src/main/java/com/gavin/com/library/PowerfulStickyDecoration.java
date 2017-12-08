@@ -52,13 +52,18 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         String preGroupName;
-        String curGroupName = null;
+        String curGroupName;
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
-            preGroupName = curGroupName;
             curGroupName = getGroupName(position);
-            if (curGroupName == null || TextUtils.equals(curGroupName, preGroupName)) {
+            if (i == 0) {
+                preGroupName = curGroupName;
+            } else {
+                preGroupName = getGroupName(position - 1);
+            }
+            boolean isFirstInGroup = i != 0 && TextUtils.equals(curGroupName, preGroupName);
+            if (isFirstInGroup || curGroupName == null) {
                 //绘制分割线
                 if (mDivideHeight != 0) {
                     float bottom = childView.getTop();

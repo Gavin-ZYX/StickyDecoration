@@ -64,7 +64,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         if (manager instanceof GridLayoutManager) {
             //网格布局
             int spanCount = ((GridLayoutManager) manager).getSpanCount();
-            if (isFirstLineInGroup(pos, spanCount)) {
+            if (isFirstLineInGroup(pos, spanCount) && groupId != null) {
                 //新group的第一行都需要留出空间
                 outRect.top = mGroupHeight; //为悬浮view预留空间
             }
@@ -241,6 +241,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * 记录每个头部和悬浮头部的坐标信息【用于点击事件】
+     * 位置由子类添加
      */
     protected SparseArray<Integer> stickyHeaderPosArray = new SparseArray<>();
     private GestureDetector gestureDetector;
