@@ -3,6 +3,12 @@
 
 ![效果](http://upload-images.jianshu.io/upload_images/1638147-89986d7141741cdf.gif?imageMogr2/auto-orient/strip)
 
+## 支持
+- **LinearLayoutManager**
+- **GridLayoutManager**
+- **点击事件**
+- **分割线**
+
 ## 添加依赖
 项目要求： `minSdkVersion` >= 14.
 在你的`build.gradle`中 :
@@ -14,12 +20,6 @@ dependencies {
     compile 'com.gavin.com.library:stickyDecoration:1.2.1'
 }
 ```
-
-## 支持
-- **LinearLayoutManager**
-- **GridLayoutManager**
-- **点击事件**
-- **分割线**
 
 ## 使用
 
