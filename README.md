@@ -25,8 +25,8 @@ dependencies {
 
 #### 文字悬浮——StickyDecoration
 > 注意
-1：使用GridLayoutManager时，需要调用resetSpan
-2：使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()
+1：使用GridLayoutManager时，需要调用resetSpan；
+2：使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()；
 
 代码：
 ```java
@@ -155,6 +155,8 @@ mRecyclerView.addItemDecoration(decoration);
 - **重置span（注意：使用GridLayoutManager时必须调用）**
 
 # 更新日志
---------------- 1.3.0 （2018-1-28）-----------
+----------------------------- 1.3.0 （2018-1-28）----------------------------
+
 1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
+
 2、优化缓存机制。
