@@ -17,15 +17,16 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.2.1'
+    compile 'com.gavin.com.library:stickyDecoration:1.3.0'
 }
 ```
 
 ## 使用
 
 #### 文字悬浮——StickyDecoration
-> 注意1：使用GridLayoutManager时，需要调用resetSpan
-注意2：使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()
+> 注意
+1：使用GridLayoutManager时，需要调用resetSpan
+2：使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()
 
 代码：
 ```java
@@ -45,7 +46,7 @@ StickyDecoration decoration = StickyDecoration.Builder
         .build();
 ...
 mRecyclerView.setLayoutManager(manager);
-//需要在recyclerView.setLayoutManager(manager);之后调用
+//需要在setLayoutManager()之后调用addItemDecoration()
 mRecyclerView.addItemDecoration(decoration);
 ```
 效果：
@@ -60,8 +61,7 @@ mRecyclerView.addItemDecoration(decoration);
 - **字体大小 （默认 50px）**
 - **分割线颜色（默认 #CCCCCC）**
 - **分割线高宽度 (默认 0)**
-- **边距   靠左时为左边距  靠右时为右边距（默认 10）**
-- **靠左/右显示  （默认 靠左）**
+- **边距   左边距（默认 10，仅适用于StickyDecoration）**
 - **点击事件（返回当前分组下第一个item的position）**
 - **重置（span注意：使用GridLayoutManager时必须调用）**
 
@@ -75,7 +75,6 @@ StickyDecoration decoration = StickyDecoration.Builder
         .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色（默认 #CCCCCC）
         .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高宽度 (默认 0)
         .setTextSideMargin(DensityUtil.dip2px(this, 10))  //边距   靠左时为左边距  靠右时为右边距（默认 10）
-        .isAlignLeft(false)                               //靠右显示  （默认 靠左）
         .setOnClickListener(new OnGroupClickListener() {  //点击事件，返回当前分组下第一个item的position
             @Override
             public void onClick(int position) {
@@ -87,6 +86,8 @@ StickyDecoration decoration = StickyDecoration.Builder
 ```
 
 ### 自定义View悬浮——PowerfulStickyDecoration
+
+> **已知问题：需要靠右显示时，RelativeLayout 出现异常。不过你放心，LinearLayout、FrameLayout正常显示。**
 
 先创建布局`item_group`
 ```xml
@@ -128,7 +129,6 @@ PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .setGroupBackground(Color.parseColor("#48BDFF"))    //背景色（默认 #48BDFF）
         .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色（默认 #CCCCCC）
         .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高宽度 (默认 0)
-        .isAlignLeft(false)                                 //靠右显示  （默认 靠左）
         .setOnClickListener(new OnGroupClickListener() {    //点击事件，返回当前分组下第一个item的position
             @Override
             public void onClick(int position) {
@@ -153,3 +153,8 @@ mRecyclerView.addItemDecoration(decoration);
 - **靠左/右显示  （默认 靠左）**
 - **点击事件（返回当前分组下第一个item的position）**
 - **重置span（注意：使用GridLayoutManager时必须调用）**
+
+# 更新日志
+--------------- 1.3.0 （2018-1-28）-----------
+1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
+2、优化缓存机制。

@@ -27,7 +27,6 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     @ColorInt
     int mGroupBackground = Color.parseColor("#48BDFF");//group背景色，默认透明
     int mGroupHeight = 120;  //悬浮栏高度
-    boolean isAlignLeft = true; //是否靠左边
     @ColorInt
     int mDivideColor = Color.parseColor("#CCCCCC");//分割线颜色，默认灰色
     int mDivideHeight = 0;      //分割线宽度

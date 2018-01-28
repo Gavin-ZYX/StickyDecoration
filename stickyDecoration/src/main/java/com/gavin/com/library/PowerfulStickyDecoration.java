@@ -8,14 +8,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gavin.com.library.listener.OnGroupClickListener;
 import com.gavin.com.library.listener.PowerGroupListener;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 
 /**
  * Created by gavin
@@ -26,14 +27,19 @@ import java.util.Map;
 
 public class PowerfulStickyDecoration extends BaseDecoration {
 
-    private PowerGroupListener mGroupListener;
 
     private Paint mGroutPaint;
+    /**
+     * 使用软引用缓存图片，防止内存泄露
+     */
+    private SparseArray<Reference<Bitmap>> mBitmapCache = new SparseArray<>();
+
+    private PowerGroupListener mGroupListener;
 
     /**
      * 缓存View
      */
-    private Map<Integer, View> headViewMap = new HashMap<>();
+    private SparseArray<View> headViewMap = new SparseArray<>();
 
     private PowerfulStickyDecoration(PowerGroupListener groupListener) {
         super();
@@ -80,7 +86,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                 int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
                 if (position + 1 < itemCount) {
                     //下一组的第一个View接近头部
-                    if (isLastLineInGroup(parent, position)  && viewBottom < bottom) {
+                    if (isLastLineInGroup(parent, position) && viewBottom < bottom) {
                         bottom = viewBottom;
                     }
                 }
@@ -92,27 +98,31 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                     if (groupView == null) {
                         return;
                     }
+                    groupView.setDrawingCacheEnabled(true);
                     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(right, mGroupHeight);
                     groupView.setLayoutParams(layoutParams);
-                    groupView.setDrawingCacheEnabled(true);
+                    groupView.setMinimumWidth(right);
                     groupView.measure(
                             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                     //指定高度、宽度的groupView
                     groupView.layout(0, 0, right, mGroupHeight);
-                    groupView.buildDrawingCache();
-                    l("groupView.getWidth() after: " + groupView.getWidth());
                 } else {
                     groupView = headViewMap.get(position);
                 }
-                Bitmap bitmap = groupView.getDrawingCache();
-                int marginLeft = isAlignLeft ? 0 : right - groupView.getMeasuredWidth();
-                c.drawBitmap(bitmap, left + marginLeft, bottom - mGroupHeight, null);
+                Bitmap bitmap;
+                if (mBitmapCache.get(position) != null && mBitmapCache.get(position).get() != null) {
+                    bitmap = mBitmapCache.get(position).get();
+                } else {
+                    bitmap = Bitmap.createBitmap(groupView.getDrawingCache());
+                    mBitmapCache.put(position, new SoftReference<Bitmap>(bitmap));
+                }
+
+                c.drawBitmap(bitmap, left, bottom - mGroupHeight, null);
                 //将头部信息放进array，用于处理点击事件
                 stickyHeaderPosArray.put(position, bottom);
             }
         }
-
     }
 
     /**
@@ -179,18 +189,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         }
 
         /**
-         * 是否靠左边
-         * true 靠左边（默认）、false 靠右边
-         *
-         * @param b b
-         * @return this
-         */
-        public Builder isAlignLeft(boolean b) {
-            mDecoration.isAlignLeft = b;
-            return this;
-        }
-
-        /**
          * 设置分割线高度
          *
          * @param height 高度
@@ -225,9 +223,10 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
         /**
          * 重置span
-         * @param recyclerView recyclerView
+         *
+         * @param recyclerView      recyclerView
          * @param gridLayoutManager gridLayoutManager
-         * @return  this
+         * @return this
          */
         public Builder resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
             mDecoration.resetSpan(recyclerView, gridLayoutManager);

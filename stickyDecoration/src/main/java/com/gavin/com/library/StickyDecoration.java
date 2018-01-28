@@ -23,7 +23,7 @@ import com.gavin.com.library.listener.OnGroupClickListener;
 public class StickyDecoration extends BaseDecoration {
     @ColorInt
     private int mGroupTextColor = Color.WHITE;//字体颜色，默认黑色
-    private int mSideMargin = 10;   //边距 靠左时为左边距  靠右时为右边距
+    private int mSideMargin = 10;   //边距 左边距
     private int mTextSize = 50;     //字体大小
     private GroupListener mGroupListener;
 
@@ -92,11 +92,8 @@ public class StickyDecoration extends BaseDecoration {
                 //文字竖直居中显示
                 float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
                 //获取文字宽度
-                float textWidth = mTextPaint.measureText(curGroupName);
-                float marginLeft = isAlignLeft ? 0 : right - textWidth;
                 mSideMargin = Math.abs(mSideMargin);
-                mSideMargin = isAlignLeft ? mSideMargin : -mSideMargin;
-                c.drawText(curGroupName, left + mSideMargin + marginLeft, baseLine, mTextPaint);
+                c.drawText(curGroupName, left + mSideMargin, baseLine, mTextPaint);
                 stickyHeaderPosArray.put(position, bottom);
             }
         }
@@ -183,18 +180,6 @@ public class StickyDecoration extends BaseDecoration {
          */
         public Builder setTextSideMargin(int leftMargin) {
             mDecoration.mSideMargin = leftMargin;
-            return this;
-        }
-
-        /**
-         * 是否靠左边
-         * true 靠左边（默认）、false 靠右边
-         *
-         * @param b b
-         * @return this
-         */
-        public Builder isAlignLeft(boolean b) {
-            mDecoration.isAlignLeft = b;
             return this;
         }
 
