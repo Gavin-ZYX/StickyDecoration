@@ -99,14 +99,13 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                         return;
                     }
                     groupView.setDrawingCacheEnabled(true);
+                    //手动对view进行测量，指定groupView的高度、宽度
                     ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(right, mGroupHeight);
                     groupView.setLayoutParams(layoutParams);
-                    groupView.setMinimumWidth(right);
                     groupView.measure(
-                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                    //指定高度、宽度的groupView
-                    groupView.layout(0, 0, right, mGroupHeight);
+                            View.MeasureSpec.makeMeasureSpec(right, View.MeasureSpec.EXACTLY),
+                            View.MeasureSpec.makeMeasureSpec(mGroupHeight, View.MeasureSpec.EXACTLY));
+                    groupView.layout(left, bottom - mGroupHeight, right, bottom);
                 } else {
                     groupView = headViewMap.get(position);
                 }

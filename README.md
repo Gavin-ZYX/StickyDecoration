@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.3.0'
+    compile 'com.gavin.com.library:stickyDecoration:1.3.1'
 }
 ```
 
@@ -86,8 +86,6 @@ StickyDecoration decoration = StickyDecoration.Builder
 ```
 
 ### 自定义View悬浮——PowerfulStickyDecoration
-
-> **已知问题：需要靠右显示时，RelativeLayout 出现异常。不过你放心，LinearLayout、FrameLayout正常显示。**
 
 先创建布局`item_group`
 ```xml
@@ -160,3 +158,6 @@ mRecyclerView.addItemDecoration(decoration);
 1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
 
 2、优化缓存机制。
+
+----------------------------- 1.3.1 （2018-1-30）----------------------------
+修改测量方式
