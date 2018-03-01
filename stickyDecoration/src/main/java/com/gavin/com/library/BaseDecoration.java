@@ -70,9 +70,6 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         } else {
             //非网格布局都默认的线性布局
             //线性布局
-            if (groupId == null) {
-                return;
-            }
             //只有是同一组的第一个才显示悬浮栏
             if (isFirstInGroup(pos)) {
                 outRect.top = mGroupHeight; //为悬浮view预留空间
@@ -85,13 +82,19 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     /**
      * 判断是不是组中的第一个位置
      * 根据前一个组名，判断当前是否为新的组
+     * 当前为groupId为null时，则与上一个为同一组
      */
-    private boolean isFirstInGroup(int pos) {
+    protected boolean isFirstInGroup(int pos) {
+        String preGroupId;
         if (pos == 0) {
-            return true;
+            preGroupId = null;
         } else {
-            String preGroupId = getGroupName(pos - 1);
-            String curGroupId = getGroupName(pos);
+            preGroupId = getGroupName(pos - 1);
+        }
+        String curGroupId = getGroupName(pos);
+        if (curGroupId == null) {
+            return false;
+        } else {
             return !TextUtils.equals(preGroupId, curGroupId);
         }
     }
@@ -100,7 +103,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 判断是不是新组的第一行（GridLayoutManager使用）
      * 利用当前行的第一个对比前一个组名，判断当前是否为新组的第一样
      */
-    private boolean isFirstLineInGroup(int pos, int spanCount) {
+    protected boolean isFirstLineInGroup(int pos, int spanCount) {
         if (pos == 0) {
             return true;
         } else {
@@ -115,6 +118,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * 网格布局需要调用
+     *
      * @param recyclerView
      * @param gridLayoutManager
      */

@@ -30,8 +30,6 @@ public class CityUtil {
         final String AN_HUI = "安徽省";
         final int AN_HUI_ICON = R.mipmap.city2;
         dataList.add(new City("合肥", AN_HUI, AN_HUI_ICON));
-        dataList.add(new City("芜湖", AN_HUI, AN_HUI_ICON));
-        dataList.add(new City("蚌埠", AN_HUI, AN_HUI_ICON));
         final String ZHE_JIANG = "浙江省";
         final int ZHE_JIANG_ICON = R.mipmap.city3;
         dataList.add(new City("杭州", ZHE_JIANG, ZHE_JIANG_ICON));

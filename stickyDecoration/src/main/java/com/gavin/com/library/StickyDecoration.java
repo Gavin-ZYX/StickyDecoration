@@ -7,7 +7,6 @@ import android.support.annotation.ColorInt;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.gavin.com.library.listener.GroupListener;
@@ -58,24 +57,8 @@ public class StickyDecoration extends BaseDecoration {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
             curGroupName = getGroupName(position);
-            if (i == 0) {
-                preGroupName = curGroupName;
-            } else {
-                preGroupName = getGroupName(position - 1);
-            }
-            boolean isFirstInGroup = i != 0 && TextUtils.equals(curGroupName, preGroupName);
-            if (isFirstInGroup || curGroupName == null) {
-                //绘制分割线
-                if (mDivideHeight != 0) {
-                    // TODO: gavin 17/11/18 GridLayoutManager还需要考虑进来
-                    float bottom = childView.getTop();
-                    if (bottom < mGroupHeight) {
-                        //高度小于顶部悬浮栏时，跳过绘制
-                        continue;
-                    }
-                    c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
-                }
-            } else {
+            //默认第一个就是有个Group
+            if (isFirstInGroup(position) || i == 0) {
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
 
@@ -95,9 +78,33 @@ public class StickyDecoration extends BaseDecoration {
                 mSideMargin = Math.abs(mSideMargin);
                 c.drawText(curGroupName, left + mSideMargin, baseLine, mTextPaint);
                 stickyHeaderPosArray.put(position, bottom);
+            } else {
+                //绘制分割线
+                if (mDivideHeight != 0) {
+                    RecyclerView.LayoutManager manager = parent.getLayoutManager();
+                    if (manager instanceof GridLayoutManager) {
+                        int spanCount = ((GridLayoutManager) manager).getSpanCount();
+                        if (!isFirstLineInGroup(position, spanCount)) {
+                            float bottom = childView.getTop();
+                            if (bottom < mGroupHeight) {
+                                //高度小于顶部悬浮栏时，跳过绘制
+                                continue;
+                            }
+                            c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
+                        }
+                    } else {
+                        float bottom = childView.getTop();
+                        if (bottom < mGroupHeight) {
+                            //高度小于顶部悬浮栏时，跳过绘制
+                            continue;
+                        }
+                        c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
+                    }
+                }
             }
         }
     }
+
 
     /**
      * 获取组名
@@ -219,9 +226,10 @@ public class StickyDecoration extends BaseDecoration {
 
         /**
          * 重置span
-         * @param recyclerView recyclerView
+         *
+         * @param recyclerView      recyclerView
          * @param gridLayoutManager gridLayoutManager
-         * @return  this
+         * @return this
          */
         public Builder resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
             mDecoration.resetSpan(recyclerView, gridLayoutManager);

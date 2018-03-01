@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -58,29 +57,12 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         int left = parent.getPaddingLeft();
         int right = parent.getWidth() - parent.getPaddingRight();
 
-        String preGroupName;
         String curGroupName;
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
             curGroupName = getGroupName(position);
-            if (i == 0) {
-                preGroupName = curGroupName;
-            } else {
-                preGroupName = getGroupName(position - 1);
-            }
-            boolean isFirstInGroup = i != 0 && TextUtils.equals(curGroupName, preGroupName);
-            if (isFirstInGroup || curGroupName == null) {
-                //绘制分割线
-                if (mDivideHeight != 0) {
-                    float bottom = childView.getTop();
-                    if (bottom < mGroupHeight) {
-                        //高度小于顶部悬浮栏时，跳过绘制
-                        continue;
-                    }
-                    c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
-                }
-            } else {
+            if (isFirstInGroup(position) || i == 0) {
                 int viewBottom = childView.getBottom();
                 //top 决定当前顶部第一个悬浮Group的位置
                 int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
@@ -120,6 +102,29 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                 c.drawBitmap(bitmap, left, bottom - mGroupHeight, null);
                 //将头部信息放进array，用于处理点击事件
                 stickyHeaderPosArray.put(position, bottom);
+            } else {
+                //绘制分割线
+                if (mDivideHeight != 0) {
+                    RecyclerView.LayoutManager manager = parent.getLayoutManager();
+                    if (manager instanceof GridLayoutManager) {
+                        int spanCount = ((GridLayoutManager) manager).getSpanCount();
+                        if (!isFirstLineInGroup(position, spanCount)) {
+                            float bottom = childView.getTop();
+                            if (bottom < mGroupHeight) {
+                                //高度小于顶部悬浮栏时，跳过绘制
+                                continue;
+                            }
+                            c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
+                        }
+                    } else {
+                        float bottom = childView.getTop();
+                        if (bottom < mGroupHeight) {
+                            //高度小于顶部悬浮栏时，跳过绘制
+                            continue;
+                        }
+                        c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
+                    }
+                }
             }
         }
     }
