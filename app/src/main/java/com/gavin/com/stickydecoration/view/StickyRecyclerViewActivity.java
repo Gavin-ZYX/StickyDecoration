@@ -53,14 +53,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        RecyclerView.LayoutManager manager;
-        String type = getIntent().getStringExtra("type");
-        if (TextUtils.equals(type, "grid")) {
-            manager = new GridLayoutManager(this, 3);
-        } else {
-            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        }
-        //使用StickyDecoration
+        //------------- StickyDecoration 使用部分  ----------------
         StickyDecoration decoration = StickyDecoration.Builder
                 .init(new GroupListener() {
                     @Override
@@ -88,10 +81,17 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .build();
+        //------------- StickyDecoration 使用部分  ----------------
+        //下面是平时的RecyclerView操作
 
+        RecyclerView.LayoutManager manager;
+        String type = getIntent().getStringExtra("type");
         if (TextUtils.equals(type, "grid")) {
-            //重置span（使用GridLayoutManager时必须调用）
-            decoration.resetSpan(mRecyclerView, (GridLayoutManager) manager);
+            manager = new GridLayoutManager(this, 3);
+        } else {
+            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        }
+        if (TextUtils.equals(type, "grid")) {
         }
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(decoration);

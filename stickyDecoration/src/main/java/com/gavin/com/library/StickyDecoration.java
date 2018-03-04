@@ -51,17 +51,13 @@ public class StickyDecoration extends BaseDecoration {
         final int left = parent.getPaddingLeft();
         final int right = parent.getWidth() - parent.getPaddingRight();
 
-        String preGroupName;      //标记上一个item对应的Group
-        String curGroupName;       //当前item对应的Group
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
-            curGroupName = getGroupName(position);
             //默认第一个就是有个Group
             if (isFirstInGroup(position) || i == 0) {
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
-
                 if (position + 1 < itemCount) {
                     //下一组的第一个View接近头部
                     int viewBottom = childView.getBottom();
@@ -69,40 +65,38 @@ public class StickyDecoration extends BaseDecoration {
                         bottom = viewBottom;
                     }
                 }
-                //根据top绘制group背景
-                c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
-                Paint.FontMetrics fm = mTextPaint.getFontMetrics();
-                //文字竖直居中显示
-                float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
-                //获取文字宽度
-                mSideMargin = Math.abs(mSideMargin);
-                c.drawText(curGroupName, left + mSideMargin, baseLine, mTextPaint);
+                drawDecoration(c, position, left, right, bottom);
                 stickyHeaderPosArray.put(position, bottom);
             } else {
                 //绘制分割线
-                if (mDivideHeight != 0) {
-                    RecyclerView.LayoutManager manager = parent.getLayoutManager();
-                    if (manager instanceof GridLayoutManager) {
-                        int spanCount = ((GridLayoutManager) manager).getSpanCount();
-                        if (!isFirstLineInGroup(position, spanCount)) {
-                            float bottom = childView.getTop();
-                            if (bottom < mGroupHeight) {
-                                //高度小于顶部悬浮栏时，跳过绘制
-                                continue;
-                            }
-                            c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
-                        }
-                    } else {
-                        float bottom = childView.getTop();
-                        if (bottom < mGroupHeight) {
-                            //高度小于顶部悬浮栏时，跳过绘制
-                            continue;
-                        }
-                        c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
-                    }
-                }
+                drawDivide(c, parent, childView, position, left, right);
             }
         }
+    }
+
+
+
+    /**
+     * 绘制悬浮框
+     *
+     * @param c
+     * @param position
+     * @param left
+     * @param right
+     * @param bottom
+     */
+    private void drawDecoration(Canvas c, int position, int left, int right, int bottom) {
+        String curGroupName;       //当前item对应的Group
+        int firstPositionInGroup = getFirstInGroupWithCash(position);
+        curGroupName = getGroupName(firstPositionInGroup);
+        //根据top绘制group背景
+        c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
+        Paint.FontMetrics fm = mTextPaint.getFontMetrics();
+        //文字竖直居中显示
+        float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
+        //获取文字宽度
+        mSideMargin = Math.abs(mSideMargin);
+        c.drawText(curGroupName, left + mSideMargin, baseLine, mTextPaint);
     }
 
 

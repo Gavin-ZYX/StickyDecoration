@@ -52,33 +52,36 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
-        PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
-                .init(new PowerGroupListener() {
-                    @Override
-                    public String getGroupName(int position) {
-                        //获取组名，用于判断是否是同一组
-                        if (dataList.size() > position) {
-                            return dataList.get(position).getProvince();
-                        }
-                        return null;
-                    }
+        //------------- PowerfulStickyDecoration 使用部分  ----------------
+        PowerGroupListener listener = new PowerGroupListener() {
+            @Override
+            public String getGroupName(int position) {
+                //获取组名，用于判断是否是同一组
+                if (dataList.size() > position) {
+                    return dataList.get(position).getProvince();
+                }
+                return null;
+            }
 
-                    @Override
-                    public View getGroupView(int position) {
-                        //获取自定定义的组View
-                        if (dataList.size() > position) {
-                            View view = getLayoutInflater().inflate(R.layout.item_group, null, false);
-                            ((TextView) view.findViewById(R.id.tv)).setText(dataList.get(position).getProvince());
-                            return view;
-                        } else {
-                            return null;
-                        }
-                    }
-                })
+            @Override
+            public View getGroupView(int position) {
+                //获取自定定义的组View
+                if (dataList.size() > position) {
+                    View view = getLayoutInflater().inflate(R.layout.item_group, null, false);
+                    ((TextView) view.findViewById(R.id.tv)).setText(dataList.get(position).getProvince());
+                    return view;
+                } else {
+                    return null;
+                }
+            }
+        };
+        PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
+                .init(listener)
                 .setGroupHeight(DensityUtil.dip2px(this, 40))     //设置高度
                 .setGroupBackground(Color.parseColor("#48BDFF"))        //设置背景   默认透明
                 .setDivideColor(Color.parseColor("#CCCCCC"))            //分割线颜色
                 .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
+                .setStrongReference(true)                                          //设置强引用
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
                     public void onClick(int position) {                                 //Group点击事件
@@ -87,7 +90,8 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-
+        //-------------                  ----------------
+        //下面是平时的RecyclerView操作
         RecyclerView.LayoutManager manager;
         String type = getIntent().getStringExtra("type");
         if (TextUtils.equals(type, "grid")) {

@@ -17,28 +17,25 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.3.1'
+    compile 'com.gavin.com.library:stickyDecoration:1.4.0'
 }
 ```
 
 ## 使用
 
 #### 文字悬浮——StickyDecoration
-> 注意
-1：使用GridLayoutManager时，需要调用resetSpan；
-2：使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()；
+> **注意**
+使用recyclerView.addItemDecoration()之前，必须先调用recyclerView.setLayoutManager()；
 
 代码：
 ```java
-//回调
 GroupListener groupListener = new GroupListener() {
     @Override
     public String getGroupName(int position) {
-        //根据position获取对应的组名称
-        return dataList.get(position).getProvince();
+        //获取分组名
+        return mList.get(position).getProvince();
     }
 };
-//创建StickyDecoration，实现悬浮栏
 StickyDecoration decoration = StickyDecoration.Builder
         .init(groupListener)
         //重置span（使用GridLayoutManager时必须调用）
@@ -52,36 +49,45 @@ mRecyclerView.addItemDecoration(decoration);
 效果：
 
 ![LinearLayoutManager](http://upload-images.jianshu.io/upload_images/1638147-f3c2cbe712aa65fb.gif?imageMogr2/auto-orient/strip)
+
 ![GridLayoutManager](http://upload-images.jianshu.io/upload_images/1638147-e5e0374c896110d0.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-**支持的方法：**
-- **背景色（默认 #48BDFF）**
-- **高度 (默认120px)**
-- **字体颜色 （默认 Color.WHITE）**
-- **字体大小 （默认 50px）**
-- **分割线颜色（默认 #CCCCCC）**
-- **分割线高宽度 (默认 0)**
-- **边距   左边距（默认 10，仅适用于StickyDecoration）**
-- **点击事件（返回当前分组下第一个item的position）**
-- **重置（span注意：使用GridLayoutManager时必须调用）**
 
+**支持的方法：**
+
+| 功能 | 方法 | 默认 |
+|-|-|-|
+| 背景色 | setGroupBackground |#48BDFF |
+| 高度 | setGroupHeight | 120px |
+| 字体颜色 | setGroupTextColor |Color.WHITE |
+| 字体大小 | setGroupTextSize | 50px |
+|分割线颜色 | setDivideColor | #CCCCCC |
+| 分割线高宽度 | setDivideHeight | 0 |
+| 边距(靠左时为左边距  靠右时为右边距) | setTextSideMargin |  10 |
+
+|功能|方法|描述|
+|-|-|-|
+| 点击事件 | setOnClickListener | 返回当前分组下第一个item的position |
+| 重置 | resetSpan | 使用GridLayoutManager时必须调用 |
+
+**使用如下**
 ```java
 StickyDecoration decoration = StickyDecoration.Builder
         .init(groupListener)
-        .setGroupBackground(Color.parseColor("#48BDFF"))  //背景色（默认 #48BDFF）
-        .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度 (默认120px)
-        .setGroupTextColor(Color.BLACK)                   //字体颜色 （默认 Color.WHITE）
-        .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小 （默认 50px）
-        .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色（默认 #CCCCCC）
-        .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高宽度 (默认 0)
-        .setTextSideMargin(DensityUtil.dip2px(this, 10))  //边距   靠左时为左边距  靠右时为右边距（默认 10）
-        .setOnClickListener(new OnGroupClickListener() {  //点击事件，返回当前分组下第一个item的position
+        .setGroupBackground(Color.parseColor("#48BDFF"))  //背景色
+        .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
+        .setGroupTextColor(Color.BLACK)                   //字体颜色
+        .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小
+        .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色
+        .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高宽度
+        .setTextSideMargin(DensityUtil.dip2px(this, 10))  //边距
+        .setOnClickListener(new OnGroupClickListener() {  //点击事件
             @Override
             public void onClick(int position) {
                 //处理点击事件
             }
         })
-        .resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span（注意：使用GridLayoutManager时必须调用）
+        .resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span
         .build();
 ```
 
@@ -110,30 +116,21 @@ StickyDecoration decoration = StickyDecoration.Builder
 PowerGroupListener listener = new PowerGroupListener() {
     @Override
     public String getGroupName(int position) {
-        return dataList.get(position).getProvince();
+        return mList.get(position).getProvince();
     }
 
     @Override
     public View getGroupView(int position) {
         //获取自定定义的组View
         View view = getLayoutInflater().inflate(R.layout.item_group, null, false);
-        ((TextView) view.findViewById(R.id.tv)).setText(dataList.get(position).getProvince());
+        ((TextView) view.findViewById(R.id.tv)).setText(mList.get(position).getProvince());
         return view;
     }
 };
 PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .init(listener)
-        .setGroupHeight(DensityUtil.dip2px(this, 40))       //高度 (默认120px)
-        .setGroupBackground(Color.parseColor("#48BDFF"))    //背景色（默认 #48BDFF）
-        .setDivideColor(Color.parseColor("#CCCCCC"))        //分割线颜色（默认 #CCCCCC）
-        .setDivideHeight(DensityUtil.dip2px(this, 1))       //分割线高宽度 (默认 0)
-        .setOnClickListener(new OnGroupClickListener() {    //点击事件，返回当前分组下第一个item的position
-            @Override
-            public void onClick(int position) {
-                //处理点击事件
-            }
-        })
-        .resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span（注意：使用GridLayoutManager时必须调用）
+         //重置span（注意：使用GridLayoutManager时必须调用）
+        //.resetSpan(mRecyclerView, (GridLayoutManager) manager)
         .build();
 
   ...
@@ -144,20 +141,55 @@ mRecyclerView.addItemDecoration(decoration);
 ![效果](http://upload-images.jianshu.io/upload_images/1638147-3fed255296a6c3db.gif?imageMogr2/auto-orient/strip)
 
 **支持的方法：**
--  **高度 (默认120px)**
-- **背景色（默认 #48BDFF）**
-- **分割线颜色（默认 #CCCCCC）**
-- **分割线高宽度 (默认 0)**
-- **靠左/右显示  （默认 靠左）**
-- **点击事件（返回当前分组下第一个item的position）**
-- **重置span（注意：使用GridLayoutManager时必须调用）**
+
+| 功能 | 方法 | 默认 |
+| -- | -- | -- |
+| 高度 | setGroupHeight | 120px |
+| 背景色 | setGroupBackground | #48BDFF |
+| 分割线颜色 | setDivideColor | #CCCCCC |
+| 分割线高宽度 | setDivideHeight | 0 |
+| 缓存采用强引用(不推荐使用) | setStrongReference | 软引用 |
+
+|功能|方法|描述|
+|-|-|-|
+| 点击事件 | setOnClickListener | 返回当前分组下第一个item的position |
+| 重置span | resetSpan | 使用GridLayoutManager时必须调用 |
+| 通知重新绘制 | notifyRedraw | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用，体验更佳) |
+
+**使用如下**
+```java
+PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
+        .init(listener)
+        .setGroupHeight(DensityUtil.dip2px(this, 40))     //设置高度
+        .setGroupBackground(Color.parseColor("#48BDFF"))  //设置背景   默认透明
+        .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色
+        .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
+        //.setStrongReference(true)                       //设置强引用
+        .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
+            @Override
+            public void onClick(int position) {                                 //Group点击事件
+                //处理点击事件
+            }
+        })
+        .build();
+```
+**注意：若使用网络图片时，在图片加载完成后需要调用**
+（配合`setStrongReference(true)`方法使用，体验更佳）
+```java
+decoration.notifyRedraw(mRv, view, position);
+```
+
 
 # 更新日志
------------------------------ 1.3.0 （2018-1-28）----------------------------
+----------------------------- 1.3.0 （2018-01-28）----------------------------
 
 1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
 
 2、优化缓存机制。
 
------------------------------ 1.3.1 （2018-1-30）----------------------------
+----------------------------- 1.3.1 （2018-01-30）----------------------------
 修改测量方式
+
+----------------------------- 1.4.0 （2018-03-04）----------------------------
+1、支持异步加载后的重新绘制（如网络图片加载）
+2、优化缓存

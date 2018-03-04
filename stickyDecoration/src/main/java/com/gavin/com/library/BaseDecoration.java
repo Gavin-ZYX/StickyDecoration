@@ -53,28 +53,38 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         this.mOnGroupClickListener = listener;
     }
 
+    /**
+     * 获取分组名
+     *
+     * @param position position
+     * @return group
+     */
+    abstract String getGroupName(int position);
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int pos = parent.getChildAdapterPosition(view);
-        String groupId = getGroupName(pos);
         RecyclerView.LayoutManager manager = parent.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             //网格布局
             int spanCount = ((GridLayoutManager) manager).getSpanCount();
-            if (isFirstLineInGroup(pos, spanCount) && groupId != null) {
-                //新group的第一行都需要留出空间
-                outRect.top = mGroupHeight; //为悬浮view预留空间
+            if (isFirstLineInGroup(pos, spanCount)) {
+                //为悬浮view预留空间
+                outRect.top = mGroupHeight;
+            } else {
+                //为分割线预留空间
+                outRect.top = mDivideHeight;
             }
         } else {
-            //非网格布局都默认的线性布局
-            //线性布局
+            //其他的默认为线性布局
             //只有是同一组的第一个才显示悬浮栏
             if (isFirstInGroup(pos)) {
-                outRect.top = mGroupHeight; //为悬浮view预留空间
+                //为悬浮view预留空间
+                outRect.top = mGroupHeight;
             } else {
-                outRect.top = mDivideHeight; //为分割线预留空间
+                //为分割线预留空间
+                outRect.top = mDivideHeight;
             }
         }
     }
@@ -84,19 +94,15 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 根据前一个组名，判断当前是否为新的组
      * 当前为groupId为null时，则与上一个为同一组
      */
-    protected boolean isFirstInGroup(int pos) {
+    protected boolean isFirstInGroup(int position) {
         String preGroupId;
-        if (pos == 0) {
+        if (position == 0) {
             preGroupId = null;
         } else {
-            preGroupId = getGroupName(pos - 1);
+            preGroupId = getGroupName(position - 1);
         }
-        String curGroupId = getGroupName(pos);
-        if (curGroupId == null) {
-            return false;
-        } else {
-            return !TextUtils.equals(preGroupId, curGroupId);
-        }
+        String curGroupId = getGroupName(position);
+        return !TextUtils.equals(preGroupId, curGroupId);
     }
 
     /**
@@ -119,8 +125,8 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     /**
      * 网格布局需要调用
      *
-     * @param recyclerView
-     * @param gridLayoutManager
+     * @param recyclerView recyclerView
+     * @param gridLayoutManager gridLayoutManager
      */
     public void resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
         if (recyclerView == null) {
@@ -179,7 +185,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         if (position == 0) {
             return 0;
         } else {
-            if (!TextUtils.equals(getGroupName(position), getGroupName(position - 1))) {
+            if (isFirstInGroup(position)) {
                 return position;
             } else {
                 return getFirstInGroup(position - 1);
@@ -203,13 +209,16 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         int findCount = 1;
         if (manager instanceof GridLayoutManager) {
             int spanCount = ((GridLayoutManager) manager).getSpanCount();
-            int firstPositioninGroup = getFirstInGroupWithCash(position);
-            findCount = spanCount - (position - firstPositioninGroup) % spanCount;
+            int firstPositionInGroup = getFirstInGroupWithCash(position);
+            findCount = spanCount - (position - firstPositionInGroup) % spanCount;
         }
         try {
             nextGroupName = getGroupName(position + findCount);
         } catch (Exception e) {
             nextGroupName = curGroupName;
+        }
+        if (nextGroupName == null) {
+            return false;
         }
         return !TextUtils.equals(curGroupName, nextGroupName);
     }
@@ -229,14 +238,6 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         }
         stickyHeaderPosArray.clear();
     }
-
-    /**
-     * 获取分组名
-     *
-     * @param position position
-     * @return group
-     */
-    abstract String getGroupName(int position);
 
     /**
      * 点击事件调用
@@ -293,5 +294,37 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             return false;
         }
     };
+
+    /**
+     * 绘制分割线
+     *
+     * @param c
+     * @param parent
+     * @param childView
+     * @param position
+     * @param left
+     * @param right
+     */
+    protected void drawDivide(Canvas c, RecyclerView parent, View childView, int position, int left, int right) {
+        if (mDivideHeight != 0) {
+            RecyclerView.LayoutManager manager = parent.getLayoutManager();
+            if (manager instanceof GridLayoutManager) {
+                int spanCount = ((GridLayoutManager) manager).getSpanCount();
+                if (!isFirstLineInGroup(position, spanCount)) {
+                    float bottom = childView.getTop() + parent.getPaddingTop();
+                    //高度小于顶部悬浮栏时，跳过绘制
+                    if (bottom >= mGroupHeight) {
+                        c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
+                    }
+                }
+            } else {
+                float bottom = childView.getTop();
+                //高度小于顶部悬浮栏时，跳过绘制
+                if (bottom >= mGroupHeight) {
+                    c.drawRect(left, bottom - mDivideHeight, right, bottom, mDividePaint);
+                }
+            }
+        }
+    }
 
 }

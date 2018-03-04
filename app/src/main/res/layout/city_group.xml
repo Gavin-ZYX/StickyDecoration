@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:background="#EEEE"
                 android:orientation="horizontal">
 
@@ -11,8 +12,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="35dp"
-        android:src="@mipmap/city1"/>
+        android:layout_marginLeft="10dp"
+        tools:src="@mipmap/city1"/>
 
     <TextView
         android:id="@+id/tv"
@@ -21,6 +22,6 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/iv"
-        android:text="福建省"
+        tools:text="福建省"
         android:textSize="15sp"/>
 </RelativeLayout>
