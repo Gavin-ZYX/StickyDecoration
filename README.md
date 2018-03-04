@@ -148,7 +148,7 @@ mRecyclerView.addItemDecoration(decoration);
 | 背景色 | setGroupBackground | #48BDFF |
 | 分割线颜色 | setDivideColor | #CCCCCC |
 | 分割线高宽度 | setDivideHeight | 0 |
-| 缓存采用强引用(不推荐使用) | setStrongReference | 软引用 |
+| 采用强引用缓存View| setStrongReference | 软引用 |
 
 |功能|方法|描述|
 |-|-|-|
@@ -174,6 +174,7 @@ PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .build();
 ```
 **注意：若使用网络图片时，在图片加载完成后需要调用**
+
 （配合`setStrongReference(true)`方法使用，体验更佳）
 ```java
 decoration.notifyRedraw(mRv, view, position);
@@ -188,8 +189,10 @@ decoration.notifyRedraw(mRv, view, position);
 2、优化缓存机制。
 
 ----------------------------- 1.3.1 （2018-01-30）----------------------------
+
 修改测量方式
 
 ----------------------------- 1.4.0 （2018-03-04）----------------------------
+
 1、支持异步加载后的重新绘制（如网络图片加载）
 2、优化缓存
