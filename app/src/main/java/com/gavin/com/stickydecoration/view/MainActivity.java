@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("TAG", "commit 1");
+        Log.i("TAG", "commit 2");
     }
 
     public void toSticky(View view) {
