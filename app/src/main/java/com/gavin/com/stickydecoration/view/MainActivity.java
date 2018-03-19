@@ -3,6 +3,7 @@ package com.gavin.com.stickydecoration.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.gavin.com.stickydecoration.R;
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("TAG", "commit 1");
     }
 
     public void toSticky(View view) {
