@@ -13,6 +13,10 @@ import java.lang.ref.SoftReference;
 public class CacheUtil<T> implements CacheInterface<T> {
 
     /**
+     * 是否缓存
+     */
+    private boolean mCacheable = false;
+    /**
      * 是否使用强引用（默认软引用）
      * 引用类型：强引用、软引用
      */
@@ -33,12 +37,24 @@ public class CacheUtil<T> implements CacheInterface<T> {
      *
      * @param b
      */
+    public void isCacheable(boolean b) {
+        mCacheable = b;
+    }
+
+    /**
+     * 是否使用强引用缓存
+     *
+     * @param b
+     */
     public void isStrongReference(boolean b) {
         isStrongReference = b;
     }
 
     @Override
     public void put(int position, T t) {
+        if (!mCacheable) {
+            return;
+        }
         if (isStrongReference) {
             if (mStrongCache == null) {
                 mStrongCache = new SparseArray<>();
@@ -54,6 +70,9 @@ public class CacheUtil<T> implements CacheInterface<T> {
 
     @Override
     public T get(int position) {
+        if (!mCacheable) {
+            return null;
+        }
         if (isStrongReference) {
             if (mStrongCache == null) {
                 mStrongCache = new SparseArray<>();
@@ -70,12 +89,25 @@ public class CacheUtil<T> implements CacheInterface<T> {
 
     @Override
     public void remove(int position) {
+        if (!mCacheable) {
+            return;
+        }
         if (mStrongCache != null){
             mStrongCache.remove(position);
         }
 
         if (mSoftCache != null) {
             mSoftCache.remove(position);
+        }
+    }
+
+    @Override
+    public void clean() {
+        if (mStrongCache != null) {
+            mStrongCache.clear();
+        }
+        if (mSoftCache != null) {
+            mSoftCache.clear();
         }
     }
 }

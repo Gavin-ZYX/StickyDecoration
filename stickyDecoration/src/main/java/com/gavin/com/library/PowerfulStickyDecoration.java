@@ -161,11 +161,26 @@ public class PowerfulStickyDecoration extends BaseDecoration {
     }
 
     /**
+     * 是否使用缓存
+     * @param b b
+     */
+    public void setCacheEnable(boolean b) {
+        mHeadViewCache.isCacheable(b);
+    }
+
+    /**
      * 是否使用强引用
      * @param b b
      */
     public void setStrongReference(boolean b) {
         mHeadViewCache.isStrongReference(b);
+    }
+
+    /**
+     * 清空缓存
+     */
+    public void cleanCache() {
+        mHeadViewCache.clean();
     }
 
     /**
@@ -271,6 +286,16 @@ public class PowerfulStickyDecoration extends BaseDecoration {
          */
         public Builder setStrongReference(boolean b){
             mDecoration.setStrongReference(b);
+            return this;
+        }
+
+        /**
+         * 是否使用缓存
+         * @param b
+         * @return
+         */
+        public Builder setCacheEnable(boolean b) {
+            mDecoration.setCacheEnable(b);
             return this;
         }
 

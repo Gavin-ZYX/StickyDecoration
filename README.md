@@ -148,6 +148,7 @@ mRecyclerView.addItemDecoration(decoration);
 | 背景色 | setGroupBackground | #48BDFF |
 | 分割线颜色 | setDivideColor | #CCCCCC |
 | 分割线高宽度 | setDivideHeight | 0 |
+| 是否使用缓存| setCacheEnable | 不使用缓存 |
 | 采用强引用缓存View| setStrongReference | 软引用 |
 
 |功能|方法|描述|
@@ -155,6 +156,7 @@ mRecyclerView.addItemDecoration(decoration);
 | 点击事件 | setOnClickListener | 返回当前分组下第一个item的position |
 | 重置span | resetSpan | 使用GridLayoutManager时必须调用 |
 | 通知重新绘制 | notifyRedraw | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用，体验更佳) |
+| 清空缓存 | cleanCache | 在使用缓存的情况下，数据改变时需要清理缓存 |
 
 **使用如下**
 ```java
@@ -164,10 +166,11 @@ PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
         .setGroupBackground(Color.parseColor("#48BDFF"))  //设置背景   默认透明
         .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色
         .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
+        //.setCacheEnable(true)                           //是否使用缓存
         //.setStrongReference(true)                       //设置强引用
-        .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
+        .setOnClickListener(new OnGroupClickListener() {   //点击事件，返回当前分组下的第一个item的position
             @Override
-            public void onClick(int position) {                                 //Group点击事件
+            public void onClick(int position) {
                 //处理点击事件
             }
         })
@@ -182,15 +185,12 @@ decoration.notifyRedraw(mRv, view, position);
 
 
 # 更新日志
------------------------------ 1.3.0 （2018-01-28）----------------------------
 
-1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
+----------------------------- 1.4.1 （2018-03-21）----------------------------
 
-2、优化缓存机制。
+1、默认取消缓存，避免数据改变时显示出问题
 
------------------------------ 1.3.1 （2018-01-30）----------------------------
-
-修改测量方式
+2、添加cleanCache方法用于清理缓存
 
 ----------------------------- 1.4.0 （2018-03-04）----------------------------
 
@@ -199,3 +199,13 @@ decoration.notifyRedraw(mRv, view, position);
 2、优化缓存
 
 3、优化GridLayoutManager的分割线
+
+----------------------------- 1.3.1 （2018-01-30）----------------------------
+
+修改测量方式
+
+----------------------------- 1.3.0 （2018-01-28）----------------------------
+
+1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
+
+2、优化缓存机制。

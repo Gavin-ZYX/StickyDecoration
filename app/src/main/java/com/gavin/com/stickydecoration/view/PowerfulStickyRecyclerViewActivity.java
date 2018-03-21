@@ -78,10 +78,11 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
                 .init(listener)
                 .setGroupHeight(DensityUtil.dip2px(this, 40))     //设置高度
-                .setGroupBackground(Color.parseColor("#48BDFF"))        //设置背景   默认透明
+                .setGroupBackground(Color.parseColor("#48BDFF"))        //设置背景
                 .setDivideColor(Color.parseColor("#CCCCCC"))            //分割线颜色
                 .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
-                .setStrongReference(true)                                          //设置强引用
+                .setCacheEnable(true)                                              //是否使用缓存
+                .setStrongReference(true)                                          //设置强引用（在使用缓存时才生效）
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
                     public void onClick(int position) {                                 //Group点击事件

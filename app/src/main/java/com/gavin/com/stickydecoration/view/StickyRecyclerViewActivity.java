@@ -88,6 +88,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         String type = getIntent().getStringExtra("type");
         if (TextUtils.equals(type, "grid")) {
             manager = new GridLayoutManager(this, 3);
+            decoration.resetSpan(mRecyclerView, (GridLayoutManager) manager);
         } else {
             manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         }
