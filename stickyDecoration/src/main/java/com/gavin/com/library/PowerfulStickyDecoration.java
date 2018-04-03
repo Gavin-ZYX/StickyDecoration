@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import com.gavin.com.library.cache.CacheUtil;
 import com.gavin.com.library.listener.OnGroupClickListener;
 import com.gavin.com.library.listener.PowerGroupListener;
+import com.gavin.com.library.util.ViewUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by gavin
@@ -44,7 +48,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         this.mGroupListener = groupListener;
         //设置悬浮栏的画笔---mGroutPaint
         mGroutPaint = new Paint();
-        mGroutPaint.setColor(mGroupBackground);
     }
 
     @Override
@@ -70,8 +73,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                     }
                 }
                 drawDecoration(c, position, left, right, bottom);
-                //将头部信息放进array，用于处理点击事件
-                stickyHeaderPosArray.put(position, bottom);
             } else {
                 //绘制分割线
                 drawDivide(c, parent, childView, position, left, right);
@@ -111,6 +112,9 @@ public class PowerfulStickyDecoration extends BaseDecoration {
             mBitmapCache.put(firstPositionInGroup, bitmap);
         }
         c.drawBitmap(bitmap, left, bottom - mGroupHeight, null);
+        if (mOnGroupClickListener != null) {
+            setClickInfo(groupView, left, bottom, position);
+        }
     }
 
     /**
@@ -129,6 +133,29 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                 View.MeasureSpec.makeMeasureSpec(right, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(mGroupHeight, View.MeasureSpec.EXACTLY));
         groupView.layout(left, 0 - mGroupHeight, right, 0);
+    }
+
+    /**
+     * 点击的位置信息
+     *
+     * @param groupView
+     * @param parentBottom
+     * @param position
+     */
+    private void setClickInfo(View groupView, int parentLeft, int parentBottom, int position) {
+        int parentTop = parentBottom - mGroupHeight;
+        List<ClickInfo.DetailInfo> list = new ArrayList<>();
+        List<View> viewList = ViewUtil.getChildViewWithId(groupView);
+        for (View view : viewList) {
+            int top = view.getTop() + parentTop;
+            int bottom = view.getBottom() + parentTop;
+            int left = view.getLeft() + parentLeft;
+            int right = view.getRight() + parentLeft;
+            list.add(new ClickInfo.DetailInfo(view.getId(), left, right, top, bottom));
+        }
+        ClickInfo clickInfo = new ClickInfo(parentBottom, list);
+        clickInfo.mGroupId = groupView.getId();
+        stickyHeaderPosArray.put(position, clickInfo);
     }
 
     /**
@@ -162,6 +189,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
     /**
      * 是否使用缓存
+     *
      * @param b b
      */
     public void setCacheEnable(boolean b) {
@@ -170,6 +198,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
     /**
      * 是否使用强引用
+     *
      * @param b b
      */
     public void setStrongReference(boolean b) {
@@ -187,8 +216,9 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      * 通知重新绘制
      * 使用场景：网络图片加载后调用
      * 建议：配合{@link #setStrongReference(boolean)}方法使用，体验更佳
+     *
      * @param recyclerView recyclerView
-     * @param position position
+     * @param position     position
      */
     public void notifyRedraw(RecyclerView recyclerView, View viewGroup, int position) {
         viewGroup.setDrawingCacheEnabled(false);
@@ -282,15 +312,17 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
         /**
          * 是否使用强引用
+         *
          * @param b b
          */
-        public Builder setStrongReference(boolean b){
+        public Builder setStrongReference(boolean b) {
             mDecoration.setStrongReference(b);
             return this;
         }
 
         /**
          * 是否使用缓存
+         *
          * @param b
          * @return
          */

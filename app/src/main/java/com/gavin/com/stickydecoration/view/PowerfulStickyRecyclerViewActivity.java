@@ -85,8 +85,8 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 .setStrongReference(true)                                          //设置强引用（在使用缓存时才生效）
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
-                    public void onClick(int position) {                                 //Group点击事件
-                        String content = "onGroupClick --> " + dataList.get(position).getProvince();
+                    public void onClick(int position, int id) {                                 //Group点击事件
+                        String content = "onGroupClick --> " + dataList.get(position).getProvince() + "   id --> " + id;
                         Toast.makeText(PowerfulStickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
                     }
                 })

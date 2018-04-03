@@ -66,7 +66,9 @@ public class StickyDecoration extends BaseDecoration {
                     }
                 }
                 drawDecoration(c, position, left, right, bottom);
-                stickyHeaderPosArray.put(position, bottom);
+                if (mOnGroupClickListener != null) {
+                    stickyHeaderPosArray.put(position, new ClickInfo(bottom));
+                }
             } else {
                 //绘制分割线
                 drawDivide(c, parent, childView, position, left, right);

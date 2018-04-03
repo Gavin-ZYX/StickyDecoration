@@ -75,8 +75,8 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                 .setTextSideMargin(DensityUtil.dip2px(this, 10))  // 边距   靠左时为左边距  靠右时为右边距
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
-                    public void onClick(int position) {                                 //Group点击事件
-                        String content = "onGroupClick --> " + dataList.get(position).getProvince();
+                    public void onClick(int position, int id) {                                 //Group点击事件
+                        String content = "onGroupClick --> " + dataList.get(position).getProvince() ;
                         Toast.makeText(StickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
                     }
                 })

@@ -67,7 +67,7 @@ mRecyclerView.addItemDecoration(decoration);
 
 |功能|方法|描述|
 |-|-|-|
-| 点击事件 | setOnClickListener | 返回当前分组下第一个item的position |
+| 点击事件 | setOnClickListener | 设置点击事件，返回当前分组下第一个item的position |
 | 重置 | resetSpan | 使用GridLayoutManager时必须调用 |
 
 **使用如下**
@@ -153,9 +153,9 @@ mRecyclerView.addItemDecoration(decoration);
 
 |功能|方法|描述|
 |-|-|-|
-| 点击事件 | setOnClickListener | 返回当前分组下第一个item的position |
+| 点击事件 | setOnClickListener | 设置点击事件，返回当前分组下第一个item的position以及对应的viewId |
 | 重置span | resetSpan | 使用GridLayoutManager时必须调用 |
-| 通知重新绘制 | notifyRedraw | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用，体验更佳) |
+| 通知重新绘制 | notifyRedraw | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用) |
 | 清空缓存 | cleanCache | 在使用缓存的情况下，数据改变时需要清理缓存 |
 
 **使用如下**
@@ -178,7 +178,7 @@ PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
 ```
 **注意：若使用网络图片时，在图片加载完成后需要调用**
 
-（配合`setStrongReference(true)`方法使用，体验更佳）
+（配合`setStrongReference(true)`方法使用）
 ```java
 decoration.notifyRedraw(mRv, view, position);
 ```
@@ -186,26 +186,30 @@ decoration.notifyRedraw(mRv, view, position);
 
 # 更新日志
 
+----------------------------- 1.4.2 （2018-04-2）----------------------------
+
+- 增强点击事件，现在可以得到悬浮条内View点击事件（没有设置id时，返回View.NO_ID）
+
 ----------------------------- 1.4.1 （2018-03-21）----------------------------
 
-1、默认取消缓存，避免数据改变时显示出问题
+- 默认取消缓存，避免数据改变时显示出问题
 
-2、添加cleanCache方法用于清理缓存
+- 添加cleanCache方法用于清理缓存
 
 ----------------------------- 1.4.0 （2018-03-04）----------------------------
 
-1、支持异步加载后的重新绘制（如网络图片加载）
+- 支持异步加载后的重新绘制（如网络图片加载）
 
-2、优化缓存
+- 优化缓存
 
-3、优化GridLayoutManager的分割线
+- 优化GridLayoutManager的分割线
 
 ----------------------------- 1.3.1 （2018-01-30）----------------------------
 
-修改测量方式
+- 修改测量方式
 
 ----------------------------- 1.3.0 （2018-01-28）----------------------------
 
-1、删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
+- 删除isAlignLeft()方法，需要靠右时，直接在布局中处理就可以了。
 
-2、优化缓存机制。
+- 优化缓存机制。

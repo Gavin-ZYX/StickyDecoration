@@ -7,5 +7,5 @@ package com.gavin.com.library.listener;
  */
 
 public interface OnGroupClickListener {
-    void onClick(int position);
+    void onClick(int position, int id);
 }
