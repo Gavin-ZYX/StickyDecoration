@@ -87,7 +87,7 @@ StickyDecoration decoration = StickyDecoration.Builder
                 //处理点击事件
             }
         })
-        .resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span
+        //.resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span(仅GridLayoutManager)
         .build();
 ```
 

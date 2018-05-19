@@ -26,6 +26,8 @@ import java.util.Map;
  */
 
 public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
+    // TODO: 2018/4/13 加载更过后闪动
+    // TODO: 2018/4/13 头部不需要悬浮
 
     @ColorInt
     int mGroupBackground = Color.parseColor("#48BDFF");//group背景色，默认透明

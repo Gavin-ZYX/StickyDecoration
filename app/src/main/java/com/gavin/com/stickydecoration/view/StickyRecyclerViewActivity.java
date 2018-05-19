@@ -153,4 +153,10 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         mAdapter.notifyItemRemoved(endPosition);
         mAdapter.notifyItemChanged(endPosition);
     }
+
+    public void onRefresh(View v) {
+        dataList.clear();
+        dataList.addAll(CityUtil.getRandomCityList());
+        mAdapter.notifyDataSetChanged();
+    }
 }

@@ -38,6 +38,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
 
     RecyclerView.Adapter mAdapter;
     List<City> dataList = new ArrayList<>();
+    PowerfulStickyDecoration decoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 }
             }
         };
-        PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
+        decoration = PowerfulStickyDecoration.Builder
                 .init(listener)
                 .setGroupHeight(DensityUtil.dip2px(this, 40))     //设置高度
                 .setGroupBackground(Color.parseColor("#48BDFF"))        //设置背景
@@ -132,6 +133,14 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+
+    public void onRefresh(View v) {
+        dataList.clear();
+        dataList.addAll(CityUtil.getRandomCityList());
+        mAdapter.notifyDataSetChanged();
+        decoration.cleanCache();
     }
 
     private void l(String str) {
