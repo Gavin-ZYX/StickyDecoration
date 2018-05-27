@@ -101,7 +101,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      */
     protected boolean isFirstInGroup(int position) {
         String preGroupId;
-        if (position == 0) {
+        if (position <= 0) {
             preGroupId = null;
         } else {
             preGroupId = getGroupName(position - 1);
@@ -118,7 +118,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 利用当前行的第一个对比前一个组名，判断当前是否为新组的第一样
      */
     protected boolean isFirstLineInGroup(int pos, int spanCount) {
-        if (pos == 0) {
+        if (pos <= 0) {
             return true;
         } else {
             int posFirstInGroup = getFirstInGroupWithCash(pos);
@@ -190,7 +190,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * @param position position
      */
     private int getFirstInGroup(int position) {
-        if (position == 0) {
+        if (position <= 0) {
             return 0;
         } else {
             if (isFirstInGroup(position)) {

@@ -140,7 +140,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         dataList.clear();
         dataList.addAll(CityUtil.getRandomCityList());
         mAdapter.notifyDataSetChanged();
-        decoration.cleanCache();
+        decoration.clearCache();
     }
 
     private void l(String str) {

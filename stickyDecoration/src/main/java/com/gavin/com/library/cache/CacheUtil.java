@@ -15,7 +15,7 @@ public class CacheUtil<T> implements CacheInterface<T> {
     /**
      * 是否缓存
      */
-    private boolean mCacheable = false;
+    private boolean museCache = false;
     /**
      * 是否使用强引用（默认软引用）
      * 引用类型：强引用、软引用
@@ -38,7 +38,7 @@ public class CacheUtil<T> implements CacheInterface<T> {
      * @param b
      */
     public void isCacheable(boolean b) {
-        mCacheable = b;
+        museCache = b;
     }
 
     /**
@@ -52,7 +52,7 @@ public class CacheUtil<T> implements CacheInterface<T> {
 
     @Override
     public void put(int position, T t) {
-        if (!mCacheable) {
+        if (!museCache) {
             return;
         }
         if (isStrongReference) {
@@ -70,7 +70,7 @@ public class CacheUtil<T> implements CacheInterface<T> {
 
     @Override
     public T get(int position) {
-        if (!mCacheable) {
+        if (!museCache) {
             return null;
         }
         if (isStrongReference) {
@@ -89,7 +89,7 @@ public class CacheUtil<T> implements CacheInterface<T> {
 
     @Override
     public void remove(int position) {
-        if (!mCacheable) {
+        if (!museCache) {
             return;
         }
         if (mStrongCache != null){

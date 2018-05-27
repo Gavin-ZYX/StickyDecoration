@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.4.2'
+    compile 'com.gavin.com.library:stickyDecoration:1.4.3'
 }
 ```
 
@@ -156,7 +156,7 @@ mRecyclerView.addItemDecoration(decoration);
 | 点击事件 | setOnClickListener | 设置点击事件，返回当前分组下第一个item的position以及对应的viewId |
 | 重置span | resetSpan | 使用GridLayoutManager时必须调用 |
 | 通知重新绘制 | notifyRedraw | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用) |
-| 清空缓存 | cleanCache | 在使用缓存的情况下，数据改变时需要清理缓存 |
+| 清空缓存 | clearCache | 在使用缓存的情况下，数据改变时需要清理缓存 |
 
 **使用如下**
 ```java
@@ -186,6 +186,10 @@ decoration.notifyRedraw(mRv, view, position);
 
 # 更新日志
 
+----------------------------- 1.4.3 （2018-05-27）----------------------------
+
+- 修复一些bug，更改命名
+
 ----------------------------- 1.4.2 （2018-04-2）----------------------------
 
 - 增强点击事件，现在可以得到悬浮条内View点击事件（没有设置id时，返回View.NO_ID）
@@ -196,7 +200,7 @@ decoration.notifyRedraw(mRv, view, position);
 
 - 默认取消缓存，避免数据改变时显示出问题
 
-- 添加cleanCache方法用于清理缓存
+- 添加clearCache方法用于清理缓存
 
 ----------------------------- 1.4.0 （2018-03-04）----------------------------
 

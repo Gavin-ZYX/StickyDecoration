@@ -208,7 +208,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
     /**
      * 清空缓存
      */
-    public void cleanCache() {
+    public void clearCache() {
         mHeadViewCache.clean();
     }
 
