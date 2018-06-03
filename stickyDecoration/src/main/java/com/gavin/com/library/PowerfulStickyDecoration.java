@@ -62,7 +62,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
-            if (isFirstInGroup(position) || i == 0) {
+            if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
                 int viewBottom = childView.getBottom();
                 //top 决定当前顶部第一个悬浮Group的位置
                 int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
@@ -328,6 +328,19 @@ public class PowerfulStickyDecoration extends BaseDecoration {
          */
         public Builder setCacheEnable(boolean b) {
             mDecoration.setCacheEnable(b);
+            return this;
+        }
+
+        /**
+         * 设置头部数量
+         * 用于顶部Header不需要设置悬浮的情况（仅LinearLayoutManager）
+         * @param headerCount
+         * @return
+         */
+        public Builder setHeaderCount(int headerCount) {
+            if (headerCount >= 0) {
+                mDecoration.mHeaderCount = headerCount;
+            }
             return this;
         }
 

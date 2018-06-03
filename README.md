@@ -55,41 +55,21 @@ mRecyclerView.addItemDecoration(decoration);
 
 **支持的方法：**
 
-| 功能 | 方法 | 默认 |
+| 方法 | 功能 | 默认 |
 |-|-|-|
-| 背景色 | setGroupBackground |#48BDFF |
-| 高度 | setGroupHeight | 120px |
-| 字体颜色 | setGroupTextColor |Color.WHITE |
-| 字体大小 | setGroupTextSize | 50px |
-|分割线颜色 | setDivideColor | #CCCCCC |
-| 分割线高宽度 | setDivideHeight | 0 |
-| 边距(靠左时为左边距  靠右时为右边距) | setTextSideMargin |  10 |
+| setGroupBackground | 背景色 | #48BDFF |
+| setGroupHeight | 高度 | 120px |
+| setGroupTextColor | 字体颜色 | Color.WHITE |
+| setGroupTextSize | 字体大小 | 50px |
+| setDivideColor | 分割线颜色 | #CCCCCC |
+| setDivideHeight | 分割线高宽度 | 0 |
+| setTextSideMargin | 边距(靠左时为左边距  靠右时为右边距) |  10 |
+| setHeaderCount | 头部Item数量（仅LinearLayoutManager） |  0 |
 
-|功能|方法|描述|
+|方法|功能|描述|
 |-|-|-|
-| 点击事件 | setOnClickListener | 设置点击事件，返回当前分组下第一个item的position |
-| 重置 | resetSpan | 使用GridLayoutManager时必须调用 |
-
-**使用如下**
-```java
-StickyDecoration decoration = StickyDecoration.Builder
-        .init(groupListener)
-        .setGroupBackground(Color.parseColor("#48BDFF"))  //背景色
-        .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
-        .setGroupTextColor(Color.BLACK)                   //字体颜色
-        .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小
-        .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色
-        .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高宽度
-        .setTextSideMargin(DensityUtil.dip2px(this, 10))  //边距
-        .setOnClickListener(new OnGroupClickListener() {  //点击事件
-            @Override
-            public void onClick(int position) {
-                //处理点击事件
-            }
-        })
-        //.resetSpan(mRecyclerView, (GridLayoutManager) manager)   //重置span(仅GridLayoutManager)
-        .build();
-```
+| setOnClickListener | 点击事件 | 设置点击事件，返回当前分组下第一个item的position |
+| resetSpan | 重置 | 使用GridLayoutManager时必须调用 |
 
 ### 自定义View悬浮——PowerfulStickyDecoration
 
@@ -142,49 +122,40 @@ mRecyclerView.addItemDecoration(decoration);
 
 **支持的方法：**
 
-| 功能 | 方法 | 默认 |
+| 方法 | 功能 | 默认 |
 | -- | -- | -- |
-| 高度 | setGroupHeight | 120px |
-| 背景色 | setGroupBackground | #48BDFF |
-| 分割线颜色 | setDivideColor | #CCCCCC |
-| 分割线高宽度 | setDivideHeight | 0 |
-| 是否使用缓存| setCacheEnable | 不使用缓存 |
-| 采用强引用缓存View| setStrongReference | 软引用 |
+| setGroupHeight | 高度 | 120px |
+| setGroupBackground | 背景色 | #48BDFF |
+| setDivideColor | 分割线颜色 | #CCCCCC |
+| setDivideHeight | 分割线高宽度 | 0 |
+| setCacheEnable | 是否使用缓存| 不使用缓存 |
+| setStrongReference | 采用强引用缓存View| 软引用 |
+| setHeaderCount | 头部Item数量仅LinearLayoutManager | 0 |
 
-|功能|方法|描述|
+|方法|功能|描述|
 |-|-|-|
-| 点击事件 | setOnClickListener | 设置点击事件，返回当前分组下第一个item的position以及对应的viewId |
-| 重置span | resetSpan | 使用GridLayoutManager时必须调用 |
-| 通知重新绘制 | notifyRedraw | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用) |
-| 清空缓存 | clearCache | 在使用缓存的情况下，数据改变时需要清理缓存 |
+| setOnClickListener | 点击事件 | 设置点击事件，返回当前分组下第一个item的position以及对应的viewId |
+|  resetSpan | 重置span |使用GridLayoutManager时必须调用 |
+| notifyRedraw | 通知重新绘制 | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用) |
+| clearCache | 清空缓存 | 在使用缓存的情况下，数据改变时需要清理缓存 |
 
-**使用如下**
-```java
-PowerfulStickyDecoration decoration = PowerfulStickyDecoration.Builder
-        .init(listener)
-        .setGroupHeight(DensityUtil.dip2px(this, 40))     //设置高度
-        .setGroupBackground(Color.parseColor("#48BDFF"))  //设置背景   默认透明
-        .setDivideColor(Color.parseColor("#CCCCCC"))      //分割线颜色
-        .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
-        //.setCacheEnable(true)                           //是否使用缓存
-        //.setStrongReference(true)                       //设置强引用
-        .setOnClickListener(new OnGroupClickListener() {   //点击事件，返回当前分组下的第一个item的position
-            @Override
-            public void onClick(int position) {
-                //处理点击事件
-            }
-        })
-        .build();
-```
-**注意：若使用网络图片时，在图片加载完成后需要调用**
+**注意：**
+**若使用网络图片时，在图片加载完成后需要调用**
 
 （配合`setStrongReference(true)`方法使用）
 ```java
 decoration.notifyRedraw(mRv, view, position);
 ```
 
+**使用缓存时，若数据源改变，需要调用clearCache清除数据**
 
 # 更新日志
+
+----------------------------- 1.4.4 （2018-06-2）----------------------------
+
+- 添加setHeaderCount方法
+- 修改README
+- 修复bug
 
 ----------------------------- 1.4.3 （2018-05-27）----------------------------
 

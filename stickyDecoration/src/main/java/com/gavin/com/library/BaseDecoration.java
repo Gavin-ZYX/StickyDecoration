@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
-    // TODO: 2018/4/13 加载更过后闪动
+    // TODO: 2018/4/13 加载更新后闪动
     // TODO: 2018/4/13 头部不需要悬浮
 
     @ColorInt
@@ -35,6 +35,12 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     @ColorInt
     int mDivideColor = Color.parseColor("#CCCCCC");//分割线颜色，默认灰色
     int mDivideHeight = 0;      //分割线宽度
+
+    /**
+     * RecyclerView头部数量
+     * 最小为0
+     */
+    int mHeaderCount;
 
     Paint mDividePaint;
     /**
@@ -69,12 +75,12 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        int pos = parent.getChildAdapterPosition(view);
+        int position = parent.getChildAdapterPosition(view);
         RecyclerView.LayoutManager manager = parent.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             //网格布局
             int spanCount = ((GridLayoutManager) manager).getSpanCount();
-            if (isFirstLineInGroup(pos, spanCount)) {
+            if (isFirstLineInGroup(position, spanCount)) {
                 //为悬浮view预留空间
                 outRect.top = mGroupHeight;
             } else {
@@ -84,7 +90,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         } else {
             //其他的默认为线性布局
             //只有是同一组的第一个才显示悬浮栏
-            if (isFirstInGroup(pos)) {
+            if (isFirstInGroup(position)) {
                 //为悬浮view预留空间
                 outRect.top = mGroupHeight;
             } else {
@@ -100,6 +106,13 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 当前为groupId为null时，则与上一个为同一组
      */
     protected boolean isFirstInGroup(int position) {
+        if (position < mHeaderCount) {
+            //小于header数量，不是第一个
+            return false;
+        } else if (position == mHeaderCount) {
+            //等于header数量，为第一个
+            return true;
+        }
         String preGroupId;
         if (position <= 0) {
             preGroupId = null;
@@ -111,6 +124,16 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             return false;
         }
         return !TextUtils.equals(preGroupId, curGroupId);
+    }
+
+    /**
+     * 是否在RecyclerView处于第一个（header部分不算）
+     * @param position 总的position
+     * @param index RecyclerView中的Index
+     * @return
+     */
+    protected boolean isFirstInRecyclerView(int position, int index) {
+        return position >= mHeaderCount && index == 0;
     }
 
     /**

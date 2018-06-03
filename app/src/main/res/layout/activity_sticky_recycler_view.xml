@@ -16,8 +16,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onRefresh"
-        android:text="Refresh"/>
+        android:onClick="onClean"
+        android:text="onClean"/>
 
     <Button
         android:layout_width="wrap_content"

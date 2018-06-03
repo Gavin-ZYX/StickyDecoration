@@ -55,7 +55,7 @@ public class StickyDecoration extends BaseDecoration {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
             //默认第一个就是有个Group
-            if (isFirstInGroup(position) || i == 0) {
+            if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
                 if (position + 1 < itemCount) {
@@ -77,7 +77,6 @@ public class StickyDecoration extends BaseDecoration {
     }
 
 
-
     /**
      * 绘制悬浮框
      *
@@ -93,6 +92,9 @@ public class StickyDecoration extends BaseDecoration {
         curGroupName = getGroupName(firstPositionInGroup);
         //根据top绘制group背景
         c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
+        if (curGroupName == null) {
+            return;
+        }
         Paint.FontMetrics fm = mTextPaint.getFontMetrics();
         //文字竖直居中显示
         float baseLine = bottom - (mGroupHeight - (fm.bottom - fm.top)) / 2 - fm.bottom;
@@ -229,6 +231,19 @@ public class StickyDecoration extends BaseDecoration {
          */
         public Builder resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
             mDecoration.resetSpan(recyclerView, gridLayoutManager);
+            return this;
+        }
+
+        /**
+         * 设置头部数量
+         * 用于顶部Header不需要设置悬浮的情况（仅LinearLayoutManager）
+         * @param headerCount
+         * @return
+         */
+        public Builder setHeaderCount(int headerCount) {
+            if (headerCount >= 0) {
+                mDecoration.mHeaderCount = headerCount;
+            }
             return this;
         }
 

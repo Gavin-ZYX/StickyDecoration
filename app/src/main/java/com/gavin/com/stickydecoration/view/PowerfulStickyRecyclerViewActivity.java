@@ -49,7 +49,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        //模拟数据  啦啦啦啦
+        //模拟数据
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
 
@@ -84,11 +84,12 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 .setDivideHeight(DensityUtil.dip2px(this, 1))     //分割线高度
                 .setCacheEnable(true)                                              //是否使用缓存
                 .setStrongReference(true)                                          //设置强引用（在使用缓存时才生效）
+                .setHeaderCount(3)
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
                     public void onClick(int position, int id) {                                 //Group点击事件
                         String content = "onGroupClick --> " + dataList.get(position).getProvince() + "   id --> " + id;
-                        Toast.makeText(PowerfulStickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
+                        showToast(content);
                     }
                 })
                 .build();
@@ -112,9 +113,15 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
                 Holder holder = (Holder) viewHolder;
                 holder.mTextView.setText(dataList.get(position).getName());
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showToast("Item click " + position);
+                    }
+                });
             }
 
             @Override
@@ -141,6 +148,10 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getRandomCityList());
         mAdapter.notifyDataSetChanged();
         decoration.clearCache();
+    }
+
+    private void showToast(String content) {
+        Toast.makeText(PowerfulStickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
     }
 
     private void l(String str) {
