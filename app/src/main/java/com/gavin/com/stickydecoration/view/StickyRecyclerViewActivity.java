@@ -73,7 +73,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                 .setGroupTextColor(Color.BLACK)                                    //字体颜色 （默认）
                 .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小
                 .setTextSideMargin(DensityUtil.dip2px(this, 10))  // 边距   靠左时为左边距  靠右时为右边距
-                .setHeaderCount(2)
+                //.setHeaderCount(2)                                             // header数量（默认0）
                 .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
                     @Override
                     public void onClick(int position, int id) {                                 //Group点击事件

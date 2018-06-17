@@ -54,7 +54,6 @@ public class StickyDecoration extends BaseDecoration {
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
-            //默认第一个就是有个Group
             if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
