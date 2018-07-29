@@ -30,13 +30,11 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
     /**
      * 缓存图片
-     * 使用软引用，防止内存泄露
      */
     private CacheUtil<Bitmap> mBitmapCache = new CacheUtil<>();
 
     /**
      * 缓存View
-     * 若不使用软引用，内存会明显增多
      * (注意：在异步显示图片时，建议使用强引用)
      */
     private CacheUtil<View> mHeadViewCache = new CacheUtil<>();
@@ -50,8 +48,11 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         mGroutPaint = new Paint();
     }
 
+    private long mTimeTotal;
+
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+        mTimeTotal = System.currentTimeMillis();
         super.onDrawOver(c, parent, state);
         //绘制
         int itemCount = state.getItemCount();
@@ -60,6 +61,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         for (int i = 0; i < childCount; i++) {
+            long time = System.currentTimeMillis();
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
             if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
@@ -73,11 +75,15 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                     }
                 }
                 drawDecoration(c, position, left, right, bottom);
+                log("time draw decoration : " + (System.currentTimeMillis() - time));
             } else {
                 //绘制分割线
                 drawDivide(c, parent, childView, position, left, right);
+                log("time draw divide : " + (System.currentTimeMillis() - time));
             }
         }
+        log("time total : " + (System.currentTimeMillis() - mTimeTotal));
+        log("========================================================");
     }
 
     /**
@@ -197,15 +203,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
     }
 
     /**
-     * 是否使用强引用
-     *
-     * @param b b
-     */
-    public void setStrongReference(boolean b) {
-        mHeadViewCache.isStrongReference(b);
-    }
-
-    /**
      * 清空缓存
      */
     public void clearCache() {
@@ -307,16 +304,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
          */
         public Builder resetSpan(RecyclerView recyclerView, GridLayoutManager gridLayoutManager) {
             mDecoration.resetSpan(recyclerView, gridLayoutManager);
-            return this;
-        }
-
-        /**
-         * 是否使用强引用
-         *
-         * @param b b
-         */
-        public Builder setStrongReference(boolean b) {
-            mDecoration.setStrongReference(b);
             return this;
         }
 

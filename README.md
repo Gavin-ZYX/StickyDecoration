@@ -128,15 +128,14 @@ mRecyclerView.addItemDecoration(decoration);
 | setGroupBackground | 背景色 | #48BDFF |
 | setDivideColor | 分割线颜色 | #CCCCCC |
 | setDivideHeight | 分割线高宽度 | 0 |
-| setCacheEnable | 是否使用缓存| 不使用缓存 |
-| setStrongReference | 采用强引用缓存View| 软引用 |
+| setCacheEnable | 是否使用缓存| 使用缓存 |
 | setHeaderCount | 头部Item数量仅LinearLayoutManager | 0 |
 
 |方法|功能|描述|
 |-|-|-|
 | setOnClickListener | 点击事件 | 设置点击事件，返回当前分组下第一个item的position以及对应的viewId |
 |  resetSpan | 重置span |使用GridLayoutManager时必须调用 |
-| notifyRedraw | 通知重新绘制 | 使用场景：网络图片加载后调用(建议：配合setStrongReference(boolean)方法使用) |
+| notifyRedraw | 通知重新绘制 | 使用场景：网络图片加载后调用方法使用) |
 | clearCache | 清空缓存 | 在使用缓存的情况下，数据改变时需要清理缓存 |
 
 **注意：**

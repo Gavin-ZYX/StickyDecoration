@@ -8,6 +8,7 @@ import android.support.annotation.ColorInt;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -410,6 +411,10 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
                 }
             }
         }
+    }
+
+    protected void log(String content) {
+        Log.i("StickDecoration", content);
     }
 
 }

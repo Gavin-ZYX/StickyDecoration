@@ -1,5 +1,6 @@
 package com.gavin.com.library.cache;
 
+import android.util.LruCache;
 import android.util.SparseArray;
 
 import java.lang.ref.SoftReference;
@@ -15,99 +16,69 @@ public class CacheUtil<T> implements CacheInterface<T> {
     /**
      * 是否缓存
      */
-    private boolean museCache = false;
-    /**
-     * 是否使用强引用（默认软引用）
-     * 引用类型：强引用、软引用
-     */
-    private boolean isStrongReference = false;
+    private boolean mUseCache = true;
 
     /**
-     * 使用强引用缓存数据
+     * lru花痴女
      */
-    private SparseArray<T> mStrongCache;
+    private LruCache<Integer, T> mLruCache;
+
+    // TODO: gavin 2018/7/29  mLruCache移除后，使用软引用进行二级缓存
 
     /**
+     * 二级缓存
      * 使用软引用缓存数据
      */
     private SparseArray<SoftReference<T>> mSoftCache;
 
+    public CacheUtil() {
+        initLruCache();
+    }
+
     /**
-     * 是否使用强引用缓存
+     * 是否使用用缓存
      *
      * @param b
      */
     public void isCacheable(boolean b) {
-        museCache = b;
+        mUseCache = b;
     }
 
-    /**
-     * 是否使用强引用缓存
-     *
-     * @param b
-     */
-    public void isStrongReference(boolean b) {
-        isStrongReference = b;
+    private void initLruCache() {
+        mLruCache = new LruCache<Integer, T>(2 * 1024 * 1024) {
+            @Override
+            protected void entryRemoved(boolean evicted, Integer key, T oldValue, T newValue) {
+                super.entryRemoved(evicted, key, oldValue, newValue);
+            }
+        };
     }
 
     @Override
     public void put(int position, T t) {
-        if (!museCache) {
+        if (!mUseCache) {
             return;
         }
-        if (isStrongReference) {
-            if (mStrongCache == null) {
-                mStrongCache = new SparseArray<>();
-            }
-            mStrongCache.put(position, t);
-        } else {
-            if (mSoftCache == null) {
-                mSoftCache = new SparseArray<>();
-            }
-            mSoftCache.put(position, new SoftReference<T>(t));
-        }
+        mLruCache.put(position, t);
     }
 
     @Override
     public T get(int position) {
-        if (!museCache) {
+        if (!mUseCache) {
             return null;
         }
-        if (isStrongReference) {
-            if (mStrongCache == null) {
-                mStrongCache = new SparseArray<>();
-            }
-            return mStrongCache.get(position);
-        } else {
-            if (mSoftCache == null) {
-                mSoftCache = new SparseArray<>();
-            }
-            SoftReference<T> reference = mSoftCache.get(position);
-            return reference == null ? null : reference.get();
-        }
+        return mLruCache.get(position);
     }
 
     @Override
     public void remove(int position) {
-        if (!museCache) {
+        if (!mUseCache) {
             return;
         }
-        if (mStrongCache != null){
-            mStrongCache.remove(position);
-        }
-
-        if (mSoftCache != null) {
-            mSoftCache.remove(position);
-        }
+        mLruCache.remove(position);
     }
 
     @Override
     public void clean() {
-        if (mStrongCache != null) {
-            mStrongCache.clear();
-        }
-        if (mSoftCache != null) {
-            mSoftCache.clear();
-        }
+        mLruCache.evictAll();
     }
 }

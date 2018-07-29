@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#88000000"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <View
+        android:id="@+id/v_frame"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/holo_green_light" />
+
+    <TextView
+        android:id="@+id/temp_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_frame"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/v_frame"
+        android:text="FPS : "
+        android:textColor="#FFFFFF"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_frame"
+        android:layout_toRightOf="@+id/temp_frame"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        tools:text="60" />
+
+    <View
+        android:id="@+id/v_cpu"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/v_frame"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_green_light" />
+
+    <TextView
+        android:id="@+id/temp_cpu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_cpu"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/v_cpu"
+        android:text="CPU : "
+        android:textColor="#FFFFFF"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_cpu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_cpu"
+        android:layout_toRightOf="@+id/temp_cpu"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        tools:text="60" />
+
+    <View
+        android:id="@+id/v_mem"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/v_cpu"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_green_light" />
+
+    <TextView
+        android:id="@+id/temp_mem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_mem"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/v_mem"
+        android:text="MEM : "
+        android:textColor="#FFFFFF"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_mem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_mem"
+        android:layout_toRightOf="@+id/temp_mem"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        tools:text="60" />
+
+    <View
+        android:id="@+id/v_net"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/v_mem"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_green_light" />
+
+    <TextView
+        android:id="@+id/temp_net"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_net"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/v_net"
+        android:text="NET : "
+        android:textColor="#FFFFFF"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_net"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/v_net"
+        android:layout_toRightOf="@+id/temp_net"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        tools:text="60" />
+    <TextView
+        android:id="@+id/temp_net_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/temp_net"
+        android:layout_marginTop="5dp"
+        android:text="NET TOTAL : "
+        android:textColor="#FFFFFF"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_net_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/temp_net_total"
+        android:layout_toRightOf="@+id/temp_net_total"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        tools:text="60" />
+
+</RelativeLayout>

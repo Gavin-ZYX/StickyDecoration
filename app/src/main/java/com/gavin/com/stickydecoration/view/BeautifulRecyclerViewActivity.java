@@ -3,12 +3,14 @@ package com.gavin.com.stickydecoration.view;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gavin.apmtools.APMManager;
 import com.gavin.com.library.PowerfulStickyDecoration;
 import com.gavin.com.library.listener.PowerGroupListener;
 import com.gavin.com.stickydecoration.R;
@@ -41,6 +43,7 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sticky_recycler_view);
         ButterKnife.bind(this);
         initView();
+        initApm();
     }
 
     private void initView() {
@@ -49,6 +52,7 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mRv.setLayoutManager(manager);
         //------------- PowerfulStickyDecoration 使用部分  ----------------
         decoration = PowerfulStickyDecoration.Builder
@@ -78,7 +82,9 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
                         }
                     }
                 })
-                .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 40))   //设置高度
+                .setCacheEnable(true)
+                //.resetSpan(mRv, gridLayoutManager)
+                .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 80))   //设置高度
                 .build();
         //设置为强引用
         //decoration.setStrongReference(true);
@@ -88,6 +94,11 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
         mAdapter = new SimpleAdapter(this, dataList);
         mRv.setAdapter(mAdapter);
     }
+
+    private void initApm() {
+        APMManager.getInstance(this).showAPM();
+    }
+
 
     /**
      * 模拟网络加载图

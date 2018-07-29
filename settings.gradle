@@ -1,1 +1,1 @@
-include ':app', ':stickyDecoration'
+include ':app', ':stickyDecoration', ':apmTools'
