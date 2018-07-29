@@ -25,5 +25,6 @@ dependencies {
     compile rootProject.ext.dependencies['appcompat-v7']
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
 }
 
