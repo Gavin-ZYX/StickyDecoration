@@ -17,9 +17,11 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.4.5'
+    compile 'com.gavin.com.library:stickyDecoration:1.4.6'
 }
 ```
+
+[![](https://jitpack.io/v/Gavin-ZYX/StickyDecoration.svg)](https://jitpack.io/#Gavin-ZYX/StickyDecoration)
 
 ## 使用
 
@@ -149,6 +151,11 @@ decoration.notifyRedraw(mRv, view, position);
 **使用缓存时，若数据源改变，需要调用clearCache清除数据**
 
 # 更新日志
+
+----------------------------- 1.4.6 （2018-07-29）----------------------------
+
+- 修改缓存方式
+- 加入性能检测
 
 ----------------------------- 1.4.5 （2018-06-17）----------------------------
 
