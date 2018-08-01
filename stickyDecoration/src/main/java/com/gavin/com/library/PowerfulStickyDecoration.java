@@ -212,7 +212,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
     /**
      * 通知重新绘制
      * 使用场景：网络图片加载后调用
-     * 建议：配合{@link #setStrongReference(boolean)}方法使用，体验更佳
      *
      * @param recyclerView recyclerView
      * @param position     position
