@@ -143,8 +143,6 @@ mRecyclerView.addItemDecoration(decoration);
 
 **注意：**
 **若使用网络图片时，在图片加载完成后需要调用**
-
-（配合`setStrongReference(true)`方法使用）
 ```java
 decoration.notifyRedraw(mRv, view, position);
 ```
