@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,13 +10,20 @@
         android:layout_height="wrap_content"
         android:onClick="onAdd"
         android:text="Add"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClean"
-        android:text="onClean"/>
+        android:text="onClean"
+        android:visibility="gone" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onRefresh"
+        android:text="onRefresh" />
 
     <Button
         android:layout_width="wrap_content"
@@ -25,7 +31,7 @@
         android:layout_alignParentRight="true"
         android:onClick="onDelete"
         android:text="Delete"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
@@ -33,11 +39,11 @@
         android:layout_centerHorizontal="true"
         android:onClick="onDeleteLast"
         android:text="Delete Last"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="40dp"/>
+        android:layout_margin="40dp" />
 </RelativeLayout>

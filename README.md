@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.4.6'
+    compile 'com.gavin.com.library:stickyDecoration:1.4.7'
 }
 ```
 
@@ -150,6 +150,10 @@ decoration.notifyRedraw(mRv, view, position);
 **使用缓存时，若数据源改变，需要调用clearCache清除数据**
 
 # 更新日志
+
+----------------------------- 1.4.7 （2018-08-16）----------------------------
+
+- fix：数据变化后，布局未刷新问题
 
 ----------------------------- 1.4.6 （2018-07-29）----------------------------
 

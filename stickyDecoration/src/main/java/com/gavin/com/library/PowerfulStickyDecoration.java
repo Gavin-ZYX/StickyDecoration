@@ -35,7 +35,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
 
     /**
      * 缓存View
-     * (注意：在异步显示图片时，建议使用强引用)
      */
     private CacheUtil<View> mHeadViewCache = new CacheUtil<>();
 
@@ -111,7 +110,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
             groupView = mHeadViewCache.get(firstPositionInGroup);
         }
         Bitmap bitmap;
-        if (mBitmapCache.get(firstPositionInGroup) != null && mBitmapCache.get(firstPositionInGroup) != null) {
+        if (mBitmapCache.get(firstPositionInGroup) != null) {
             bitmap = mBitmapCache.get(firstPositionInGroup);
         } else {
             bitmap = Bitmap.createBitmap(groupView.getDrawingCache());
@@ -207,6 +206,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      */
     public void clearCache() {
         mHeadViewCache.clean();
+        mBitmapCache.clean();
     }
 
     /**
@@ -218,12 +218,13 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      */
     public void notifyRedraw(RecyclerView recyclerView, View viewGroup, int position) {
         viewGroup.setDrawingCacheEnabled(false);
-        mBitmapCache.remove(position);
-        mHeadViewCache.remove(position);
+        int firstPositionInGroup = getFirstInGroupWithCash(position);
+        mBitmapCache.remove(firstPositionInGroup);
+        mHeadViewCache.remove(firstPositionInGroup);
         int left = recyclerView.getPaddingLeft();
         int right = recyclerView.getWidth() - recyclerView.getPaddingRight();
         measureAndLayoutView(viewGroup, left, right);
-        mHeadViewCache.put(position, viewGroup);
+        mHeadViewCache.put(firstPositionInGroup, viewGroup);
         recyclerView.invalidate();
     }
 
@@ -320,6 +321,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         /**
          * 设置头部数量
          * 用于顶部Header不需要设置悬浮的情况（仅LinearLayoutManager）
+         *
          * @param headerCount
          * @return
          */

@@ -70,10 +70,10 @@ public class CityUtil {
     public static List<City> getRandomCityList() {
         List<City> dataList = new ArrayList<>();
         Random random = new Random();
-        int provinceSize = random.nextInt(10) + 3;
+        int provinceSize = random.nextInt(5) + 3;
         for (int i = 0; i < provinceSize; i++) {
             String province = getRandomCityName();
-            int citySize = random.nextInt(10) + 1;
+            int citySize = random.nextInt(3) + 1;
             for (int j = 0; j < citySize; j++) {
                 dataList.add(new City(province + " : city " + j, province, R.mipmap.city4));
             }

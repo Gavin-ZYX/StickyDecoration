@@ -23,28 +23,4 @@
         android:layout_toRightOf="@id/iv"
         android:textSize="15sp"
         tools:text="福建省" />
-
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/tv"
-        android:src="@mipmap/temp" />
-
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="130dp"
-        android:layout_toRightOf="@id/tv"
-        android:src="@mipmap/temp" />
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="90dp"
-        android:layout_toRightOf="@id/tv"
-        android:src="@mipmap/city1" />
 </RelativeLayout>

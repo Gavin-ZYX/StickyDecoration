@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,11 +24,11 @@ import butterknife.ButterKnife;
  */
 
 public class SimpleAdapter extends RecyclerView.Adapter {
-    private List<City> mCities = new ArrayList<>();
+    private List<City> mCities;
     private Context mContext;
 
     public SimpleAdapter(Context context, List<City> cities) {
-        mCities.addAll(cities);
+        mCities = cities;
         mContext = context;
     }
 

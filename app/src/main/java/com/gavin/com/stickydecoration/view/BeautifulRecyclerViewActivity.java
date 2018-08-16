@@ -2,10 +2,11 @@ package com.gavin.com.stickydecoration.view;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * 自定义View悬浮
  */
-public class BeautifulRecyclerViewActivity extends AppCompatActivity {
+public class BeautifulRecyclerViewActivity extends ActionBarActivity {
 
     @BindView(R.id.rv)
     RecyclerView mRv;
@@ -74,7 +75,7 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
                             ((TextView) view.findViewById(R.id.tv)).setText(dataList.get(position).getProvince());
                             ImageView imageView = (ImageView) view.findViewById(R.id.iv);
                             imageView.setImageResource(dataList.get(position).getIcon());
-                            // TODO: gavin 2018/3/2 模拟网络加载图片
+                            //  模拟网络加载图片
                             //asyncLoadImage(view, decoration, position);
                             return view;
                         } else {
@@ -86,8 +87,6 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
                 //.resetSpan(mRv, gridLayoutManager)
                 .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 80))   //设置高度
                 .build();
-        //设置为强引用
-        //decoration.setStrongReference(true);
         //----------------                 -------------
         //下面是平时的RecyclerView操作
         mRv.addItemDecoration(decoration);
@@ -131,5 +130,14 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
                 }
             }
         }.execute();
+    }
+
+    public void onRefresh(View v) {
+        decoration.clearCache();
+        dataList.clear();
+        List<City> list = CityUtil.getRandomCityList();
+        Log.i("tag", list.toString());
+        dataList.addAll(list);
+        mAdapter.notifyDataSetChanged();
     }
 }
