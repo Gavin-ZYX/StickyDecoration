@@ -142,14 +142,15 @@ mRecyclerView.addItemDecoration(decoration);
 | clearCache | 清空缓存 | 在使用缓存的情况下，数据改变时需要清理缓存 |
 
 **注意：**
-**若使用网络图片时，在图片加载完成后需要调用**
+
+若使用网络图片时，在图片加载完成后需要调用
 ```java
 decoration.notifyRedraw(mRv, view, position);
 ```
 
-**使用缓存时，若数据源改变，需要调用clearCache清除数据**
+使用缓存时，若数据源改变，需要调用clearCache清除数据
 
-**点击事件穿透问题，参考[issue47](https://github.com/Gavin-ZYX/StickyDecoration/issues/37)**
+点击事件穿透问题，参考demo中MyRecyclerView。[issue47](https://github.com/Gavin-ZYX/StickyDecoration/issues/37)
 
 # 更新日志
 
