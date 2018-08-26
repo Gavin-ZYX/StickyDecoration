@@ -29,12 +29,24 @@ import java.util.Map;
 public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     // TODO: 2018/4/13 加载更新后闪动
 
+    /**
+     * group背景色，默认透明
+     */
     @ColorInt
-    int mGroupBackground = Color.parseColor("#48BDFF");//group背景色，默认透明
-    int mGroupHeight = 120;  //悬浮栏高度
+    int mGroupBackground = Color.parseColor("#48BDFF");
+    /**
+     * 悬浮栏高度
+     */
+    int mGroupHeight = 120;
+    /**
+     * 分割线颜色，默认灰色
+     */
     @ColorInt
-    int mDivideColor = Color.parseColor("#CCCCCC");//分割线颜色，默认灰色
-    int mDivideHeight = 0;      //分割线宽度
+    int mDivideColor = Color.parseColor("#CCCCCC");
+    /**
+     * 分割线宽度
+     */
+    int mDivideHeight = 0;
 
     /**
      * RecyclerView头部数量
@@ -133,8 +145,9 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * 是否在RecyclerView处于第一个（header部分不算）
+     *
      * @param position 总的position
-     * @param index RecyclerView中的Index
+     * @param index    RecyclerView中的Index
      * @return
      */
     protected boolean isFirstInRecyclerView(int position, int index) {
@@ -143,6 +156,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * 是否为Header
+     *
      * @param position
      * @return
      */
@@ -189,7 +203,8 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             throw new NullPointerException("gridLayoutManager not allow null");
         }
         final int spanCount = gridLayoutManager.getSpanCount();
-        GridLayoutManager.SpanSizeLookup lookup = new GridLayoutManager.SpanSizeLookup() {//相当于weight
+        //相当于weight
+        GridLayoutManager.SpanSizeLookup lookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 int span;
@@ -218,6 +233,41 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             }
         };
         gridLayoutManager.setSpanSizeLookup(lookup);
+    }
+
+    /**
+     * down事件在顶部悬浮栏中
+     */
+    private boolean mDownInHeader;
+
+    /**
+     * RecyclerView onInterceptEvent中down事件调用，用于处理点击穿透问题
+     *
+     * @param event
+     */
+    public void onEventDown(MotionEvent event) {
+        if (event == null) {
+            mDownInHeader = false;
+            return;
+        }
+        mDownInHeader = event.getY() > 0 && event.getY() < mGroupHeight;
+    }
+
+    /**
+     * RecyclerView onInterceptEvent中up事件调用，用于处理点击穿透问题
+     *
+     * @param event
+     * @return
+     */
+    public boolean onEventUp(MotionEvent event) {
+        if (mDownInHeader) {
+            float y = event.getY();
+            boolean isInHeader = y > 0 && y < mGroupHeight;
+            if (isInHeader) {
+                return onTouchEvent(event);
+            }
+        }
+        return false;
     }
 
     /**
@@ -332,38 +382,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            for (Map.Entry<Integer, ClickInfo> entry : stickyHeaderPosArray.entrySet()) {
-
-                ClickInfo value = stickyHeaderPosArray.get(entry.getKey());
-                float y = e.getY();
-                float x = e.getX();
-                if (value.mBottom - mGroupHeight <= y && y <= value.mBottom) {
-                    //如果点击到分组头
-                    if (value.mDetailInfoList == null || value.mDetailInfoList.size() == 0) {
-                        //没有子View的点击事件
-                        onGroupClick(entry.getKey(), value.mGroupId);
-                    } else {
-                        List<ClickInfo.DetailInfo> list = value.mDetailInfoList;
-                        boolean isChildViewClicked = false;
-                        for (ClickInfo.DetailInfo detailInfo : list) {
-                            if (detailInfo.top <= y && y <= detailInfo.bottom
-                                    && detailInfo.left <= x && detailInfo.right >= x) {
-                                //当前view被点击
-                                onGroupClick(entry.getKey(), detailInfo.id);
-                                isChildViewClicked = true;
-                                break;
-                            }
-                        }
-                        if (!isChildViewClicked) {
-                            //点击范围不在带有id的子view中，则表示整个groupView被点击
-                            onGroupClick(entry.getKey(), value.mGroupId);
-                        }
-
-                    }
-                    return true;
-                }
-            }
-            return false;
+            return onTouchEvent(e);
         }
 
         @Override
@@ -380,6 +399,47 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             return false;
         }
     };
+
+    /**
+     * 对touch事件处理，找到点击事件
+     *
+     * @param e
+     * @return
+     */
+    private boolean onTouchEvent(MotionEvent e) {
+        for (Map.Entry<Integer, ClickInfo> entry : stickyHeaderPosArray.entrySet()) {
+
+            ClickInfo value = stickyHeaderPosArray.get(entry.getKey());
+            float y = e.getY();
+            float x = e.getX();
+            if (value.mBottom - mGroupHeight <= y && y <= value.mBottom) {
+                //如果点击到分组头
+                if (value.mDetailInfoList == null || value.mDetailInfoList.size() == 0) {
+                    //没有子View的点击事件
+                    onGroupClick(entry.getKey(), value.mGroupId);
+                } else {
+                    List<ClickInfo.DetailInfo> list = value.mDetailInfoList;
+                    boolean isChildViewClicked = false;
+                    for (ClickInfo.DetailInfo detailInfo : list) {
+                        if (detailInfo.top <= y && y <= detailInfo.bottom
+                                && detailInfo.left <= x && detailInfo.right >= x) {
+                            //当前view被点击
+                            onGroupClick(entry.getKey(), detailInfo.id);
+                            isChildViewClicked = true;
+                            break;
+                        }
+                    }
+                    if (!isChildViewClicked) {
+                        //点击范围不在带有id的子view中，则表示整个groupView被点击
+                        onGroupClick(entry.getKey(), value.mGroupId);
+                    }
+
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 绘制分割线

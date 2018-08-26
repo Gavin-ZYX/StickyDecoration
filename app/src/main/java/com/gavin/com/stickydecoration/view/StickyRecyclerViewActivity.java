@@ -20,6 +20,7 @@ import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
 import com.gavin.com.stickydecoration.util.CityUtil;
 import com.gavin.com.stickydecoration.util.DensityUtil;
+import com.gavin.com.stickydecoration.view.widget.MyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
     // TODO: gavin 2018/2/9 已知问题： notifyItemRemoved notifyItemRangeChanged时，界面渲染闪烁问题
 
     @BindView(R.id.rv)
-    RecyclerView mRecyclerView;
+    MyRecyclerView mRecyclerView;
 
     RecyclerView.Adapter mAdapter;
     List<City> dataList = new ArrayList<>();
@@ -78,7 +79,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                     @Override
                     public void onClick(int position, int id) {                                 //Group点击事件
                         String content = "onGroupClick --> " + dataList.get(position).getProvince() ;
-                        Toast.makeText(StickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
+                        Toast.makeText(StickyRecyclerViewActivity.this, content, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .build();
@@ -106,9 +107,15 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+            public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
                 Holder holder = (Holder) viewHolder;
                 holder.mTextView.setText(dataList.get(position).getName());
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(StickyRecyclerViewActivity.this, "item click " + position, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             @Override
