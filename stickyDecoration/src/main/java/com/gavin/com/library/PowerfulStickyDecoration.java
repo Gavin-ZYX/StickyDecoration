@@ -74,15 +74,11 @@ public class PowerfulStickyDecoration extends BaseDecoration {
                     }
                 }
                 drawDecoration(c, position, left, right, bottom);
-                log("time draw decoration : " + (System.currentTimeMillis() - time));
             } else {
                 //绘制分割线
                 drawDivide(c, parent, childView, position, left, right);
-                log("time draw divide : " + (System.currentTimeMillis() - time));
             }
         }
-        log("time total : " + (System.currentTimeMillis() - mTimeTotal));
-        log("========================================================");
     }
 
     /**

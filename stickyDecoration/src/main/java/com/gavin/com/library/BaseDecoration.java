@@ -131,12 +131,12 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             return true;
         }
         String preGroupId;
-        if (position <= 0) {
+        if (realPosition <= 0) {
             preGroupId = null;
         } else {
-            preGroupId = getGroupName(position - 1);
+            preGroupId = getGroupName(realPosition - 1);
         }
-        String curGroupId = getGroupName(position);
+        String curGroupId = getGroupName(realPosition);
         if (curGroupId == null) {
             return false;
         }
@@ -474,7 +474,9 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     }
 
     protected void log(String content) {
-        Log.i("StickDecoration", content);
+        if (BuildConfig.DEBUG) {
+            Log.i("StickDecoration", content);
+        }
     }
 
 }
