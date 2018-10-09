@@ -60,6 +60,7 @@ public class BeautifulRecyclerViewActivity extends ActionBarActivity {
                 .init(new PowerGroupListener() {
                     @Override
                     public String getGroupName(int position) {
+                        position++;
                         //获取组名，用于判断是否是同一组
                         if (dataList.size() > position) {
                             return dataList.get(position).getProvince();
@@ -68,7 +69,8 @@ public class BeautifulRecyclerViewActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public View getGroupView(final int position) {
+                    public View getGroupView(int position) {
+                        position++;
                         //获取自定定义的组View
                         if (dataList.size() > position) {
                             final View view = getLayoutInflater().inflate(R.layout.city_group, null, false);
@@ -84,6 +86,7 @@ public class BeautifulRecyclerViewActivity extends ActionBarActivity {
                     }
                 })
                 .setCacheEnable(true)
+                .setHeaderCount(1)
                 //.resetSpan(mRv, gridLayoutManager)
                 .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 80))   //设置高度
                 .build();

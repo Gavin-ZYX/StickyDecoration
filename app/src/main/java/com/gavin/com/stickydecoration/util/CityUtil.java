@@ -49,15 +49,6 @@ public class CityUtil {
         final String JIANG_SU = CITYS[3];
         final int JIANG_SU_ICOM = R.mipmap.city4;
         dataList.add(new City("南京", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("苏州", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("徐州", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("南通", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("无锡", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("盐城", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("淮安", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("泰州", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("常州", JIANG_SU, JIANG_SU_ICOM));
-        dataList.add(new City("连云港", JIANG_SU, JIANG_SU_ICOM));
         return dataList;
     }
 

@@ -278,6 +278,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     protected int getFirstInGroupWithCash(int position) {
         if (firstInGroupCash.get(position) == 0) {
             int firstPosition = getFirstInGroup(position);
+            firstPosition = firstPosition > 0 ? firstPosition - mHeaderCount : firstPosition;
             firstInGroupCash.put(position, firstPosition);
             return firstPosition;
         } else {
