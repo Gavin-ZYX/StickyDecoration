@@ -316,18 +316,18 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         if (realPosition < 0) {
             return true;
         } else {
-            String curGroupName = getGroupName(position);
+            String curGroupName = getGroupName(realPosition);
             String nextGroupName;
             RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
             //默认往下查找的数量
             int findCount = 1;
             if (manager instanceof GridLayoutManager) {
                 int spanCount = ((GridLayoutManager) manager).getSpanCount();
-                int firstPositionInGroup = getFirstInGroupWithCash(position);
-                findCount = spanCount - (position - firstPositionInGroup) % spanCount;
+                int firstPositionInGroup = getFirstInGroupWithCash(realPosition);
+                findCount = spanCount - (realPosition - firstPositionInGroup) % spanCount;
             }
             try {
-                nextGroupName = getGroupName(position + findCount);
+                nextGroupName = getGroupName(realPosition + findCount);
             } catch (Exception e) {
                 nextGroupName = curGroupName;
             }

@@ -47,11 +47,9 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         mGroutPaint = new Paint();
     }
 
-    private long mTimeTotal;
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        mTimeTotal = System.currentTimeMillis();
         super.onDrawOver(c, parent, state);
         //绘制
         int itemCount = state.getItemCount();
@@ -60,7 +58,6 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         int right = parent.getWidth() - parent.getPaddingRight();
 
         for (int i = 0; i < childCount; i++) {
-            long time = System.currentTimeMillis();
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
             if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
