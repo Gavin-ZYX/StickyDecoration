@@ -22,7 +22,7 @@
         </activity>
         <activity android:name=".view.BeautifulRecyclerViewActivity">
         </activity>
-        <activity android:name=".view.widget.ExpandableActivity" />
+        <activity android:name=".view.ExpandableActivity" />
     </application>
 
 </manifest>

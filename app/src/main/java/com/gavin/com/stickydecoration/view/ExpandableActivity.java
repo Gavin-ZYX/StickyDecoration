@@ -1,4 +1,4 @@
-package com.gavin.com.stickydecoration.view.widget;
+package com.gavin.com.stickydecoration.view;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
