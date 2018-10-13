@@ -7,9 +7,20 @@ package com.gavin.com.stickydecoration.model;
  */
 
 public class City {
-    private String name;    //城市名
-    private String province;    //所属省份
-    private int icon;    //所属省份
+    /**
+     * 城市名
+     */
+    private String name;
+    /**
+     * 所属省份
+     */
+    private String province;
+    /**
+     * 省份icon
+     */
+    private int icon;
+
+    private boolean expanded = true;
 
     public City(String name, String province, int icon) {
         this.name = name;
@@ -39,6 +50,14 @@ public class City {
 
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 
     @Override

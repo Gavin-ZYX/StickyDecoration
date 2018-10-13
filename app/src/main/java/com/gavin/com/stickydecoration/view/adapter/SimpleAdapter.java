@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gavin.com.stickydecoration.R;
 import com.gavin.com.stickydecoration.model.City;
+import com.gavin.com.stickydecoration.util.DensityUtil;
 
 import java.util.List;
 
@@ -42,24 +42,38 @@ public class SimpleAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         ViewHolder holder = (ViewHolder) viewHolder;
-        int i = position % 5 + 1;
-        if (i == 1) {
-            holder.mIvCity.setImageResource(R.mipmap.subject1);
-            holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg1));
-        } else if (i == 2) {
-            holder.mIvCity.setImageResource(R.mipmap.subject2);
-            holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg2));
-        } else if (i == 3) {
-            holder.mIvCity.setImageResource(R.mipmap.subject3);
-            holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg3));
-        } else if (i == 4) {
-            holder.mIvCity.setImageResource(R.mipmap.subject4);
-            holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg4));
-        } else {
-            holder.mIvCity.setImageResource(R.mipmap.subject5);
-            holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg5));
+        if (mCities.size() > position) {
+            City city = mCities.get(position);
+            if (city.isExpanded()) {
+                ViewGroup.LayoutParams layoutParams = holder.mLlBg.getLayoutParams();
+                layoutParams.height = DensityUtil.dip2px(mContext, 100);
+                holder.mLlBg.setLayoutParams(layoutParams);
+                //holder.itemView.setVisibility(View.VISIBLE);
+                int i = position % 5 + 1;
+                if (i == 1) {
+                    holder.mIvCity.setImageResource(R.mipmap.subject1);
+                    holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg1));
+                } else if (i == 2) {
+                    holder.mIvCity.setImageResource(R.mipmap.subject2);
+                    holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg2));
+                } else if (i == 3) {
+                    holder.mIvCity.setImageResource(R.mipmap.subject3);
+                    holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg3));
+                } else if (i == 4) {
+                    holder.mIvCity.setImageResource(R.mipmap.subject4);
+                    holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg4));
+                } else {
+                    holder.mIvCity.setImageResource(R.mipmap.subject5);
+                    holder.mLlBg.setBackgroundColor(mContext.getResources().getColor(R.color.bg5));
+                }
+                holder.mTvCity.setText(city.getName());
+            } else {
+                ViewGroup.LayoutParams layoutParams = holder.mLlBg.getLayoutParams();
+                layoutParams.height = DensityUtil.dip2px(mContext, 0);
+                holder.mLlBg.setLayoutParams(layoutParams);
+                //holder.itemView.setVisibility(View.GONE);
+            }
         }
-        holder.mTvCity.setText(mCities.get(position).getName());
     }
 
     @Override

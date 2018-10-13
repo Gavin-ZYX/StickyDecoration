@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.gavin.com.stickydecoration.R;
+import com.gavin.com.stickydecoration.view.widget.ExpandableActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,5 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void toPowerfulSticky2(View view) {
         startActivity(new Intent(this, BeautifulRecyclerViewActivity.class));
+    }
+
+    public void toExpandableList(View view) {
+        startActivity(new Intent(this, ExpandableActivity.class));
     }
 }

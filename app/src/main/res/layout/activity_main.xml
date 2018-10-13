@@ -40,4 +40,11 @@
         android:onClick="toPowerfulSticky2"
         android:text="to Beautiful List"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="toExpandableList"
+        android:text="to Expandable List"/>
+
 </LinearLayout>
