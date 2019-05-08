@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.4.11'
+    compile 'com.gavin.com.library:stickyDecoration:1.4.12'
 }
 ```
 
@@ -154,7 +154,11 @@ decoration.notifyRedraw(mRv, view, position);
 
 # 更新日志
 
------------------------------ 1.4.8 （2018-10-9）----------------------------
+----------------------------- 1.4.12 （2019-5-8）----------------------------
+
+- fix：setDivideColor不生效问题
+
+----------------------------- 1.4.9 （2018-10-9）----------------------------
 
 - fix：由于添加header导致的一些问题
 
