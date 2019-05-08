@@ -274,6 +274,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
          */
         public Builder setDivideColor(@ColorInt int color) {
             mDecoration.mDivideColor = color;
+            mDecoration.mDividePaint.setColor(mDecoration.mDivideColor);
             return this;
         }
 
