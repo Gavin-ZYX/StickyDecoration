@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.4.13'
+    compile 'com.gavin.com.library:stickyDecoration:1.5.0'
 }
 ```
 
@@ -153,6 +153,10 @@ decoration.notifyRedraw(mRv, view, position);
 3、点击事件穿透问题，参考demo中MyRecyclerView。[issue47](https://github.com/Gavin-ZYX/StickyDecoration/issues/37)
 
 # 更新日志
+
+----------------------------- 1.5.0 （2019-6-17）----------------------------
+
+- fix：GridLayoutManager刷新后数据混乱问题
 
 ----------------------------- 1.4.12 （2019-5-8）----------------------------
 

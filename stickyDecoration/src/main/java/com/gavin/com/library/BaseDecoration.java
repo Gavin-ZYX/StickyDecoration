@@ -276,14 +276,13 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * @param position position
      */
     protected int getFirstInGroupWithCash(int position) {
-        if (firstInGroupCash.get(position) == 0) {
-            int firstPosition = getFirstInGroup(position);
+        return getFirstInGroup(position);
+        /*if (firstInGroupCash.get(position) == 0) {
             firstPosition = firstPosition > 0 ? firstPosition - mHeaderCount : firstPosition;
             firstInGroupCash.put(position, firstPosition);
-            return firstPosition;
         } else {
             return firstInGroupCash.get(position);
-        }
+        }*/
     }
 
     /**
@@ -475,7 +474,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     }
 
     protected void log(String content) {
-        if (BuildConfig.DEBUG) {
+        if (false) {
             Log.i("StickDecoration", content);
         }
     }
