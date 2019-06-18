@@ -15,8 +15,6 @@ import com.gavin.com.stickydecoration.util.DensityUtil;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by gavin
@@ -83,18 +81,17 @@ public class SimpleAdapter extends RecyclerView.Adapter {
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_city)
         ImageView mIvCity;
-        @BindView(R.id.tv_city)
         TextView mTvCity;
-        @BindView(R.id.tv_brief)
         TextView mTvBrief;
-        @BindView(R.id.ll_bg)
         LinearLayout mLlBg;
 
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+            mIvCity = view.findViewById(R.id.iv_city);
+            mTvCity = view.findViewById(R.id.tv_city);
+            mTvBrief = view.findViewById(R.id.tv_brief);
+            mLlBg = view.findViewById(R.id.ll_bg);
         }
     }
 }

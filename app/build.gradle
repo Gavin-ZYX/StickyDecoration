@@ -20,11 +20,10 @@ android {
 }
 
 dependencies {
-    compile project(':stickyDecoration')
-    compile project(':apmTools')
-    compile rootProject.ext.dependencies['appcompat-v7']
-    compile 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation project(':stickyDecoration')
+    implementation project(':apmTools')
+    implementation rootProject.ext.dependencies['appcompat-v7']
+    implementation rootProject.ext.dependencies['recyclerview-v7']
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
 }
 

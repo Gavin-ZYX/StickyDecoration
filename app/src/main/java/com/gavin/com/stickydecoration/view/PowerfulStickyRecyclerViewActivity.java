@@ -25,15 +25,12 @@ import com.gavin.com.stickydecoration.util.DensityUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 自定义View悬浮
  */
 public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
 
-    @BindView(R.id.rv)
     RecyclerView mRv;
 
     RecyclerView.Adapter mAdapter;
@@ -44,11 +41,11 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticky_recycler_view);
-        ButterKnife.bind(this);
         initView();
     }
 
     private void initView() {
+        mRv = findViewById(R.id.rv);
         //模拟数据
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
@@ -132,12 +129,11 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
     }
 
     static class Holder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv)
         TextView mTextView;
 
         public Holder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mTextView = itemView.findViewById(R.id.tv);
         }
     }
 

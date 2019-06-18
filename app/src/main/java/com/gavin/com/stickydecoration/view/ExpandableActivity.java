@@ -1,7 +1,7 @@
 package com.gavin.com.stickydecoration.view;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -21,15 +21,12 @@ import com.gavin.com.stickydecoration.view.adapter.SimpleAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 可展开的recyclerview View悬浮
  */
-public class ExpandableActivity extends ActionBarActivity {
+public class ExpandableActivity extends AppCompatActivity {
 
-    @BindView(R.id.rv)
     RecyclerView mRv;
 
     RecyclerView.Adapter mAdapter;
@@ -40,11 +37,11 @@ public class ExpandableActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticky_recycler_view);
-        ButterKnife.bind(this);
         initView();
     }
 
     private void initView() {
+        mRv = findViewById(R.id.rv);
         //模拟数据
         dataList.addAll(CityUtil.getCityList());
 

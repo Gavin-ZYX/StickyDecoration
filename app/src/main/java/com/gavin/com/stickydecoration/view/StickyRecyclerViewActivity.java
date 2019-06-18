@@ -25,8 +25,6 @@ import com.gavin.com.stickydecoration.view.widget.MyRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 文字悬浮
@@ -34,7 +32,6 @@ import butterknife.ButterKnife;
 public class StickyRecyclerViewActivity extends AppCompatActivity {
     // TODO: gavin 2018/2/9 已知问题： notifyItemRemoved notifyItemRangeChanged时，界面渲染闪烁问题
 
-    @BindView(R.id.rv)
     MyRecyclerView mRecyclerView;
 
     RecyclerView.Adapter mAdapter;
@@ -45,11 +42,11 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticky_recycler_view);
-        ButterKnife.bind(this);
         initView();
     }
 
     private void initView() {
+        mRecyclerView = findViewById(R.id.rv);
         //模拟数据
         dataList.addAll(CityUtil.getCityList());
         dataList.addAll(CityUtil.getCityList());
@@ -127,12 +124,11 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
     }
 
     static class Holder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv)
         TextView mTextView;
 
         public Holder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            mTextView = itemView.findViewById(R.id.tv);
         }
     }
 
