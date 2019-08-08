@@ -132,7 +132,7 @@ mRecyclerView.addItemDecoration(decoration);
 | setDivideColor | 分割线颜色 | #CCCCCC |
 | setDivideHeight | 分割线高宽度 | 0 |
 | setCacheEnable | 是否使用缓存| 使用缓存 |
-| setHeaderCount | 头部Item数量仅LinearLayoutManager | 0 |
+| setHeaderCount | 头部Item数量(仅LinearLayoutManager) | 0 |
 
 |方法|功能|描述|
 |-|-|-|
@@ -153,6 +153,10 @@ decoration.notifyRedraw(mRv, view, position);
 3、点击事件穿透问题，参考demo中MyRecyclerView。[issue47](https://github.com/Gavin-ZYX/StickyDecoration/issues/37)
 
 # 更新日志
+
+----------------------------- 1.5.1 （2019-8-8）----------------------------
+
+- fix：setHeaderCount导致显示错乱问题
 
 ----------------------------- 1.5.0 （2019-6-17）----------------------------
 

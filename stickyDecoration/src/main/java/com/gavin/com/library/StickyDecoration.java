@@ -54,23 +54,24 @@ public class StickyDecoration extends BaseDecoration {
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
-            if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
+            int realPosition = getRealPosition(position);
+            if (isFirstInGroup(realPosition) || isFirstInRecyclerView(realPosition, i)) {
                 //绘制悬浮
                 int bottom = Math.max(mGroupHeight, (childView.getTop() + parent.getPaddingTop()));//决定当前顶部第一个悬浮Group的bottom
                 if (position + 1 < itemCount) {
                     //下一组的第一个View接近头部
                     int viewBottom = childView.getBottom();
-                    if (isLastLineInGroup(parent, position) && viewBottom < bottom) {
+                    if (isLastLineInGroup(parent, realPosition) && viewBottom < bottom) {
                         bottom = viewBottom;
                     }
                 }
-                drawDecoration(c, position, left, right, bottom);
+                drawDecoration(c, realPosition, left, right, bottom);
                 if (mOnGroupClickListener != null) {
-                    stickyHeaderPosArray.put(position, new ClickInfo(bottom));
+                    stickyHeaderPosArray.put(realPosition, new ClickInfo(bottom));
                 }
             } else {
                 //绘制分割线
-                drawDivide(c, parent, childView, position, left, right);
+                drawDivide(c, parent, childView, realPosition, left, right);
             }
         }
     }
@@ -80,14 +81,14 @@ public class StickyDecoration extends BaseDecoration {
      * 绘制悬浮框
      *
      * @param c
-     * @param position
+     * @param realPosition
      * @param left
      * @param right
      * @param bottom
      */
-    private void drawDecoration(Canvas c, int position, int left, int right, int bottom) {
+    private void drawDecoration(Canvas c, int realPosition, int left, int right, int bottom) {
         String curGroupName;       //当前item对应的Group
-        int firstPositionInGroup = getFirstInGroupWithCash(position);
+        int firstPositionInGroup = getFirstInGroupWithCash(realPosition);
         curGroupName = getGroupName(firstPositionInGroup);
         //根据top绘制group背景
         c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
@@ -106,13 +107,13 @@ public class StickyDecoration extends BaseDecoration {
     /**
      * 获取组名
      *
-     * @param position position
+     * @param realPosition realPosition
      * @return 组名
      */
     @Override
-    String getGroupName(int position) {
+    String getGroupName(int realPosition) {
         if (mGroupListener != null) {
-            return mGroupListener.getGroupName(position);
+            return mGroupListener.getGroupName(realPosition);
         } else {
             return null;
         }

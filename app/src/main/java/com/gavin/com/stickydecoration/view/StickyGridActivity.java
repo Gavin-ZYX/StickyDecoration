@@ -4,9 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +27,13 @@ import java.util.List;
 /**
  * 文字悬浮
  */
-public class StickyRecyclerViewActivity extends AppCompatActivity {
+public class StickyGridActivity extends AppCompatActivity {
     // TODO: gavin 2018/2/9 已知问题： notifyItemRemoved notifyItemRangeChanged时，界面渲染闪烁问题
 
     MyRecyclerView mRecyclerView;
 
     RecyclerView.Adapter mAdapter;
     List<City> dataList = new ArrayList<>();
-    private String TAG = "StickyRecyclerViewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +61,18 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                         return null;
                     }
                 })
-                .setGroupBackground(Color.parseColor("#48BDFF"))        //背景色
-                .setGroupHeight(DensityUtil.dip2px(this, 35))     //高度
-                .setDivideColor(Color.parseColor("#EE96BC"))            //分割线颜色
-                .setDivideHeight(DensityUtil.dip2px(this, 2))     //分割线高度 (默认没有分割线)
-                .setGroupTextColor(Color.BLACK)                                    //字体颜色 （默认）
-                .setGroupTextSize(DensityUtil.sp2px(this, 15))    //字体大小
-                .setTextSideMargin(DensityUtil.dip2px(this, 10))  // 边距   靠左时为左边距  靠右时为右边距
-                //.setHeaderCount(2)                                             // header数量（默认0）
-                .setOnClickListener(new OnGroupClickListener() {                   //点击事件，返回当前分组下的第一个item的position
+                .setGroupBackground(Color.parseColor("#48BDFF"))
+                .setGroupHeight(DensityUtil.dip2px(this, 35))
+                .setDivideColor(Color.parseColor("#EE96BC"))
+                .setDivideHeight(DensityUtil.dip2px(this, 2))
+                .setGroupTextColor(Color.BLACK)
+                .setGroupTextSize(DensityUtil.sp2px(this, 15))
+                .setTextSideMargin(DensityUtil.dip2px(this, 10))
+                .setOnClickListener(new OnGroupClickListener() {
                     @Override
                     public void onClick(int position, int id) {                                 //Group点击事件
-                        String content = "onGroupClick --> " + dataList.get(position).getProvince() ;
-                        Toast.makeText(StickyRecyclerViewActivity.this, content, Toast.LENGTH_SHORT).show();
+                        String content = "onGroupClick --> " + dataList.get(position).getProvince();
+                        Toast.makeText(StickyGridActivity.this, content, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .build();
@@ -84,15 +80,8 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
         //下面是平时的RecyclerView操作
 
         RecyclerView.LayoutManager manager;
-        String type = getIntent().getStringExtra("type");
-        if (TextUtils.equals(type, "grid")) {
-            manager = new GridLayoutManager(this, 3);
-            decoration.resetSpan(mRecyclerView, (GridLayoutManager) manager);
-        } else {
-            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        }
-        if (TextUtils.equals(type, "grid")) {
-        }
+        manager = new GridLayoutManager(this, 3);
+        decoration.resetSpan(mRecyclerView, (GridLayoutManager) manager);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(decoration);
 
@@ -110,7 +99,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(StickyRecyclerViewActivity.this, "item click " + position, Toast.LENGTH_LONG).show();
+                        Toast.makeText(StickyGridActivity.this, "item click " + position, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -152,7 +141,7 @@ public class StickyRecyclerViewActivity extends AppCompatActivity {
     }
 
     public void onDeleteLast(View v) {
-        int endPosition = dataList.size() -1;
+        int endPosition = dataList.size() - 1;
         dataList.remove(endPosition);
         mAdapter.notifyItemRemoved(endPosition);
         mAdapter.notifyItemChanged(endPosition);

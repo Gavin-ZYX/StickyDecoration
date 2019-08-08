@@ -3,7 +3,6 @@ package com.gavin.com.stickydecoration.view;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * 自定义View悬浮
  */
-public class BeautifulRecyclerViewActivity extends AppCompatActivity {
+public class BeautifulActivity extends AppCompatActivity {
 
     RecyclerView mRv;
 
@@ -50,7 +49,6 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
         dataList.addAll(CityUtil.getCityList());
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         mRv.setLayoutManager(manager);
         //------------- PowerfulStickyDecoration 使用部分  ----------------
         decoration = PowerfulStickyDecoration.Builder
@@ -83,9 +81,7 @@ public class BeautifulRecyclerViewActivity extends AppCompatActivity {
                     }
                 })
                 .setCacheEnable(true)
-                .setHeaderCount(1)
-                //.resetSpan(mRv, gridLayoutManager)
-                .setGroupHeight(DensityUtil.dip2px(BeautifulRecyclerViewActivity.this, 80))   //设置高度
+                .setGroupHeight(DensityUtil.dip2px(BeautifulActivity.this, 80))   //设置高度
                 .build();
         //----------------                 -------------
         //下面是平时的RecyclerView操作

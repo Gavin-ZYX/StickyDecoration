@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -79,21 +80,31 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     /**
      * 获取分组名
      *
-     * @param position position
+     * @param realPosition realPosition
      * @return group
      */
-    abstract String getGroupName(int position);
+    abstract String getGroupName(int realPosition);
+
+    /**
+     * 获取真实的position
+     * @param position
+     * @return
+     */
+    protected int getRealPosition(int position) {
+        return position - mHeaderCount;
+    }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
         int position = parent.getChildAdapterPosition(view);
+        int realPosition = getRealPosition(position);
         RecyclerView.LayoutManager manager = parent.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             //网格布局
             int spanCount = ((GridLayoutManager) manager).getSpanCount();
-            if (!isHeader(position)) {
-                if (isFirstLineInGroup(position, spanCount)) {
+            if (!isHeader(realPosition)) {
+                if (isFirstLineInGroup(realPosition, spanCount)) {
                     //为悬浮view预留空间
                     outRect.top = mGroupHeight;
                 } else {
@@ -104,8 +115,8 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
         } else {
             //其他的默认为线性布局
             //只有是同一组的第一个才显示悬浮栏
-            if (!isHeader(position)) {
-                if (isFirstInGroup(position)) {
+            if (!isHeader(realPosition)) {
+                if (isFirstInGroup(realPosition)) {
                     //为悬浮view预留空间
                     outRect.top = mGroupHeight;
                 } else {
@@ -121,8 +132,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 根据前一个组名，判断当前是否为新的组
      * 当前为groupId为null时，则与上一个为同一组
      */
-    protected boolean isFirstInGroup(int position) {
-        int realPosition = position - mHeaderCount;
+    protected boolean isFirstInGroup(int realPosition) {
         if (realPosition < 0) {
             //小于header数量，不是第一个
             return false;
@@ -146,22 +156,20 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     /**
      * 是否在RecyclerView处于第一个（header部分不算）
      *
-     * @param position 总的position
+     * @param realPosition 总的position
      * @param index    RecyclerView中的Index
      * @return
      */
-    protected boolean isFirstInRecyclerView(int position, int index) {
-        return position >= mHeaderCount && index == 0;
+    protected boolean isFirstInRecyclerView(int realPosition, int index) {
+        return realPosition >= 0 && index == 0;
     }
 
     /**
      * 是否为Header
      *
-     * @param position
-     * @return
      */
-    protected boolean isHeader(int position) {
-        return position < mHeaderCount;
+    protected boolean isHeader(int realPosition) {
+        return realPosition < 0;
     }
 
 
@@ -169,19 +177,15 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 判断是不是新组的第一行（GridLayoutManager使用）
      * 利用当前行的第一个对比前一个组名，判断当前是否为新组的第一样
      */
-    protected boolean isFirstLineInGroup(int position, int spanCount) {
-        int realPosition = position - mHeaderCount;
+    protected boolean isFirstLineInGroup(int realPosition, int spanCount) {
         if (realPosition < 0) {
             //小于header数量，不是第一个
             return false;
         } else if (realPosition == 0) {
             return true;
-        }
-        if (position <= 0) {
-            return true;
         } else {
-            int posFirstInGroup = getFirstInGroupWithCash(position);
-            if (position - posFirstInGroup < spanCount) {
+            int posFirstInGroup = getFirstInGroupWithCash(realPosition);
+            if (realPosition - posFirstInGroup < spanCount) {
                 return true;
             } else {
                 return false;
@@ -208,23 +212,23 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
             @Override
             public int getSpanSize(int position) {
                 int span;
-                int realPosition = position - mHeaderCount;
+                int realPosition = getRealPosition(position);
                 if (realPosition < 0) {
                     //小于header数量
                     span = spanCount;
                 } else {
-                    String curGroupId = getGroupName(position);
+                    String curGroupId = getGroupName(realPosition);
                     String nextGroupId;
                     try {
                         //防止外面没判断，导致越界
-                        nextGroupId = getGroupName(position + 1);
+                        nextGroupId = getGroupName(realPosition + 1);
                     } catch (Exception e) {
                         nextGroupId = curGroupId;
                     }
                     if (!TextUtils.equals(curGroupId, nextGroupId)) {
                         //为本行的最后一个
-                        int posFirstInGroup = getFirstInGroupWithCash(position);
-                        span = spanCount - (position - posFirstInGroup) % spanCount;
+                        int posFirstInGroup = getFirstInGroupWithCash(realPosition);
+                        span = spanCount - (realPosition - posFirstInGroup) % spanCount;
                     } else {
                         span = 1;
                     }
@@ -273,31 +277,25 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     /**
      * 得到当前分组第一个item的position
      *
-     * @param position position
+     * @param realPosition realPosition
      */
-    protected int getFirstInGroupWithCash(int position) {
-        return getFirstInGroup(position);
-        /*if (firstInGroupCash.get(position) == 0) {
-            firstPosition = firstPosition > 0 ? firstPosition - mHeaderCount : firstPosition;
-            firstInGroupCash.put(position, firstPosition);
-        } else {
-            return firstInGroupCash.get(position);
-        }*/
+    protected int getFirstInGroupWithCash(int realPosition) {
+        return getFirstInGroup(realPosition);
     }
 
     /**
      * 得到当前分组第一个item的position
      *
-     * @param position position
+     * @param realPosition realPosition
      */
-    private int getFirstInGroup(int position) {
-        if (position <= 0) {
+    private int getFirstInGroup(int realPosition) {
+        if (realPosition <= 0) {
             return 0;
         } else {
-            if (isFirstInGroup(position)) {
-                return position;
+            if (isFirstInGroup(realPosition)) {
+                return realPosition;
             } else {
-                return getFirstInGroup(position - 1);
+                return getFirstInGroup(realPosition - 1);
             }
         }
     }
@@ -307,11 +305,10 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * 判断自己是否为group的最后一行
      *
      * @param recyclerView recyclerView
-     * @param position     position
+     * @param realPosition     realPosition
      * @return
      */
-    protected boolean isLastLineInGroup(RecyclerView recyclerView, int position) {
-        int realPosition = position - mHeaderCount;
+    protected boolean isLastLineInGroup(RecyclerView recyclerView, int realPosition) {
         if (realPosition < 0) {
             return true;
         } else {
@@ -356,11 +353,11 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
     /**
      * 点击事件调用
      *
-     * @param position position
+     * @param realPosition realPosition
      */
-    private void onGroupClick(int position, int viewId) {
+    private void onGroupClick(int realPosition, int viewId) {
         if (mOnGroupClickListener != null) {
-            mOnGroupClickListener.onClick(position, viewId);
+            mOnGroupClickListener.onClick(realPosition, viewId);
         }
     }
 
@@ -447,16 +444,16 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
      * @param c
      * @param parent
      * @param childView
-     * @param position
+     * @param realPosition
      * @param left
      * @param right
      */
-    protected void drawDivide(Canvas c, RecyclerView parent, View childView, int position, int left, int right) {
-        if (mDivideHeight != 0 && !isHeader(position)) {
+    protected void drawDivide(Canvas c, RecyclerView parent, View childView, int realPosition, int left, int right) {
+        if (mDivideHeight != 0 && !isHeader(realPosition)) {
             RecyclerView.LayoutManager manager = parent.getLayoutManager();
             if (manager instanceof GridLayoutManager) {
                 int spanCount = ((GridLayoutManager) manager).getSpanCount();
-                if (!isFirstLineInGroup(position, spanCount)) {
+                if (!isFirstLineInGroup(realPosition, spanCount)) {
                     float bottom = childView.getTop() + parent.getPaddingTop();
                     //高度小于顶部悬浮栏时，跳过绘制
                     if (bottom >= mGroupHeight) {

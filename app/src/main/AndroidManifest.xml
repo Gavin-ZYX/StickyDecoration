@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.StickyRecyclerViewActivity">
+        <activity android:name=".view.StickyActivity">
         </activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
@@ -18,11 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.PowerfulStickyRecyclerViewActivity">
+        <activity android:name=".view.PowerfulStickyActivity">
         </activity>
-        <activity android:name=".view.BeautifulRecyclerViewActivity">
+        <activity android:name=".view.BeautifulActivity">
         </activity>
         <activity android:name=".view.ExpandableActivity" />
+        <activity android:name=".view.StickyGridActivity" />
+        <activity android:name=".view.PowerfulStickyGridActivity" />
     </application>
 
 </manifest>

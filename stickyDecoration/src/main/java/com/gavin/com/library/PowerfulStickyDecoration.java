@@ -60,20 +60,21 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         for (int i = 0; i < childCount; i++) {
             View childView = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(childView);
-            if (isFirstInGroup(position) || isFirstInRecyclerView(position, i)) {
+            int realPosition = getRealPosition(position);
+            if (isFirstInGroup(realPosition) || isFirstInRecyclerView(realPosition, i)) {
                 int viewBottom = childView.getBottom();
                 //top 决定当前顶部第一个悬浮Group的位置
                 int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
                 if (position + 1 < itemCount) {
                     //下一组的第一个View接近头部
-                    if (isLastLineInGroup(parent, position) && viewBottom < bottom) {
+                    if (isLastLineInGroup(parent, realPosition) && viewBottom < bottom) {
                         bottom = viewBottom;
                     }
                 }
-                drawDecoration(c, position, left, right, bottom);
+                drawDecoration(c, realPosition, left, right, bottom);
             } else {
                 //绘制分割线
-                drawDivide(c, parent, childView, position, left, right);
+                drawDivide(c, parent, childView, realPosition, left, right);
             }
         }
     }
@@ -82,16 +83,16 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      * 绘制悬浮框
      *
      * @param c        Canvas
-     * @param position position
+     * @param realPosition realPosition
      * @param left     left
      * @param right    right
      * @param bottom   bottom
      */
-    private void drawDecoration(Canvas c, int position, int left, int right, int bottom) {
+    private void drawDecoration(Canvas c, int realPosition, int left, int right, int bottom) {
         c.drawRect(left, bottom - mGroupHeight, right, bottom, mGroutPaint);
         //根据position获取View
         View groupView;
-        int firstPositionInGroup = getFirstInGroupWithCash(position);
+        int firstPositionInGroup = getFirstInGroupWithCash(realPosition);
         if (mHeadViewCache.get(firstPositionInGroup) == null) {
             groupView = getGroupView(firstPositionInGroup);
             if (groupView == null) {
@@ -111,7 +112,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         }
         c.drawBitmap(bitmap, left, bottom - mGroupHeight, null);
         if (mOnGroupClickListener != null) {
-            setClickInfo(groupView, left, bottom, position);
+            setClickInfo(groupView, left, bottom, realPosition);
         }
     }
 
@@ -138,9 +139,9 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      *
      * @param groupView
      * @param parentBottom
-     * @param position
+     * @param realPosition
      */
-    private void setClickInfo(View groupView, int parentLeft, int parentBottom, int position) {
+    private void setClickInfo(View groupView, int parentLeft, int parentBottom, int realPosition) {
         int parentTop = parentBottom - mGroupHeight;
         List<ClickInfo.DetailInfo> list = new ArrayList<>();
         List<View> viewList = ViewUtil.getChildViewWithId(groupView);
@@ -153,19 +154,19 @@ public class PowerfulStickyDecoration extends BaseDecoration {
         }
         ClickInfo clickInfo = new ClickInfo(parentBottom, list);
         clickInfo.mGroupId = groupView.getId();
-        stickyHeaderPosArray.put(position, clickInfo);
+        stickyHeaderPosArray.put(realPosition, clickInfo);
     }
 
     /**
      * 获取组名
      *
-     * @param position position
+     * @param realPosition realPosition
      * @return 组名
      */
     @Override
-    String getGroupName(int position) {
+    String getGroupName(int realPosition) {
         if (mGroupListener != null) {
-            return mGroupListener.getGroupName(position);
+            return mGroupListener.getGroupName(realPosition);
         } else {
             return null;
         }
@@ -174,12 +175,12 @@ public class PowerfulStickyDecoration extends BaseDecoration {
     /**
      * 获取组View
      *
-     * @param position position
+     * @param realPosition realPosition
      * @return 组名
      */
-    private View getGroupView(int position) {
+    private View getGroupView(int realPosition) {
         if (mGroupListener != null) {
-            return mGroupListener.getGroupView(position);
+            return mGroupListener.getGroupView(realPosition);
         } else {
             return null;
         }
@@ -207,11 +208,11 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      * 使用场景：网络图片加载后调用
      *
      * @param recyclerView recyclerView
-     * @param position     position
+     * @param realPosition     realPosition
      */
-    public void notifyRedraw(RecyclerView recyclerView, View viewGroup, int position) {
+    public void notifyRedraw(RecyclerView recyclerView, View viewGroup, int realPosition) {
         viewGroup.setDrawingCacheEnabled(false);
-        int firstPositionInGroup = getFirstInGroupWithCash(position);
+        int firstPositionInGroup = getFirstInGroupWithCash(realPosition);
         mBitmapCache.remove(firstPositionInGroup);
         mHeadViewCache.remove(firstPositionInGroup);
         int left = recyclerView.getPaddingLeft();

@@ -25,5 +25,7 @@ dependencies {
     implementation rootProject.ext.dependencies['appcompat-v7']
     implementation rootProject.ext.dependencies['recyclerview-v7']
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
+
 }
 

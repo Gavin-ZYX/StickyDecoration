@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * 自定义View悬浮
  */
-public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
+public class PowerfulStickyGridActivity extends AppCompatActivity {
 
     RecyclerView mRv;
 
@@ -80,10 +80,10 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 .setDivideColor(Color.parseColor("#27ad9a"))
                 .setDivideHeight(DensityUtil.dip2px(this, 1))
                 .setCacheEnable(true)
-                .setHeaderCount(3)
                 .setOnClickListener(new OnGroupClickListener() {
                     @Override
-                    public void onClick(int position, int id) {                                 //Group点击事件
+                    public void onClick(int position, int id) {
+                        //Group点击事件
                         String content = "onGroupClick --> " + dataList.get(position).getProvince() + "   id --> " + id;
                         showToast(content);
                     }
@@ -91,14 +91,9 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
                 .build();
         //-------------                  ----------------
         //下面是平时的RecyclerView操作
-        RecyclerView.LayoutManager manager;
-        String type = getIntent().getStringExtra("type");
-        if (TextUtils.equals(type, "grid")) {
-            manager = new GridLayoutManager(this, 3);
-            decoration.resetSpan(mRv, (GridLayoutManager) manager);
-        } else {
-            manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        }
+        GridLayoutManager manager;
+        manager = new GridLayoutManager(this, 3);
+        decoration.resetSpan(mRv, manager);
         mRv.setLayoutManager(manager);
         mRv.addItemDecoration(decoration);
         mAdapter = new RecyclerView.Adapter() {
@@ -146,7 +141,7 @@ public class PowerfulStickyRecyclerViewActivity extends AppCompatActivity {
     }
 
     private void showToast(String content) {
-        Toast.makeText(PowerfulStickyRecyclerViewActivity.this, content, Toast.LENGTH_LONG).show();
+        Toast.makeText(PowerfulStickyGridActivity.this, content, Toast.LENGTH_LONG).show();
     }
 
     private void l(String str) {
