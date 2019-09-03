@@ -328,7 +328,7 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
                 nextGroupName = curGroupName;
             }
             if (nextGroupName == null) {
-                return false;
+                return true;
             }
             return !TextUtils.equals(curGroupName, nextGroupName);
         }

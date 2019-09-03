@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.5.1'
+    compile 'com.gavin.com.library:stickyDecoration:1.5.2'
 }
 ```
 
@@ -153,6 +153,10 @@ decoration.notifyRedraw(mRv, view, position);
 3、点击事件穿透问题，参考demo中MyRecyclerView。[issue47](https://github.com/Gavin-ZYX/StickyDecoration/issues/37)
 
 # 更新日志
+
+----------------------------- 1.5.2 （2019-9-3）----------------------------
+
+- fix：特殊情况下，吸顶效果不佳问题
 
 ----------------------------- 1.5.1 （2019-8-8）----------------------------
 
