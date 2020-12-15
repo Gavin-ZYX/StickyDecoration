@@ -64,8 +64,8 @@ public class PowerfulStickyDecoration extends BaseDecoration {
             if (isFirstInGroup(realPosition) || isFirstInRecyclerView(realPosition, i)) {
                 int viewBottom = childView.getBottom();
                 //top 决定当前顶部第一个悬浮Group的位置
-                int bottom = Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
-                if (position + 1 < itemCount) {
+                int bottom = !mSticky ? childView.getTop() : Math.max(mGroupHeight, childView.getTop() + parent.getPaddingTop());
+                if (mSticky && position + 1 < itemCount) {
                     //下一组的第一个View接近头部
                     if (isLastLineInGroup(parent, realPosition) && viewBottom < bottom) {
                         bottom = viewBottom;
@@ -324,6 +324,16 @@ public class PowerfulStickyDecoration extends BaseDecoration {
             if (headerCount >= 0) {
                 mDecoration.mHeaderCount = headerCount;
             }
+            return this;
+        }
+
+        /**
+         * 设置是否需要悬浮
+         * @param sticky
+         * @return
+         */
+        public Builder setSticky(boolean sticky) {
+            mDecoration.mSticky = sticky;
             return this;
         }
 

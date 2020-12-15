@@ -63,6 +63,8 @@ public abstract class BaseDecoration extends RecyclerView.ItemDecoration {
 
     protected OnGroupClickListener mOnGroupClickListener;
 
+    protected boolean mSticky = true;
+
     public BaseDecoration() {
         mDividePaint = new Paint();
         mDividePaint.setColor(mDivideColor);

@@ -90,6 +90,7 @@ public class StickyActivity extends AppCompatActivity {
                         Toast.makeText(StickyActivity.this, content, Toast.LENGTH_SHORT).show();
                     }
                 });
+                //.setSticky(false)
         //------------- StickyDecoration 使用部分  ----------------
         //下面是平时的RecyclerView操作
 
