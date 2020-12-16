@@ -68,7 +68,7 @@ mRecyclerView.addItemDecoration(decoration);
 | setDivideHeight | 分割线高宽度 | 0 |
 | setTextSideMargin | 边距(靠左时为左边距  靠右时为右边距) |  10 |
 | setHeaderCount | 头部Item数量（仅LinearLayoutManager） |  0 |
-| setSticky | 是否需要吸顶效果 |  false |
+| setSticky | 是否需要吸顶效果 |  true |
 
 |方法|功能|描述|
 |-|-|-|
@@ -134,7 +134,7 @@ mRecyclerView.addItemDecoration(decoration);
 | setDivideHeight | 分割线高宽度 | 0 |
 | setCacheEnable | 是否使用缓存| 使用缓存 |
 | setHeaderCount | 头部Item数量(仅LinearLayoutManager) | 0 |
-| setSticky | 是否需要吸顶效果 |  false |
+| setSticky | 是否需要吸顶效果 |  true |
 
 |方法|功能|描述|
 |-|-|-|
