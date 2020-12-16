@@ -17,7 +17,7 @@ repositories {
     jcenter()// If not already there
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.5.2'
+    compile 'com.gavin.com.library:stickyDecoration:1.5.3'
 }
 ```
 
@@ -68,6 +68,7 @@ mRecyclerView.addItemDecoration(decoration);
 | setDivideHeight | 分割线高宽度 | 0 |
 | setTextSideMargin | 边距(靠左时为左边距  靠右时为右边距) |  10 |
 | setHeaderCount | 头部Item数量（仅LinearLayoutManager） |  0 |
+| setSticky | 是否需要吸顶效果 |  false |
 
 |方法|功能|描述|
 |-|-|-|
@@ -133,6 +134,7 @@ mRecyclerView.addItemDecoration(decoration);
 | setDivideHeight | 分割线高宽度 | 0 |
 | setCacheEnable | 是否使用缓存| 使用缓存 |
 | setHeaderCount | 头部Item数量(仅LinearLayoutManager) | 0 |
+| setSticky | 是否需要吸顶效果 |  false |
 
 |方法|功能|描述|
 |-|-|-|
@@ -156,7 +158,7 @@ decoration.notifyRedraw(mRv, view, position);
 
 ----------------------------- 1.5.3 （2020-12-15）----------------------------
 
-- fix：特殊情况下，吸顶效果不佳问题
+- 支持是否需要吸顶效果
 
 ----------------------------- 1.5.2 （2019-9-3）----------------------------
 
