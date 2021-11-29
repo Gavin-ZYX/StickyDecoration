@@ -193,6 +193,7 @@ public class PowerfulStickyDecoration extends BaseDecoration {
      */
     public void setCacheEnable(boolean b) {
         mHeadViewCache.isCacheable(b);
+        mBitmapCache.isCacheable(b);
     }
 
     /**
