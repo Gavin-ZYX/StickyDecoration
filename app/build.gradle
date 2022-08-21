@@ -20,7 +20,8 @@ android {
 }
 
 dependencies {
-    implementation project(':stickyDecoration')
+    // implementation project(':stickyDecoration')
+    implementation 'com.github.Gavin-ZYX:StickyDecoration:1.6.0'
     implementation project(':apmTools')
     implementation rootProject.ext.dependencies['appcompat-v7']
     implementation rootProject.ext.dependencies['recyclerview-v7']

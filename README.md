@@ -14,10 +14,10 @@
 在你的`build.gradle`中 :
 ```gradle
 repositories {
-    jcenter()// If not already there
+    maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.5.3'
+    compile 'com.gavin.com.library:stickyDecoration:1.6.0'
 }
 ```
 
@@ -155,6 +155,11 @@ decoration.notifyRedraw(mRv, view, position);
 3、点击事件穿透问题，参考demo中MyRecyclerView。[issue47](https://github.com/Gavin-ZYX/StickyDecoration/issues/37)
 
 # 更新日志
+
+----------------------------- 1.6.0 （2022-8-21）----------------------------
+
+- fix：取消缓存无效问题
+- 迁移仓库
 
 ----------------------------- 1.5.3 （2020-12-15）----------------------------
 
