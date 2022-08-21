@@ -17,7 +17,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.6.0'
+    compile 'com.gavin.com.library:stickyDecoration:1.6.1'
 }
 ```
 
@@ -160,6 +160,7 @@ decoration.notifyRedraw(mRv, view, position);
 
 - fix：取消缓存无效问题
 - 迁移仓库
+- 迁移到Androidx
 
 ----------------------------- 1.5.3 （2020-12-15）----------------------------
 
