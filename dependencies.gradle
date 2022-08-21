@@ -6,8 +6,8 @@ ext {
     versionCode = 1
     versionName = "1.0"
 
-    dependencies = ["appcompat-v7"   : "com.android.support:appcompat-v7:28.0.0",
-                    "recyclerview-v7": "com.android.support:recyclerview-v7:28.0.0",
+    dependencies = ["appcompat-v7"   : 'androidx.appcompat:appcompat:1.0.0',
+                    "recyclerview-v7": 'androidx.recyclerview:recyclerview:1.0.0',
                     "support-v4"     : "com.android.support:support-v4:28.0.0",
                     "support-v7"     : "com.android.support:support-v7:28.0.0"]
 }

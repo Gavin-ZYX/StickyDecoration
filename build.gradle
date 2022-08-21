@@ -28,6 +28,7 @@ allprojects {
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
         maven { url "https://jitpack.io" }
         jcenter()
+        google()
     }
 }
 
