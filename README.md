@@ -17,7 +17,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
-    compile 'com.gavin.com.library:stickyDecoration:1.6.1'
+    compile 'com.github.Gavin-ZYX:StickyDecoration:1.6.1'
 }
 ```
 
